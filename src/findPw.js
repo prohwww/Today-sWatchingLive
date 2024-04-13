@@ -3,35 +3,51 @@ import {View, StyleSheet, Text, Button, TextInput, Alert} from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 
 function FindPw() {
-  const [emailTxt, setEmailTxt] = useState('');
+  const [pickerValue, setPickerValue] = useState('1');
+  const [emailText, setEmailText] = useState('');
+  const [isEmailOk, setIsEmailOk] = useState(false);
+  const [errText, seterrText] = useState('');
   const infoText = '가입할 때 입력하신 이메일을 입력해주세요.';
-  const errText = '가입되지 않은 이메일 입니다. 회원가입을 해주세요.';
-
-  const item = useState('');
 
   const onChangeEmail = inputText => {
     // 이메일 유효한지 체크 및 임시 비밀번호 보내기
-    setEmailTxt(inputText);
+    setEmailText(inputText);
+    // 유효한 경우
+    setIsEmailOk(true);
+
+    // 유효하지 않은 경우
+    setIsEmailOk(false);
+    seterrText('가입되지 않은 이메일 입니다. 회원가입을 해주세요.');
     console.log(inputText);
   };
 
+  function onPressConfim() {
+    if (isEmailOk) {
+      Alert.alert('이메일로 임시코드를 보냈습니다.');
+    } else {
+      Alert.alert('이메일을 다시 확인해주세요.');
+    }
+  }
+
   return (
-    <View>
-      <Text style={styles.header}>비밀번호 찾기</Text>
+    <View style={styles.component}>
+      <View style={styles.headContainer}>
+        <Text style={styles.header}>비밀번호 찾기</Text>
+      </View>
       <Text style={styles.text}>{infoText}</Text>
       <View style={styles.container}>
         <Text style={styles.title}>이메일</Text>
         <TextInput
           onChangeText={onChangeEmail}
-          value={emailTxt}
+          value={emailText}
           style={styles.emailInput}
         />
-        <Text style={styles.context}>    @</Text>
+        <Text style={styles.context}>@</Text>
         <Picker
           style={styles.combo}
-          selectedValue={this.state}
-          onValueChange={(value, index) => {
-            this.setState({itemArea: value});
+          selectedValue={pickerValue}
+          onValueChange={value => {
+            setPickerValue(value);
           }}>
           <Picker.Item label="gmail.com" value="gmail.com" />
           <Picker.Item label="naver.com" value="naver.com" />
@@ -39,23 +55,25 @@ function FindPw() {
           <Picker.Item label="hanmail.net" value="hanmail.net" />
         </Picker>
       </View>
-      <Text style={styles.text} id="errText" />
+      <Text style={styles.text}>{errText}</Text>
       <View style={styles.btnContainer}>
-        <Button
-          title="찾기"
-          color="#A4A4A4"
-          onPress={() =>
-            Alert.alert(
-              '이메일로 임시 비밀번호를 보냈습니다.\n로그인 후 설정에서 비밀번호를 변경해주세요.',
-            )
-          }
-        />
+        <Button title="찾기" color="#A4A4A4" onPress={onPressConfim} />
       </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  component: {
+    backgroundColor: 'white',
+    flex: 1,
+  },
+  headContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderBottomWidth: 0.5,
+  },
   container: {
     paddingHorizontal: 10,
     flexDirection: 'row',
@@ -75,7 +93,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'black',
     marginRight: 10,
-    paddingHorizontal: 115,
     paddingVertical: 10,
   },
   title: {
@@ -108,6 +125,7 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     borderWidth: 0.5,
     paddingVertical: 5,
+    marginRight: 10,
   },
   combo: {
     width: 160,
