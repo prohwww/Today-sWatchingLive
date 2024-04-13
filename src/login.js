@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextInput, StyleSheet, Image, View, Dimensions, Button, Alert} from 'react-native';
+import { TextInput, StyleSheet, Image, View, Dimensions, Button} from 'react-native';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -32,18 +32,25 @@ function LoginScreen() {
       <View style={styles.button}>
         <Button color='#808080' title="회원가입" onPress={() => onJoin()} />
       </View>
+      <View style={styles.button}>
+        <Button color='#808080' title="비밀번호 찾기" onPress={() => onPassWord()} />
+      </View>
     </View>
   );
 }
 
 function onLogin(){
   console.log("로그인!");
-  return userIsLogin = true;
 }
 
 function onJoin(){
   console.log("회원가입!");
 }
+
+function onPassWord(){
+  console.log("비밀번호찾기!");
+}
+
 
 const styles = StyleSheet.create({
   container: {
@@ -59,13 +66,15 @@ const styles = StyleSheet.create({
     height: 40,
     borderRadius: 15,
     borderColor: 'gray',
-    borderWidth: 1
+    borderWidth: 1,
+    fontFamily: 'NanumGothicBold'
   },
   button: {
     backgroundColor: '#DDDDDD',
     width: '30%',
     marginTop: 20,
     borderRadius: 15,
+    fontFamily: 'NanumGothicBold'
   },
   mainImage: {
     width: screenWidth - 250,

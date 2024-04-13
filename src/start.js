@@ -12,7 +12,6 @@ const App = () => {
           source={require('../public/png/free-icon-ticket-389801.png')}
         />
       </View>
-    <Text>직관일기장</Text>
     </View>
   );
 };
