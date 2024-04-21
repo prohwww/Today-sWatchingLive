@@ -4,9 +4,11 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import StartScreen from './start';
 import LoginScreen from './login';
 import MainScreen from './main';
+import SigninScreen from './signin';
+import FindPassWdScreen from './findPw';
+
 
 const Stack = createNativeStackNavigator();
-export const userIsLogin = false;
 
 const App = () => {
 
@@ -18,15 +20,16 @@ const App = () => {
     }, 3000)  // 3초정도 start 페이지 실행됐다가 로그인창 가기..
   }, [])
 
+  // 로그인 상태 여부
   const [isLogin, setIsLogin] = useState(false);
 
+  const handleLoginSuccess = () => {
+    setIsLogin(true);
+  };
+
   useEffect(() => {
-    if (isLogin) {
-      setIsLogin(true);
-    } else {
-      setIsLogin(false);
-    }
-  }, [userIsLogin]);
+      setIsLogin(isLogin);
+  }, [isLogin]);
 
   return ready ? <StartScreen /> :
     (
@@ -46,11 +49,11 @@ const App = () => {
           </Stack.Navigator>
         ) : (
           <Stack.Navigator>
-            <Stack.Screen
-              name="login"
-              component={LoginScreen}
-              options={{ headerShown: false }}
-            />
+            <Stack.Screen name="login" options={{ headerShown: false }}>
+              {props => <LoginScreen {...props} onLoginSuccess={handleLoginSuccess} />}
+            </Stack.Screen>
+            <Stack.Screen name="signin" component={SigninScreen} options={{ headerShown: false }}/>
+            <Stack.Screen name="findPw" component={FindPassWdScreen} options={{ headerShown: false }}/>
             {/* <Stack.Screen
             name="Detail"
             component={DetailScreen}
@@ -61,5 +64,6 @@ const App = () => {
       </NavigationContainer>
     );
 }
+
 
 export default App;

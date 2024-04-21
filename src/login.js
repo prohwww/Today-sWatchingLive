@@ -1,14 +1,33 @@
-import React from 'react';
+import React, { useState, useNavigation } from 'react';
 import { TextInput, StyleSheet, Image, View, Dimensions, Button} from 'react-native';
 
 const screenWidth = Dimensions.get('window').width;
 
-function LoginScreen() {
+function LoginScreen({ navigation, onLoginSuccess }) {
 
-  state = {
-    ID: '',
-    PassWd: ''
-  }
+  const [userID, setUserID] = useState('');
+  const [password, setPassword] = useState('');
+
+  // 로그인
+  const onLogin = () => {
+    if (!userID) alert('아이디를 입력해주세요.');
+    else if (!password) alert('비밀번호를 입력해주세요.');
+    // 임시 마스터 계정
+    else if (userID === 'master' && password === '0000') {
+      onLoginSuccess();
+    } else {
+      alert('아이디 또는 비밀번호가 잘못되었습니다.');
+    }
+  };
+
+  const onSignin = () => {
+    navigation.navigate('signin');
+  };
+
+  const onFindPw = () => {
+    navigation.navigate('findPw');
+  };
+
 
   return (
     <View style={styles.container}>
@@ -18,39 +37,26 @@ function LoginScreen() {
       /></View>
       <TextInput
         style={styles.textInput}
-        onChangeText={(ID) => { this.setState({ ID: ID }) }}
+        onChangeText={text => setUserID(text)}
         placeholder="아이디"
       />
       <TextInput
         style={styles.textInput}
-        onChangeText={(PassWd) => { this.setState({ PassWd: PassWd }) }}
+        onChangeText={text => setPassword(text)}
         placeholder="비밀번호"
       />
       <View style={styles.button}>
-        <Button color='#808080' title="로그인" onPress={() => onLogin()} />
+        <Button color='#808080' title="로그인" onPress={onLogin}/>
       </View>
       <View style={styles.button}>
-        <Button color='#808080' title="회원가입" onPress={() => onJoin()} />
+        <Button color='#808080' title="회원가입" onPress={onSignin}/>
       </View>
       <View style={styles.button}>
-        <Button color='#808080' title="비밀번호 찾기" onPress={() => onPassWord()} />
+        <Button color='#808080' title="비밀번호 찾기" onPress={onFindPw}/>
       </View>
     </View>
   );
 }
-
-function onLogin(){
-  console.log("로그인!");
-}
-
-function onJoin(){
-  console.log("회원가입!");
-}
-
-function onPassWord(){
-  console.log("비밀번호찾기!");
-}
-
 
 const styles = StyleSheet.create({
   container: {
