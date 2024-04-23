@@ -1,12 +1,12 @@
-import React, { useState, useNavigation } from 'react';
+import React, { useState } from 'react';
 import { TextInput, StyleSheet, Image, View, Dimensions, Button} from 'react-native';
 
 const screenWidth = Dimensions.get('window').width;
 
 function LoginScreen({ navigation, onLoginSuccess }) {
 
-  const [userID, setUserID] = useState('');
-  const [password, setPassword] = useState('');
+  const [userID, setUserID] = useState('master');
+  const [password, setPassword] = useState('0000');
 
   // 로그인
   const onLogin = () => {
@@ -33,7 +33,7 @@ function LoginScreen({ navigation, onLoginSuccess }) {
     <View style={styles.container}>
       <View><Image
         style={styles.mainImage}
-        source={require('../public/png/free-icon-ticket-389801.png')}
+        source={require('../public/png/free-icon-ticket.png')}
       /></View>
       <TextInput
         style={styles.textInput}

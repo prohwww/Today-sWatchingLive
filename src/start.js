@@ -9,7 +9,7 @@ const App = () => {
       <View>
         <Image
           style={styles.mainImage}
-          source={require('../public/png/free-icon-ticket-389801.png')}
+          source={require('../public/png/free-icon-ticket.png')}
         />
       </View>
     </View>

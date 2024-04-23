@@ -3,10 +3,9 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import StartScreen from './start';
 import LoginScreen from './login';
-import MainScreen from './main';
+import MainScreen, { TicketDatail } from './main';
 import SigninScreen from './signin';
 import FindPassWdScreen from './findPw';
-
 
 const Stack = createNativeStackNavigator();
 
