@@ -177,12 +177,40 @@ function TicketScreen({ navigation }) {
 export function TicketDatail({ route }) {
   const { item } = route.params;
   return (
-    <View style={styles.detailItem}>
-      <Image source={sportsImg[item.SportKind]} style={{ width: 40, height: 40, }} />
-      <View style={{ flex: 1, marginLeft: 20 }}>
-        <Text style={{ fontSize: 18, fontFamily: 'NanumGothicBold' }}>{item.TicketName}</Text>
+    <View style={{ padding: 30, alignItems: 'center' }}>
+      <View >
+        <View style={{ alignItems: 'center', justifyContent: 'space-between' }}>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+            <Image source={sportsImg[item.SportKind]} style={{ width: 30, height: 30 }} />
+            <Text style={{ padding: 10, fontSize: 20, fontFamily: 'NanumGothicBold' }}>{item.TicketName}</Text>
+          </View>
+          <Text style={{ fontSize: 23, fontFamily: 'NanumGothicBold', textAlign: 'center' }}>{item.score}</Text>
+        </View>
       </View>
-    </View>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+        <View style={{ padding: 10, marginHorizontal: 30 }}>
+          <View style={{ justifyContent: 'space-between' }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Image source={require('../public/png/free-icon-daily-calendar.png')} style={{ width: 25, height: 25, marginVertical: 5 }} />
+              <Text style={{ fontSize: 15, fontFamily: 'NanumGothicBold' }}>{item.TicketName}</Text>
+            </View>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Image source={require('../public/png/free-icon-location.png')} style={{ width: 25, height: 25, marginVertical: 5 }} />
+              <Text style={{ fontSize: 15, fontFamily: 'NanumGothicBold' }}>SSG랜더스파크</Text>
+            </View>
+          </View>
+        </View>
+        <View style={{ justifyContent: 'flex-end' }}>
+          <Image source={resultImg[item.result]} style={{ width: 80, height: 80 }} />
+        </View>
+      </View>
+      <View>
+        <Image source={require('../public/img/KakaoTalk_20240428_193213436.jpg')} style={{ width: 330, height: 330, marginVertical: 20 }} />
+      </View>
+      <View>
+        <Text style={{ padding: 8, fontSize: 13, fontFamily: 'NanumGothicBold', borderWidth: 1 }}>최정이 홈런을 쳤다. 이제 타이기록인디 ㅠ 매일 쫒아가야하나 ?!</Text>
+      </View>
+  </View>
   );
 }
 
@@ -229,14 +257,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 1, // 테두리 두깨
-  },
-  detailItem: {
-    padding: 30,
-    // marginVertical: 5,
-    // marginHorizontal: 5,
-    flexDirection: 'row',
-    alignItems: 'center',
-    // justifyContent: 'space-between', // 요소들 사이의 공간을 균등하게 분배
   },
 });
 
