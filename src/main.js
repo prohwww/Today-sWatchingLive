@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {View, StyleSheet, Text, Image, FlatList, TextInput, TouchableOpacity } from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import Calendar from './calendar';
 
 const Tab = createBottomTabNavigator();
 const resultImg = {
@@ -215,7 +216,14 @@ export function TicketDatail({ route }) {
 }
 
 function CalScreen() {
-  return <Text>Calendar</Text>;
+  const currentDate = new Date(); // 현재 날짜
+  
+  return (
+    <View style={styles.calView}>
+        <Text style={styles.semiTitle}>{currentDate.getFullYear()}년 {currentDate.getMonth()+1}월</Text>
+        <Calendar currentDate={currentDate} />
+    </View>
+  );
 }
 
 function InfoScreen() {
@@ -242,6 +250,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: 40,
+    backgroundColor: 'white',
   },
   item: {
     padding: 5,
@@ -257,6 +266,19 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 1, // 테두리 두깨
+  },
+  calView: {
+    flex: 1,
+    marginTop: 40,
+    backgroundColor: 'white',
+    alignItems: 'center',
+  },
+  semiTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    margin: 5,
+    color: 'black',
+    fontFamily: 'NanumGothicBold'
   },
 });
 

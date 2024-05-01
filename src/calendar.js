@@ -26,9 +26,12 @@ const Calendar = ({ currentDate }) => {
     const [selectedDate, setSelectedDate] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [events, setEvents] = useState([
-        { date: new Date(2024, 3, 28), event: 'KT Wiz vs SSG Landers', result: 'W' },
-        { date: new Date(2024, 3, 21), event: 'LG Twins vs SSG Landers 더블헤더 1차전', result: 'L' },
-        { date: new Date(2024, 3, 21), event: 'LG Twins vs SSG Landers 더블헤더 2차전', result: 'T' },
+        { date: new Date(2024, 3, 28), event: 'KT Wiz vs SSG Landers', result: 'W', score: '6:11' },
+        { date: new Date(2024, 3, 21), event: 'LG Twins vs SSG Landers 더블헤더 1차전', result: 'L', score: '10:8' },
+        { date: new Date(2024, 3, 21), event: 'LG Twins vs SSG Landers 더블헤더 2차전', result: 'T', score: '5:5' },
+        { date: new Date(2024, 4, 1), event: 'SSG Landers vs 한화 이글스', result: 'L', score: '0:5' },
+        { date: new Date(2024, 4, 21), event: 'LG 트윈스 vs SSG 랜더스 더블헤더 1차전', result: 'L', score: '10:8' },
+        { date: new Date(2024, 4, 21), event: 'LG Twins vs SSG Landers 더블헤더 2차전', result: 'T', score: '5:5' },
     ]);
 
     const resultMap = {
@@ -81,6 +84,8 @@ const Calendar = ({ currentDate }) => {
             flex: 1,
             textAlign: 'center',
             fontWeight: 'bold',
+            fontFamily: 'NanumGothicBold',
+            color: 'black',
         },
         daysContainer: {
             flexDirection: 'row',
@@ -124,15 +129,26 @@ const Calendar = ({ currentDate }) => {
             padding: 10,
         },
         eventItem: {
+            height: 50,
+            borderWidth: 0.7,
+            borderColor: 'black',
         },
         icon: {
             width: 30,
             height: 30,
+            marginRight: 10,
         },
         addBtn: {
             width: 30,
             height: 30,
             marginLeft: 230,
+        },
+        infoView: {
+            flexDirection: 'row',
+        },
+        text: {
+            fontFamily: 'NanumGothicBold',
+            color: 'black',
         },
     });
 
@@ -166,7 +182,7 @@ const Calendar = ({ currentDate }) => {
                         ]}
                         onPress={() => handleDateClick(day)}
                     >
-                        <Text>{format(day, 'd')}</Text>
+                        <Text style={styles.text}>{format(day, 'd')}</Text>
                     </TouchableOpacity>
                 ))}
             </View>
@@ -181,9 +197,9 @@ const Calendar = ({ currentDate }) => {
                     <View style={styles.modalContent}>
 
                         <View style={styles.horizontalContainer}>
-                            <Text>{selectedDate ? format(selectedDate, 'MM/dd') : ''}</Text>
+                            <Text style={styles.text}>{selectedDate ? format(selectedDate, 'MM/dd') : ''}</Text>
                             <TouchableOpacity onPress={closeModal} style={styles.btnClose}>
-                                <Text>X</Text>
+                                <Text style={styles.text}>X</Text>
                             </TouchableOpacity>
                         </View>
 
@@ -196,8 +212,11 @@ const Calendar = ({ currentDate }) => {
                                 <View key={index} style={styles.eventItem}>
                                     {/* TODO onPress로 티켓 조회 화면 연결 필요 */}
                                     <TouchableOpacity>
-                                        <Image source={resultMap[event.result]} style={styles.icon} />
-                                        <Text>{event.event}</Text>
+                                        <View style={styles.infoView}>
+                                            <Image source={resultMap[event.result]} style={styles.icon} />
+                                            <Text style={styles.text}>{event.score}</Text>
+                                        </View>
+                                        <Text style={styles.text}>{event.event}</Text>
                                     </TouchableOpacity>
                                 </View>
                             ))}
