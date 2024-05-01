@@ -3,6 +3,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {View, StyleSheet, Text, Image, FlatList, TextInput, TouchableOpacity } from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Calendar from './calendar';
+import MyInfo from './myInfo';
 
 const Tab = createBottomTabNavigator();
 const resultImg = {
@@ -227,7 +228,11 @@ function CalScreen() {
 }
 
 function InfoScreen() {
-  return <Text>My Info</Text>;
+  return (
+    <View style={styles.calView}>
+        <MyInfo/>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -249,7 +254,6 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    marginTop: 40,
     backgroundColor: 'white',
   },
   item: {
