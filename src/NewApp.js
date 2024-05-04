@@ -7,6 +7,7 @@ import MainScreen, { TicketDatail } from './main';
 import SigninScreen from './signin';
 import FindPassWdScreen from './findPw';
 import TeamListScreen from './teamList';
+import AddTicketScreen from './addTicket';
 
 const Stack = createNativeStackNavigator();
 
@@ -45,7 +46,8 @@ const App = () => {
             component={DetailScreen}
             options={{title: '상세보기'}}
           /> */}
-           <Stack.Screen name="teamlist" component={TeamListScreen} />
+            <Stack.Screen name="teamlist" component={TeamListScreen} />
+            <Stack.Screen name="addTicket" component={AddTicketScreen} options={{ headerShown: false }} />
           </Stack.Navigator>
         ) : (
           <Stack.Navigator>
