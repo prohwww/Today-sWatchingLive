@@ -9,6 +9,7 @@ import {
     useWindowDimensions,
     Image
 } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 const MyInfo = () => {
     const windowWidth = useWindowDimensions().width;
@@ -16,13 +17,14 @@ const MyInfo = () => {
 
     const handleTeamClick = () => {
         // 응원하는 팀 목록 화면 전환
-        
+        navigation.navigate('teamlist');
     };
 
     const handleSettingClick = () => {
         // 시스템 설정 화면 전환
         
     };
+    const navigation = useNavigation();
 
     const styles = StyleSheet.create({
         container: {

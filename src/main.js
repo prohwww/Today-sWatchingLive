@@ -273,7 +273,6 @@ const styles = StyleSheet.create({
   },
   calView: {
     flex: 1,
-    marginTop: 40,
     backgroundColor: 'white',
     alignItems: 'center',
   },

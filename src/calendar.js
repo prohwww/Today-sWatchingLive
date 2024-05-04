@@ -21,6 +21,7 @@ import {
     useWindowDimensions,
     Image
 } from 'react-native';
+import {resultMap} from './map';
   
 const Calendar = ({ currentDate }) => {
     const [selectedDate, setSelectedDate] = useState(null);
@@ -29,16 +30,10 @@ const Calendar = ({ currentDate }) => {
         { date: new Date(2024, 3, 28), event: 'KT Wiz vs SSG Landers', result: 'W', score: '6:11' },
         { date: new Date(2024, 3, 21), event: 'LG Twins vs SSG Landers 더블헤더 1차전', result: 'L', score: '10:8' },
         { date: new Date(2024, 3, 21), event: 'LG Twins vs SSG Landers 더블헤더 2차전', result: 'T', score: '5:5' },
-        { date: new Date(2024, 4, 1), event: 'SSG Landers vs 한화 이글스', result: 'L', score: '0:5' },
+        { date: new Date(2024, 4, 1), event: 'SSG Landers vs 한화 이글스', result: 'W', score: '8:6' },
         { date: new Date(2024, 4, 21), event: 'LG 트윈스 vs SSG 랜더스 더블헤더 1차전', result: 'L', score: '10:8' },
         { date: new Date(2024, 4, 21), event: 'LG Twins vs SSG Landers 더블헤더 2차전', result: 'T', score: '5:5' },
     ]);
-
-    const resultMap = {
-        W: require('../public/png/free-icon-win.png'),
-        L: require('../public/png/free-icon-lose.png'),
-        T: require('../public/png/free-icon-draw.png'),
-    };
 
     const monthStart = startOfMonth(currentDate);
     const monthEnd = endOfMonth(currentDate);
@@ -54,6 +49,14 @@ const Calendar = ({ currentDate }) => {
 
     const closeModal = () => {
         setShowModal(false);
+    };
+
+    const handleTicketDetail = (event) => {
+        // 티켓 상세 화면 조회
+    };
+
+    const handleAddTicket = (date) => {
+        // 티켓 추가 화면
     };
 
     const handleScroll = (event) => {
@@ -176,9 +179,15 @@ const Calendar = ({ currentDate }) => {
                 {days.map((day) => (
                     <TouchableOpacity
                         key={day}
-                        style={[styles.day, 
+                        style={[
+                            styles.day, 
                             !isSameMonth(day, currentDate) && styles.otherMonth,
-                            selectedDate && isSameDay(day, selectedDate) && styles.selectedDay
+                            selectedDate && isSameDay(day, selectedDate) && styles.selectedDay,
+                            events.some(event => isSameDay(event.date, day)) && { 
+                                backgroundColor: 'transparent', 
+                                backgroundImage: `url(${resultMap[events.find(event => isSameDay(event.date, day)).result]})`, 
+                                backgroundSize: 'cover' 
+                            }
                         ]}
                         onPress={() => handleDateClick(day)}
                     >
@@ -210,8 +219,7 @@ const Calendar = ({ currentDate }) => {
                         >
                             {selectedDateEvents.map((event, index) => (
                                 <View key={index} style={styles.eventItem}>
-                                    {/* TODO onPress로 티켓 조회 화면 연결 필요 */}
-                                    <TouchableOpacity>
+                                    <TouchableOpacity onPress={(event) => handleTicketDetail(event)}>
                                         <View style={styles.infoView}>
                                             <Image source={resultMap[event.result]} style={styles.icon} />
                                             <Text style={styles.text}>{event.score}</Text>
@@ -222,9 +230,8 @@ const Calendar = ({ currentDate }) => {
                             ))}
                         </ScrollView>
 
-                        {/* TODO add 버튼 누르면 티켓 추가 화면 이동 */}
-                        <TouchableOpacity>
-                            <Image source={require('../public/png/free-icon-add-button.png')} style={styles.addBtn} />
+                        <TouchableOpacity onPress={(date) => handleAddTicket(date)}>
+                            <Image source={require('../public/png/free-icon-add-button.png')} style={styles.addBtn}/>
                         </TouchableOpacity>
                     </View>
                 </View>

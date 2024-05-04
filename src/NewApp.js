@@ -6,11 +6,11 @@ import LoginScreen from './login';
 import MainScreen, { TicketDatail } from './main';
 import SigninScreen from './signin';
 import FindPassWdScreen from './findPw';
+import TeamListScreen from './teamList';
 
 const Stack = createNativeStackNavigator();
 
 const App = () => {
-
   const [ready, setReady] = useState(true);
 
   useEffect(() => {
@@ -45,6 +45,7 @@ const App = () => {
             component={DetailScreen}
             options={{title: '상세보기'}}
           /> */}
+           <Stack.Screen name="teamlist" component={TeamListScreen} />
           </Stack.Navigator>
         ) : (
           <Stack.Navigator>
@@ -56,7 +57,8 @@ const App = () => {
             {/* <Stack.Screen
             name="Detail"
             component={DetailScreen}
-            options={{title: '상세보기'}}
+            options={{title: '상세보기'}
+          }
           /> */}
           </Stack.Navigator>
         )}
