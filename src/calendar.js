@@ -182,16 +182,22 @@ const Calendar = ({ currentDate }) => {
                         style={[
                             styles.day, 
                             !isSameMonth(day, currentDate) && styles.otherMonth,
-                            selectedDate && isSameDay(day, selectedDate) && styles.selectedDay,
-                            events.some(event => isSameDay(event.date, day)) && { 
-                                backgroundColor: 'transparent', 
-                                backgroundImage: `url(${resultMap[events.find(event => isSameDay(event.date, day)).result]})`, 
-                                backgroundSize: 'cover' 
-                            }
+                            selectedDate && isSameDay(day, selectedDate) && styles.selectedDay
                         ]}
                         onPress={() => handleDateClick(day)}
                     >
                         <Text style={styles.text}>{format(day, 'd')}</Text>
+                        {events.some(event => isSameDay(event.date, day)) && (
+                            events
+                                .filter(event => isSameDay(event.date, day))
+                                .map((event, index) => (
+                                    <Image 
+                                        key={index}
+                                        source={resultMap[event.result]}
+                                        style={{ width: 20, height: 20, position: 'absolute', top: 5, right: 5 }} 
+                                    />
+                                ))
+                        )}
                     </TouchableOpacity>
                 ))}
             </View>
