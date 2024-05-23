@@ -42,8 +42,8 @@ const MyInfo = () => {
         },
         infoText: {
             color: 'black',
-            fontFamily: 'NanumGothicBold',
-            fontSize: 18,
+            fontFamily: 'NanumGothic',
+            fontSize: 15,
             padding: 5,
         },
         item: {

@@ -21,19 +21,25 @@ import {
     useWindowDimensions,
     Image
 } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import {resultMap} from './map';
   
 const Calendar = ({ currentDate }) => {
+    const navigation = useNavigation();
     const [selectedDate, setSelectedDate] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [events, setEvents] = useState([
-        { date: new Date(2024, 3, 28), event: 'KT Wiz vs SSG Landers', result: 'W', score: '6:11' },
-        { date: new Date(2024, 3, 21), event: 'LG Twins vs SSG Landers 더블헤더 1차전', result: 'L', score: '10:8' },
-        { date: new Date(2024, 3, 21), event: 'LG Twins vs SSG Landers 더블헤더 2차전', result: 'T', score: '5:5' },
-        { date: new Date(2024, 4, 1), event: 'SSG Landers vs 한화 이글스', result: 'W', score: '8:6' },
-        { date: new Date(2024, 4, 21), event: 'LG 트윈스 vs SSG 랜더스 더블헤더 1차전', result: 'L', score: '10:8' },
-        { date: new Date(2024, 4, 21), event: 'LG Twins vs SSG Landers 더블헤더 2차전', result: 'T', score: '5:5' },
+        { GameDate: new Date(2024, 3, 28), SportKind: 'B', result: 'W', HomeTeamCd: 'SSG 랜더스', AwayTeamCd: 'KT 위즈', HomeScore: 11, AwayScore: 6 },
+        { GameDate: new Date(2024, 3, 21), SportKind: 'B', result: 'L', HomeTeamCd: 'SSG 랜더스', AwayTeamCd: 'LG 트윈스', HomeScore: 8, AwayScore: 10 },
+        { GameDate: new Date(2024, 3, 21), SportKind: 'B', result: 'T', HomeTeamCd: 'SSG 랜더스', AwayTeamCd: 'LG 트윈스', HomeScore: 5, AwayScore: 5 },
+        { GameDate: new Date(2024, 4, 1), SportKind: 'B', result: 'W', HomeTeamCd: '한화 이글스', AwayTeamCd: 'SSG 랜더스', HomeScore: 6, AwayScore: 8 },
+        { GameDate: new Date(2024, 4, 21), SportKind: 'B', result: 'L', HomeTeamCd: 'SSG 랜더스', AwayTeamCd: 'LG 트윈스', HomeScore: 8, AwayScore: 10 },
+        { GameDate: new Date(2024, 4, 21), SportKind: 'B', result: 'T', HomeTeamCd: 'SSG 랜더스', AwayTeamCd: 'LG 트윈스', HomeScore: 5, AwayScore: 5 },
     ]);
+
+    const { width: windowWidth, height: windowHeight } = useWindowDimensions();
+    const cellWidth = windowWidth / 7 - 2;
+    const cellHeight = windowHeight / 7;
 
     const monthStart = startOfMonth(currentDate);
     const monthEnd = endOfMonth(currentDate);
@@ -53,10 +59,12 @@ const Calendar = ({ currentDate }) => {
 
     const handleTicketDetail = (event) => {
         // 티켓 상세 화면 조회
+        navigation.navigate('ticketDetail', { route: event });
     };
 
     const handleAddTicket = (date) => {
         // 티켓 추가 화면
+        navigation.navigate('addTicket');
     };
 
     const handleScroll = (event) => {
@@ -67,12 +75,6 @@ const Calendar = ({ currentDate }) => {
             setCurrentDate(addMonths(currentDate, 1));
         }
     };
-
-    const windowWidth = useWindowDimensions().width;
-    const cellWidth = windowWidth / 7 - 2;
-
-    const windowHeight = useWindowDimensions().height;
-    const cellHeight = windowHeight / 7;
 
     const styles = StyleSheet.create({
         calendar: {
@@ -161,7 +163,7 @@ const Calendar = ({ currentDate }) => {
         <Text key={index} style={styles.weekday}>{day}</Text>
     ));
 
-    const selectedDateEvents = events.filter(event => isSameDay(event.date, selectedDate));
+    const selectedDateEvents = events.filter(event => isSameDay(event.GameDate, selectedDate));
 
     return (
         <ScrollView
@@ -187,9 +189,9 @@ const Calendar = ({ currentDate }) => {
                         onPress={() => handleDateClick(day)}
                     >
                         <Text style={styles.text}>{format(day, 'd')}</Text>
-                        {events.some(event => isSameDay(event.date, day)) && (
+                        {events.some(event => isSameDay(event.GameDate, day)) && (
                             events
-                                .filter(event => isSameDay(event.date, day))
+                                .filter(event => isSameDay(event.GameDate, day))
                                 .map((event, index) => (
                                     <Image 
                                         key={index}
@@ -228,9 +230,15 @@ const Calendar = ({ currentDate }) => {
                                     <TouchableOpacity onPress={(event) => handleTicketDetail(event)}>
                                         <View style={styles.infoView}>
                                             <Image source={resultMap[event.result]} style={styles.icon} />
-                                            <Text style={styles.text}>{event.score}</Text>
+                                            <Text style={styles.text}>{event.AwayScore}</Text>
+                                            <Text style={styles.text}> : </Text>
+                                            <Text style={styles.text}>{event.HomeScore}</Text>
                                         </View>
-                                        <Text style={styles.text}>{event.event}</Text>
+                                        <View style={styles.infoView}>
+                                            <Text style={styles.text}>{event.AwayTeamCd}</Text>
+                                            <Text style={styles.text}> vs </Text>
+                                            <Text style={styles.text}>{event.HomeTeamCd}</Text>
+                                        </View>
                                     </TouchableOpacity>
                                 </View>
                             ))}

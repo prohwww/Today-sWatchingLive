@@ -46,8 +46,9 @@ const App = () => {
             component={DetailScreen}
             options={{title: '상세보기'}}
           /> */}
-            <Stack.Screen name="teamlist" component={TeamListScreen} />
+            <Stack.Screen name="teamlist" component={TeamListScreen} options={{ headerShown: false }} />
             <Stack.Screen name="addTicket" component={AddTicketScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="ticketDetail" component={TicketDatail} options={{ headerShown: false }} />
           </Stack.Navigator>
         ) : (
           <Stack.Navigator>

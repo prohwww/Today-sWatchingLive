@@ -1,11 +1,83 @@
   export const sportsMap = {
     S: require('../public/png/free-icon-soccer-ball.png'),
     B: require('../public/png/free-icon-baseball.png'),
-    // 종목 추가 필요...
+    V: require('../public/png/free-icon-volleyball-ball.png'),
+    K: require('../public/png/free-icon-basketball-ball.png'),
   };
 
   export const resultMap = {
     W: require('../public/png/free-icon-victory.png'),
     L: require('../public/png/free-icon-rubber-stamp.png'),
     T: require('../public/png/free-icon-rubber-stamp.png'),
-};
+  };
+
+  export const teamMap = {
+    B: [
+      { label: "SSG 랜더스", value: "LD" },
+      { label: "한화 이글스", value: "H" },
+      { label: "두산 베어스", value: "DB" },
+      { label: "LG 트윈스", value: "TW" },
+      { label: "롯데 자이언츠", value: "G" },
+      { label: "KT 위즈", value: "W" },
+      { label: "NC 다이노스", value: "DN" },
+      { label: "기아 타이거즈", value: "TG" },
+      { label: "키움 히어로즈", value: "H" },
+      { label: "삼성 라이온즈", value: "LO" },
+    ],
+    S: [
+      { label: "FC서울", value: "S" },
+      { label: "포항 스틸러스", value: "P" },
+      { label: "김천상무 FC", value: "K" },
+      { label: "울산 HD FC", value: "W" },
+      { label: "수원FC", value: "SF" },
+      { label: "강원FC", value: "KF" },
+      { label: "인천유나이티드", value: "I" },
+      { label: "광주FC", value: "G" },
+      { label: "대구FC", value: "D" },
+      { label: "제주 유나이티드", value: "J" },
+      { label: "전북 현대 모터스", value: "JH" },
+      { label: "대전 하나 시티즌", value: "DH" },
+
+      { label: "FC안양", value: "A" },
+      { label: "전남드래곤즈", value: "JD" },
+      { label: "김포FC", value: "KF" },
+      { label: "서울 이랜드 FC", value: "SE" },
+      { label: "부산 아이파크", value: "B" },
+      { label: "수원 삼성", value: "SS" },
+      { label: "충남 아산 프로축구단", value: "C" },
+      { label: "부천 FC 1995", value: "B" },
+      { label: "충북청주FC", value: "CC" },
+      { label: "경남FC", value: "KN" },
+      { label: "천안시티FC", value: "CC" },
+      { label: "성남FC", value: "SN" },
+      { label: "안산 그리너스", value: "AG" },
+    ],
+    V: [
+      { label: "흥국생명 핑크스파이더스", value: "P"},
+      { label: "한국도로공사 하이패스", value: "H"},
+      { label: "현대건설 힐스테이트", value: "HH"},
+      { label: "정관장 레드스파크스", value: "J"},
+      { label: "GS칼텍스 서울Kixx", value: "G"},
+      { label: "IBK기업은행 알토스", value: "I"},
+      { label: "페퍼저축은행 AI PEPPERS", value: "PP"},
+
+      { label: "인천 대한항공 점보스", value: "IJ"},
+      { label: "천안 현대캐피탈 스카이워커스", value: "C"},
+      { label: "수원 한국전력 VIXTORM", value: "S"},
+      { label: "서울 우리카드 우리WON", value: "SW"},
+      { label: "안산 OK금융그룹 읏맨", value: "A"},
+      { label: "의정부 KB손해보험 스타즈", value: "K"},
+      { label: "대전 삼성화재 블루팡스", value: "D"},
+    ],
+    K: [
+      { label: "안양 정관장", value: "A"},
+      { label: "원주 DB", value: "W"},
+      { label: "창원 LG", value: "C"},
+      { label: "수원 KT", value: "S"},
+      { label: "부산 KCC", value: "B"},
+      { label: "대구 한국가스공사", value: "D"},
+      { label: "울산 현대모비스", value: "WS"},
+      { label: "고양 소노", value: "G"},
+      { label: "서울 삼성", value: "SS"},
+    ],
+  };
