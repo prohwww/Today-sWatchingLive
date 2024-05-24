@@ -11,6 +11,7 @@ import {
 import { createStackNavigator } from '@react-navigation/stack';
 import { Picker } from '@react-native-picker/picker';
 import { sportsMap, teamMap } from './map';
+import { useNavigation } from '@react-navigation/native';
 
 const TeamList = () => {
     const Stack = createStackNavigator();
@@ -44,9 +45,10 @@ const TeamList = () => {
         setModalVisible(false);
     };
 
-    const viewTeamResult = () => {
+    const navigation = useNavigation();
+    const viewTeamResult = (team) => {
         // 팀 승률 그래프
-        
+        navigation.navigate('teamAnalysis', { selectTeam: team });
     };
 
     const handleSaveTeam = () => {
@@ -191,10 +193,10 @@ const TeamList = () => {
                     </View>
                     <View style={styles.modalBtn}>
                         <TouchableOpacity onPress={handleSaveTeam}>
-                            <Text style={styles.modalText}>저장</Text>
+                            <Text style={styles.modalText}>저장  </Text>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={closeModal}>
-                            <Text style={styles.modalText}>닫기</Text>
+                            <Text style={styles.modalText}>  닫기</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
