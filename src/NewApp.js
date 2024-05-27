@@ -8,6 +8,7 @@ import SigninScreen from './signin';
 import FindPassWdScreen from './findPw';
 import TeamListScreen from './teamList';
 import AddTicketScreen from './addTicket';
+import EditTicketScreen from './editTicket';
 import TeamAnalysis from './teamAnalysis';
 
 const Stack = createNativeStackNavigator();
@@ -49,6 +50,7 @@ const App = () => {
           /> */}
             <Stack.Screen name="teamlist" component={TeamListScreen} options={{ headerShown: false }} />
             <Stack.Screen name="addTicket" component={AddTicketScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="editTicket" component={EditTicketScreen} options={{ headerShown: false }} />
             <Stack.Screen name="ticketDetail" component={TicketDatail} options={{ headerShown: false }} />
             <Stack.Screen name="teamAnalysis" component={TeamAnalysis} options={{ headerShown: false }} />
           </Stack.Navigator>

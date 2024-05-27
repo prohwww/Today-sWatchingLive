@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { ScrollView, View, StyleSheet, Text, TextInput, Alert, TouchableOpacity, Image} from 'react-native';
+import { ScrollView, View, StyleSheet, Text, TextInput, Alert, TouchableOpacity, Image } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 function AddTicket() {
   const [HomeTeamName, setHomeTeamName] = useState('');
@@ -9,25 +10,52 @@ function AddTicket() {
   const [Place, setPlace] = useState('');
   const [Result, setResult] = useState('');
   const [TicketDiary, setTicketDiary] = useState('');
+  const navigation = useNavigation();
 
+  function isNumeric(value) {
+    return !isNaN(parseFloat(value)) && isFinite(value);
+  }
   const onPressConfirm = () => {
     if (!HomeTeamName || !AwayTeamName || !Place ||
       !HomeScore || !AwayScore || !TicketDiary) {
       Alert.alert('누락된 항목이 있는지\n다시 확인해주세요.');
-    } else {
-      Alert.alert('성공!');
     }
+
+    if (!isNumeric(HomeScore) || !isNumeric(AwayScore)) {
+      Alert.alert('점수는 숫자로만 입력해주세요.');
+    }
+    Alert.alert('성공!');
+
+    // 목록페이지로 다시 이동
+    navigation.navigate('main');
   }
+  const onPressCancel = () => {
+    Alert.alert(
+      '', '정말로 현재까지 작성하신 티켓을 취소하시겠습니까?',
+      [
+        {
+          text: '취소',
+          onPress: () => { },
+          style: 'cancel',
+        },
+        {
+          text: '확인',
+          onPress: () => { navigation.goBack() },
+        },
+      ],
+      { cancelable: false }
+    );
+  };
 
   return (
     <View style={styles.component}>
       <View style={styles.headContainer}>
-        <Text style={styles.header}>TICKET</Text>
-        <View>
-          <TouchableOpacity onPress={onPressConfirm}>
-            <Image source={require('../public/png/free-icon-done.png')} style={styles.addBtn}/>
-          </TouchableOpacity>
-        </View>
+        <TouchableOpacity onPress={onPressCancel}>
+          <Image source={require('../public/png/free-icon-left-arrow.png')} style={styles.addBtn} />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={onPressConfirm}>
+          <Image source={require('../public/png/free-icon-done.png')} style={styles.addBtn} />
+        </TouchableOpacity>
       </View>
       <ScrollView style={styles.container}>
         <View style={styles.container}>
@@ -209,8 +237,8 @@ const styles = StyleSheet.create({
     fontFamily: 'NanumGothicBold'
   },
   addBtn: {
-    width: 40,
-    height: 40,
+    width: 30,
+    height: 30,
   },
 });
 
