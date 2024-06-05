@@ -188,7 +188,7 @@ export function TicketDatail({ route }) {
   // 수정 js로 이동하기 위한 함수
   const handleNavigateToEditTicket = () => {
     const ticketData = { TicketNo: item.TicketNo };
-    navigation.navigate('editTicket', { ticketData });
+    navigation.navigate('addTicket', { ticketData });
   };
 
   return (

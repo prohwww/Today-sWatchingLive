@@ -1,22 +1,99 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ScrollView, View, StyleSheet, Text, TextInput, Alert, TouchableOpacity, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { Picker } from '@react-native-picker/picker';
 
-function AddTicket() {
-  const [HomeTeamName, setHomeTeamName] = useState('');
+
+function AddTicket({ route }) {
+
+  var editFlag = false;
+
+  const DATA = [
+    { TicketNo: '1', GameDate: '20240421', TicketName: 'NC다이노스 vs SSG랜더스', HomeTeamCd: '31', AwayTeamCd: '32', HomeScore: 1, AwayScore: 5, Result: 'W', Seat: '응원지정석 10열 D', PhotoName: "KakaoTalk_20240428_193213436.jpg", Price: 15000, UserId: 'Master', TicketDiary: "최정이 467홈런을 친걸 눈으로 봐서 좋았다 500홈런넘자 ㅎ", SportKind: 'B', place: "창원NC다이노스파크" },
+    { TicketNo: '2', GameDate: '20240407', TicketName: 'FC서울 vs 전북현대', HomeTeamCd: '9', AwayTeamCd: '10', HomeScore: 3, AwayScore: 1, Result: 'W', Seat: 'R구역 자유석', PhotoName: "KakaoTalk_20240428_193213436.jpg", Price: 13000, UserId: 'Master', TicketDiary: "전북은 승점자판기라는 것을 또 한번 깨달았다.", SportKind: 'S', place: "상암월드컵경기장" },
+    { TicketNo: '3', GameDate: '20240321', TicketName: 'SSG랜더스 vs 기아타이거즈', HomeTeamCd: '32', AwayTeamCd: '27', HomeScore: 1, AwayScore: 7, Result: 'L', Seat: '그린존 자유석', PhotoName: "KakaoTalk_20240428_193213436.jpg", Price: 18000, UserId: 'Master', TicketDiary: "기분좋게 그린존을 갔는데 야구실력 때문에 갑자기 기분이 나빠졌다", SportKind: 'B', place: "SSG랜더스파크" }
+  ];
+
+  const sportsCategory = ['K리그', 'KBO', 'KBL', 'V리그'];
+  const subSportsCategory = [{ "TeamCd": "1", "TeamName": "울산 HD FC", "SportKind": "0", "Place": "울산문수월드컵경기장" }, { "TeamCd": "2", "TeamName": "김천상무프로축구단", "SportKind": "0", "Place": "김천종합운동장" }, { "TeamCd": "3", "TeamName": "포항스틸러스", "SportKind": "0", "Place": "포항스틸야드" }, { "TeamCd": "4", "TeamName": "강원FC", "SportKind": "0", "Place": "강릉종합운동장, 춘천송암스포츠타운" }, { "TeamCd": "5", "TeamName": "수원FC", "SportKind": "0", "Place": "수원종합운동장" }, { "TeamCd": "6", "TeamName": "제주유나이티드FC", "SportKind": "0", "Place": "제주월드컵경기장" }, { "TeamCd": "7", "TeamName": "광주FC", "SportKind": "0", "Place": "광주축구전용구장" }, { "TeamCd": "8", "TeamName": "인천유나이티드 FC", "SportKind": "0", "Place": "인천축구전용경기장" }, { "TeamCd": "9", "TeamName": "FC서울", "SportKind": "0", "Place": "서울월드컵경기장" }, { "TeamCd": "10", "TeamName": "전북현대모터스", "SportKind": "0", "Place": "전주월드컵경기장" }, { "TeamCd": "11", "TeamName": "대전하나시티즌", "SportKind": "0", "Place": "대전월드컵경기장" }, { "TeamCd": "12", "TeamName": "대구FC", "SportKind": "0", "Place": "DGB 대구은행파크" }, { "TeamCd": "13", "TeamName": "FC안양", "SportKind": "0", "Place": "안양종합운동장" }, { "TeamCd": "14", "TeamName": "전남드래곤즈", "SportKind": "0", "Place": "광양축구전용구장" }, { "TeamCd": "15", "TeamName": "서울이랜드FC", "SportKind": "0", "Place": "목동종합운동장 주경기장" }, { "TeamCd": "16", "TeamName": "김포FC", "SportKind": "0", "Place": "솔터체육공원 축구장" }, { "TeamCd": "17", "TeamName": "부산아이파크", "SportKind": "0", "Place": "부산 아시아드 주경기장" }, { "TeamCd": "18", "TeamName": "수원삼성블루윙즈", "SportKind": "0", "Place": "수원월드컵경기장" }, { "TeamCd": "19", "TeamName": "충남아산프로축구단", "SportKind": "0", "Place": "이순신종합운동장" }, { "TeamCd": "20", "TeamName": "부천FC 1995", "SportKind": "0", "Place": "부천종합운동장" }, { "TeamCd": "21", "TeamName": "충북청주FC", "SportKind": "0", "Place": "청주종합경기장" }, { "TeamCd": "22", "TeamName": "천안시티FC", "SportKind": "0", "Place": "천안종합운동장" }, { "TeamCd": "23", "TeamName": "성남FC", "SportKind": "0", "Place": "탄천종합운동장" }, { "TeamCd": "24", "TeamName": "경남FC", "SportKind": "0", "Place": "창원축구센터" }, { "TeamCd": "25", "TeamName": "안산그리너스FC", "SportKind": "0", "Place": "안산 와~스타디움" }, { "TeamCd": "26", "TeamName": "두산 베어스", "SportKind": "1", "Place": "서울 잠실야구장" }, { "TeamCd": "27", "TeamName": "KIA 타이거즈", "SportKind": "1", "Place": "광주 기아 챔피언스 필드" }, { "TeamCd": "28", "TeamName": "KT 위즈", "SportKind": "1", "Place": "수원 케이티 위즈 파크" }, { "TeamCd": "29", "TeamName": "LG 트윈스", "SportKind": "1", "Place": "서울 잠실야구장" }, { "TeamCd": "30", "TeamName": "롯데 자이언츠", "SportKind": "1", "Place": "부산 사직야구장" }, { "TeamCd": "31", "TeamName": "NC 다이노스", "SportKind": "1", "Place": "창원 NC파크" }, { "TeamCd": "32", "TeamName": "SSG 랜더스", "SportKind": "1", "Place": "인천 SSG 랜더스 필드" }, { "TeamCd": "33", "TeamName": "키움 히어로즈", "SportKind": "1", "Place": "서울 고척스카이돔" }, { "TeamCd": "34", "TeamName": "삼성 라이온즈", "SportKind": "1", "Place": "대구 삼성 라이온즈 파크" }, { "TeamCd": "35", "TeamName": "한화 이글스", "SportKind": "1", "Place": "대전 한화생명 이글스 파크" }, { "TeamCd": "36", "TeamName": "서울 삼성 썬더스", "SportKind": "2", "Place": "잠실실내체육관" }, { "TeamCd": "37", "TeamName": "대구 한국가스공사 페가수스", "SportKind": "2", "Place": "대구 체육관" }, { "TeamCd": "38", "TeamName": "수원 KT 소닉붐", "SportKind": "2", "Place": "수원 KT 소닉붐 아레나" }, { "TeamCd": "39", "TeamName": "원주 DB 프로미", "SportKind": "2", "Place": "원주종합체육관" }, { "TeamCd": "40", "TeamName": "부산 KCC 이지스", "SportKind": "2", "Place": "부산사직실내체육관" }, { "TeamCd": "41", "TeamName": "울산 현대모비스 피버스", "SportKind": "2", "Place": "동천체육관" }, { "TeamCd": "42", "TeamName": "고양 소노 스카이거너스", "SportKind": "2", "Place": "고양 소노 아레나" }, { "TeamCd": "43", "TeamName": "창원 LG 세이커스", "SportKind": "2", "Place": "창원 실내체육관" }, { "TeamCd": "44", "TeamName": "서울 SK 나이츠", "SportKind": "2", "Place": "서울특별시 학생체육관" }, { "TeamCd": "45", "TeamName": "안양 정관장 레드부스터스", "SportKind": "2", "Place": "안양실내체육관" }, { "TeamCd": "46", "TeamName": "인천 대한항공 점보스", "SportKind": "3", "Place": "계양체육관" }, { "TeamCd": "47", "TeamName": "안산 OK 금융그룹 읏맨", "SportKind": "3", "Place": "상록수체육관" }, { "TeamCd": "48", "TeamName": "서울 우리카드 우리WON", "SportKind": "3", "Place": "장충체육관" }, { "TeamCd": "49", "TeamName": "천안 현대캐피탈 스카이워커스", "SportKind": "3", "Place": "유관순체육관" }, { "TeamCd": "50", "TeamName": "수원 한국전력 빅스톰", "SportKind": "3", "Place": "수원실내체육관" }, { "TeamCd": "51", "TeamName": "대전 삼성화재 블루팡스", "SportKind": "3", "Place": "충무체육관" }, { "TeamCd": "52", "TeamName": "의정부 KB손해보험 스타즈", "SportKind": "3", "Place": "의정부실내체육관" }, { "TeamCd": "53", "TeamName": "수원 현대건설 힐스테이트", "SportKind": "3", "Place": "수원실내체육관" }, { "TeamCd": "54", "TeamName": "인천 흥국생명 핑크스파이더스", "SportKind": "3", "Place": "인천삼산월드체육관" }, { "TeamCd": "55", "TeamName": "대전 정관장 레드스파크스", "SportKind": "3", "Place": "충무체육관" }, { "TeamCd": "56", "TeamName": "GS칼텍스 서울 KIXX", "SportKind": "3", "Place": "장충체육관" }, { "TeamCd": "57", "TeamName": "화성 IBK기업은행 알토스", "SportKind": "3", "Place": "화성실내체육관" }, { "TeamCd": "58", "TeamName": "김천 한국도로공사 하이패스", "SportKind": "3", "Place": "김천실내체육관" }, { "TeamCd": "59", "TeamName": "광주 페퍼저축은행 AI 페퍼스", "SportKind": "3", "Place": "염주종합체육관" }];
+
+  const navigation = useNavigation();
+  const [EditFlag, setEditFlag] = useState(false);
   const [AwayTeamName, setAwayTeamName] = useState('');
   const [HomeScore, setHomeScore] = useState('');
   const [AwayScore, setAwayScore] = useState('');
-  const [Place, setPlace] = useState('');
+  const [GameDate, setGameDate] = useState('');
   const [Result, setResult] = useState('');
   const [TicketDiary, setTicketDiary] = useState('');
-  const navigation = useNavigation();
+  const [PhotoName, setPhotoName] = useState('');
+  const [selectSportsKind, setSelectSportsKind] = useState("0");
+  const [selectedSubHomeTeamName, setSelectedSubHomeTeamName] = useState(
+    subSportsCategory.filter(subcategory => subcategory.SportKind === "0")[0].TeamName
+  );
+  const [selectedSubAwayTeamName, setSelectedSubAwayTeamName] = useState(
+    subSportsCategory.filter(subcategory => subcategory.SportKind === "0")[0].TeamName
+  );
+
+  // selectBox 최초 선택 시 첫번째 값으로 셋팅
+  useEffect(() => {
+    if (!editFlag) {
+      const defaultSubCategory = subSportsCategory.find(subcategory => subcategory.SportKind === selectSportsKind);
+      if (defaultSubCategory) {
+        setSelectedSubHomeTeamName(defaultSubCategory.TeamName);
+      }
+    }
+  }, [selectSportsKind]);
+
+  // edit 페이지일 떄 이미 있는 DATA 화면에 가져오기
+  useEffect(() => {
+    if (editFlag) {
+      setHomeScore(editData.HomeScore.toString());
+      setAwayScore(editData.AwayScore.toString());
+      setGameDate(editData.GameDate);
+      setResult(editData.Result);
+      setTicketDiary(editData.TicketDiary);
+      setSelectedSubHomeTeamName(subSportsCategory[Number(editData.HomeTeamCd) - 1].TeamName);
+      setSelectedSubAwayTeamName(subSportsCategory[Number(editData.AwayTeamCd) - 1].TeamName);
+      setPhotoName(editData.PhotoName);
+      setEditFlag(true);
+
+      // 홈팀 정보 찾기 ...
+      var HomeTeamInfo = {};
+      for (var i = 0; i < subSportsCategory.length; i++) {
+        if (editData.HomeTeamCd == subSportsCategory[i].TeamCd) {
+          HomeTeamInfo = subSportsCategory[i];
+          break;
+        }
+      }
+      if (!HomeTeamInfo) {// 오류!!
+        Alert.alert('이상한팀이 DB에 저장되어있음');
+      }
+      setSelectSportsKind(HomeTeamInfo.SportKind);
+      console.log(HomeTeamInfo.Place);
+    }
+  }, [editFlag]);
+
+  if (route.params) {
+    const TicketNo = route.params.ticketData.TicketNo;
+    console.log("TicketNo: " + TicketNo);  // 이걸로 DB에서 데이터 가져오면 될 거같다 ..
+
+    editFlag = true;
+
+    // 이거는 지금 임의로 만든거,, DB연동하면 제거필요해 보임
+    var editData = {};
+    for (var i = 0; i < DATA.length; i++) {
+      if (DATA[i].TicketNo == TicketNo) {
+        editData = DATA[i];
+        break;
+      }
+    }
+  }
 
   function isNumeric(value) {
     return !isNaN(parseFloat(value)) && isFinite(value);
   }
   const onPressConfirm = () => {
-    if (!HomeTeamName || !AwayTeamName || !Place ||
+    if (!HomeTeamName || !AwayTeamName || !GameDate ||
       !HomeScore || !AwayScore || !TicketDiary) {
       Alert.alert('누락된 항목이 있는지\n다시 확인해주세요.');
     }
@@ -60,24 +137,45 @@ function AddTicket() {
       <ScrollView style={styles.container}>
         <View style={styles.container}>
           <Text style={styles.title}>어떤 팀들의 경기를 보셨나요?</Text>
-          <View style={styles.subContainer}>
-            <TextInput
-              onChangeText={text => {
-                setHomeTeamName(text);
-              }}
-              value={HomeTeamName}
-              placeholder="홈팀"
-              style={styles.miniTxtInput}
-            />
-            <Text style={{ paddingHorizontal: 10, padding: 15, }}>VS</Text>
-            <TextInput
-              onChangeText={text => {
-                setAwayTeamName(text);
-              }}
-              value={AwayTeamName}
-              placeholder="어웨이팀"
-              style={styles.miniTxtInput}
-            />
+          <View style={{ flex: 1 }}>
+            <Picker
+              selectedValue={selectSportsKind}
+              onValueChange={(itemValue, itemIndex) => setSelectSportsKind(itemValue)}
+            >
+              {sportsCategory.map((category, index) => (
+                <Picker.Item label={category} value={index.toString()} key={index} />
+              ))}
+            </Picker>
+          </View>
+          <View style={styles.container}>
+            <View style={{ flexDirection: 'row', flex: 1 }}>
+              <Text style={{ marginTop: 15, marginLeft: 10 }}>홈팀       </Text>
+              <View style={{ flex: 2 }}>
+                <Picker
+                  selectedValue={selectedSubHomeTeamName}
+                  onValueChange={(itemValue, itemIndex) => setSelectedSubHomeTeamName(itemValue)}
+                >
+                  {subSportsCategory.filter(subcategory => subcategory.SportKind === selectSportsKind).map((subcategory, index) => (
+                    <Picker.Item label={subcategory.TeamName} value={subcategory.TeamName} key={index} />
+                  ))}
+                </Picker>
+              </View>
+            </View>
+            <View style={styles.container}>
+              <View style={{ flexDirection: 'row', flex: 1 }}>
+                <Text style={{ marginTop: 15 }}>어웨이팀</Text>
+                <View style={{ flex: 2 }}>
+                  <Picker
+                    selectedValue={selectedSubAwayTeamName}
+                    onValueChange={(itemValue, itemIndex) => setSelectedSubAwayTeamName(itemValue)}
+                  >
+                    {subSportsCategory.filter(subcategory => subcategory.SportKind === selectSportsKind).map((subcategory, index) => (
+                      <Picker.Item label={subcategory.TeamName} value={subcategory.TeamName} key={index} />
+                    ))}
+                  </Picker>
+                </View>
+              </View>
+            </View>
           </View>
         </View>
         <View style={styles.container}>
@@ -103,15 +201,15 @@ function AddTicket() {
           </View>
         </View>
         <View style={styles.container}>
-          <Text style={styles.title}>경기장은 어디인가요?</Text>
+          <Text style={styles.title}>경기장을 관람한 날짜</Text>
           <View style={styles.subContainer}>
 
             <TextInput
               onChangeText={text => {
-                setPlace(text);
+                setGameDate(text);
               }}
-              value={Place}
-              placeholder="경기장을 입력하세요."
+              value={GameDate}
+              placeholder="YYYYMMDD"
               style={styles.txtInput}
             />
           </View>
@@ -121,9 +219,9 @@ function AddTicket() {
           <View style={styles.subContainer}>
             <TextInput
               onChangeText={text => {
-                setResult(text);
+                setPhotoName(text);
               }}
-              value={Result}
+              value={PhotoName}
               placeholder="(사진선택)"
               style={styles.txtInput}
             />
@@ -188,7 +286,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   title: {
-    fontSize: 15,
+    fontSize: 13,
     fontWeight: 'bold',
     color: 'black',
     marginRight: 10,
