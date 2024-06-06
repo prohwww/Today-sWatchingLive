@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TextInput, StyleSheet, Image, View, Dimensions, Button} from 'react-native';
+import { Text, TouchableOpacity, TextInput, StyleSheet, Image, View, Dimensions, Button} from 'react-native';
 
 const screenWidth = Dimensions.get('window').width;
 const fontStyle = 'MangoDdobak-';
@@ -47,15 +47,15 @@ function LoginScreen({ navigation, onLoginSuccess }) {
         onChangeText={text => setPassword(text)}
         placeholder="비밀번호"
       />
-      <View style={styles.button}>
-        <Button color='#808080' title="로그인" onPress={onLogin}/>
-      </View>
-      <View style={styles.button}>
-        <Button color='#808080' title="회원가입" onPress={onSignin}/>
-      </View>
-      <View style={styles.button}>
-        <Button style={{ fontFamily: fontStyle + 'R' }} color='#808080' title="비밀번호 찾기" onPress={onFindPw} />
-      </View>
+      <TouchableOpacity style={styles.button} onPress={onLogin}>
+        <Text style={styles.buttonText}>로그인</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.button} onPress={onSignin}>
+        <Text style={styles.buttonText}>회원가입</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.button} onPress={onFindPw}>
+        <Text style={styles.buttonText}>비밀번호 찾기</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -82,6 +82,12 @@ const styles = StyleSheet.create({
     width: '30%',
     marginTop: 20,
     borderRadius: 15,
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 30,
+  },
+  buttonText:{
+    fontFamily: fontStyle + 'R',
   },
   mainImage: {
     width: screenWidth - 250,
