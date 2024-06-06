@@ -21,6 +21,9 @@ const TeamCdName = [
   "", "SSG랜더스", "NC다이노스", "FC서울", "전북현대", "기아타이거즈"
 ]
 
+const fontStyle = 'MangoDdobak-';
+
+
 function MainScreen() {
   const insets = useSafeAreaInsets();
   return (
@@ -38,12 +41,7 @@ function MainScreen() {
         name="ticket"
         component={TicketScreen}
         options={{
-          title: 'TICKET',
-          headerTitleStyle: {
-            fontWeight: 'bold',
-            fontSize: 20,
-            alignSelf: 'center',
-          },
+          headerShown: false,
           headerTitleAlign: 'center',
           tabBarActiveBackgroundColor: 'white',
           tabBarInactiveBackgroundColor: 'white',
@@ -65,12 +63,7 @@ function MainScreen() {
         name="calendar"
         component={CalScreen}
         options={{
-          title: 'CALENDAR',
-          headerTitleStyle: {
-            fontWeight: 'bold',
-            fontSize: 20,
-            alignSelf: 'center',
-          },
+          headerShown: false,
           headerTitleAlign: 'center',
           tabBarActiveBackgroundColor: 'white',
           tabBarInactiveBackgroundColor: 'white',
@@ -92,12 +85,7 @@ function MainScreen() {
         name="info"
         component={InfoScreen}
         options={{
-          title: 'MY INFO',
-          headerTitleStyle: {
-            fontWeight: 'bold',
-            fontSize: 20,
-            alignSelf: 'center',
-          },
+          headerShown: false,
           headerTitleAlign: 'center',
           tabBarActiveBackgroundColor: 'white',
           tabBarInactiveBackgroundColor: 'white',
@@ -145,7 +133,7 @@ function TicketScreen({ navigation }) {
         <Image source={sportsImg[item.SportKind]} style={{ width: 45, height: 45, }} />
         <View style={{ flex: 1, marginLeft: 20 }}>
           <Text style={styles.TicketScreenText}>{item.GameDate}</Text>
-          <Text style={{ fontSize: 16, marginBottom: 5, fontFamily: 'NanumGothic' }}>{item.TicketName}</Text>
+          <Text style={{ fontSize: 16, marginBottom: 5, fontFamily: fontStyle + 'R' }}>{item.TicketName}</Text>
           <View style={{ flexDirection: 'row' }}>
             <Text style={styles.TicketScreenText}>{item.HomeTeamCd}</Text>
             <Text style={styles.TicketScreenText}>:</Text>
@@ -163,7 +151,7 @@ function TicketScreen({ navigation }) {
         <Image source={require('../public/png/free-icon-magnifier.png')} style={{ width: 30, height: 30, }} />
         <View style={{ flex: 1, marginLeft: 10 }}>
           <TextInput
-            style={{ fontSize: 13 }}
+            style={{ fontFamily: fontStyle + 'R', fontSize: 13 }}
             onChangeText={text => setSearchKeyword(text)}
             placeholder="찾으시려는 티켓을 검색하세요."
           />
@@ -213,7 +201,7 @@ export function TicketDatail({ route }) {
               <Image source={sportsImg[item.SportKind]} style={{ width: 30, height: 30, marginBottom: 5 }} />
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <Text style={styles.TicketDatailText}>{TeamCdName[item.HomeTeamCd]}</Text>
-                <Text style={{ padding: 10, fontSize: 20, fontFamily: 'NanumGothicBold' }}> vs </Text>
+                <Text style={{ padding: 10, fontSize: 20, fontFamily: fontStyle + 'B' }}> vs </Text>
                 <Text style={styles.TicketDatailText}>{TeamCdName[item.AwayTeamCd]}</Text>
               </View>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -227,11 +215,11 @@ export function TicketDatail({ route }) {
             <View style={{ flex: 1 }}>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <Image source={require('../public/png/free-icon-daily-calendar.png')} style={{ width: 20, height: 20, marginLeft: -5 }} />
-                <Text style={{ fontSize: 12, fontFamily: 'NanumGothicBold', marginLeft: 10 }}>{item.GameDate}</Text>
+                <Text style={{ fontSize: 12, fontFamily: fontStyle + 'R', marginLeft: 10 }}>{item.GameDate}</Text>
               </View>
               <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 10 }}>
                 <Image source={require('../public/png/free-icon-location.png')} style={{ width: 20, height: 20, marginLeft: -5 }} />
-                <Text style={{ fontSize: 12, fontFamily: 'NanumGothicBold', marginLeft: 10 }}>{item.place}</Text>
+                <Text style={{ fontSize: 12, fontFamily: fontStyle + 'R', marginLeft: 10 }}>{item.place}</Text>
               </View>
             </View>
             <View style={{ marginLeft: 30 }}>
@@ -242,7 +230,7 @@ export function TicketDatail({ route }) {
             <Image source={require('../public/img/KakaoTalk_20240428_193213436.jpg')} style={{ width: 330, height: 330 }} />
           </View>
           <View>
-            <Text style={{ padding: 8, fontSize: 12, fontFamily: 'NanumGothicBold', borderWidth: 1, width: 330, height: 100, maxHeight: 100, marginVertical: 10 }}>{item.TicketDiary}</Text>
+            <Text style={{ padding: 8, fontSize: 12, fontFamily: fontStyle + 'R', borderWidth: 1, width: 330, height: 100, maxHeight: 100, marginVertical: 10 }}>{item.TicketDiary}</Text>
           </View>
         </View>
       </ScrollView>
@@ -312,7 +300,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     color: 'black',
-    fontFamily: 'NanumGothicBold'
+    fontFamily: fontStyle + 'R'
   },
   titleView: {
     flexDirection: 'row',
@@ -326,6 +314,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
+    marginTop: 10,
   },
   item: {
     padding: 5,
@@ -346,22 +335,23 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
     alignItems: 'center',
+    marginTop: 10,
   },
   semiTitle: {
     fontSize: 18,
     fontWeight: 'bold',
     margin: 5,
     color: 'black',
-    fontFamily: 'NanumGothicBold'
+    fontFamily: fontStyle + 'R'
   },
   TicketDatailText: {
     fontSize: 20,
-    fontFamily: 'NanumGothicBold'
+    fontFamily: fontStyle + 'B'
   },
   TicketScreenText: {
     fontSize: 12,
     marginBottom: 5,
-    fontFamily: 'NanumGothicBold'
+    fontFamily: fontStyle + 'R'
   },
   addBtn: {
     width: 40,

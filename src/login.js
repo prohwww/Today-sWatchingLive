@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { TextInput, StyleSheet, Image, View, Dimensions, Button} from 'react-native';
 
 const screenWidth = Dimensions.get('window').width;
+const fontStyle = 'MangoDdobak-';
+
 
 function LoginScreen({ navigation, onLoginSuccess }) {
 
@@ -52,7 +54,7 @@ function LoginScreen({ navigation, onLoginSuccess }) {
         <Button color='#808080' title="회원가입" onPress={onSignin}/>
       </View>
       <View style={styles.button}>
-        <Button color='#808080' title="비밀번호 찾기" onPress={onFindPw}/>
+        <Button style={{ fontFamily: fontStyle + 'R' }} color='#808080' title="비밀번호 찾기" onPress={onFindPw} />
       </View>
     </View>
   );
@@ -66,6 +68,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   textInput: {
+    fontFamily: fontStyle + 'R',
     marginTop: 15,
     marginBottom: 10,
     width: '50%',
@@ -73,14 +76,12 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     borderColor: 'gray',
     borderWidth: 1,
-    fontFamily: 'NanumGothicBold'
   },
   button: {
     backgroundColor: '#DDDDDD',
     width: '30%',
     marginTop: 20,
     borderRadius: 15,
-    fontFamily: 'NanumGothicBold'
   },
   mainImage: {
     width: screenWidth - 250,
