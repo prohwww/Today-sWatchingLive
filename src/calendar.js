@@ -32,9 +32,9 @@ const Calendar = ({ currentDate }) => {
         { GameDate: new Date(2024, 3, 28), SportKind: 'B', result: 'W', HomeTeamCd: 'SSG 랜더스', AwayTeamCd: 'KT 위즈', HomeScore: 11, AwayScore: 6 },
         { GameDate: new Date(2024, 3, 21), SportKind: 'B', result: 'L', HomeTeamCd: 'SSG 랜더스', AwayTeamCd: 'LG 트윈스', HomeScore: 8, AwayScore: 10 },
         { GameDate: new Date(2024, 3, 21), SportKind: 'B', result: 'T', HomeTeamCd: 'SSG 랜더스', AwayTeamCd: 'LG 트윈스', HomeScore: 5, AwayScore: 5 },
-        { GameDate: new Date(2024, 4, 1), SportKind: 'B', result: 'W', HomeTeamCd: '한화 이글스', AwayTeamCd: 'SSG 랜더스', HomeScore: 6, AwayScore: 8 },
-        { GameDate: new Date(2024, 4, 21), SportKind: 'B', result: 'L', HomeTeamCd: 'SSG 랜더스', AwayTeamCd: 'LG 트윈스', HomeScore: 8, AwayScore: 10 },
-        { GameDate: new Date(2024, 4, 21), SportKind: 'B', result: 'T', HomeTeamCd: 'SSG 랜더스', AwayTeamCd: 'LG 트윈스', HomeScore: 5, AwayScore: 5 },
+        { GameDate: new Date(2024, 5, 1), SportKind: 'B', result: 'W', HomeTeamCd: '한화 이글스', AwayTeamCd: 'SSG 랜더스', HomeScore: 6, AwayScore: 8 },
+        { GameDate: new Date(2024, 5, 21), SportKind: 'B', result: 'L', HomeTeamCd: 'SSG 랜더스', AwayTeamCd: 'LG 트윈스', HomeScore: 8, AwayScore: 10 },
+        { GameDate: new Date(2024, 5, 21), SportKind: 'B', result: 'T', HomeTeamCd: 'SSG 랜더스', AwayTeamCd: 'LG 트윈스', HomeScore: 5, AwayScore: 5 },
     ]);
 
     const { width: windowWidth, height: windowHeight } = useWindowDimensions();
@@ -96,20 +96,22 @@ const Calendar = ({ currentDate }) => {
             flexDirection: 'row',
             flexWrap: 'wrap',
             justifyContent: 'space-between',
+            marginHorizontal: 2,
         },
         day: {
             width: cellWidth,
             height: cellHeight,
             justifyContent: 'center',
             alignItems: 'center',
-            borderWidth: 1,
+            borderWidth: 0,
             borderColor: '#ccc',
+            borderRadius: 40,
         },
         otherMonth: {
             opacity: 0.3,
         },
         selectedDay: {
-            backgroundColor: 'yellow',
+            backgroundColor: '#fef4c2',
         },
         modalContainer: {
             flex: 1,
@@ -137,6 +139,9 @@ const Calendar = ({ currentDate }) => {
             height: 50,
             borderWidth: 0.7,
             borderColor: 'black',
+            marginBottom: 5,
+            padding: 2,
+            paddingLeft: 5,
         },
         icon: {
             width: 30,
