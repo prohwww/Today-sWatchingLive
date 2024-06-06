@@ -81,10 +81,10 @@ function SignIn() {
           onValueChange={value => {
             setPickerValue(value);
           }}>
-          <Picker.Item label="gmail.com" value="gmail.com" />
-          <Picker.Item label="naver.com" value="naver.com" />
-          <Picker.Item label="daum.net" value="daum.net" />
-          <Picker.Item label="hanmail.net" value="hanmail.net" />
+          <Picker.Item label="gmail.com" value="gmail.com" style={styles.JoinPicker} />
+          <Picker.Item label="naver.com" value="naver.com" style={styles.JoinPicker}/>
+          <Picker.Item label="daum.net" value="daum.net" style={styles.JoinPicker}/>
+          <Picker.Item label="hanmail.net" value="hanmail.net" style={styles.JoinPicker}/>
         </Picker>
       </View>
       <View style={styles.JoinSubContainer}>

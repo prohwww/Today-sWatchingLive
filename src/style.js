@@ -160,6 +160,9 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         height: 30,
     },
+    JoinPicker: {
+        fontFamily: fontStyle + 'R',
+    }
 });
 
 export default styles;

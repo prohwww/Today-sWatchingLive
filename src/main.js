@@ -8,9 +8,9 @@ import MyInfo from './myInfo';
 
 const Tab = createBottomTabNavigator();
 const resultImg = {
-  W: require('../public/png/free-icon-victory.png'),
-  L: require('../public/png/free-icon-rubber-stamp.png'),
-  T: require('../public/png/free-icon-rubber-stamp.png'),
+  W: require('../public/png/free-icon-sun.png'),
+  L: require('../public/png/free-icon-storm.png'),
+  T: require('../public/png/free-icon-cloud.png'),
 };
 const sportsImg = {
   S: require('../public/png/free-icon-soccer-ball.png'),
