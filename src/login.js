@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
-import { Text, TouchableOpacity, TextInput, StyleSheet, Image, View, Dimensions, Button} from 'react-native';
-
-const screenWidth = Dimensions.get('window').width;
-const fontStyle = 'MangoDdobak-';
-
+import { Text, TouchableOpacity, TextInput, Image, View, Dimensions } from 'react-native';
+import styles from './style';
 
 function LoginScreen({ navigation, onLoginSuccess }) {
 
@@ -32,67 +29,32 @@ function LoginScreen({ navigation, onLoginSuccess }) {
 
 
   return (
-    <View style={styles.container}>
+    <View style={styles.LoginContainer}>
       <View><Image
-        style={styles.mainImage}
+        style={styles.LoadingImg}
         source={require('../public/png/free-icon-ticket.png')}
       /></View>
       <TextInput
-        style={styles.textInput}
+        style={styles.LoginTextInput}
         onChangeText={text => setUserID(text)}
         placeholder="아이디"
       />
       <TextInput
-        style={styles.textInput}
+        style={styles.LoginTextInput}
         onChangeText={text => setPassword(text)}
         placeholder="비밀번호"
       />
-      <TouchableOpacity style={styles.button} onPress={onLogin}>
-        <Text style={styles.buttonText}>로그인</Text>
+      <TouchableOpacity style={styles.LoginButton} onPress={onLogin}>
+        <Text style={styles.LoginButtonText}>로그인</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={onSignin}>
-        <Text style={styles.buttonText}>회원가입</Text>
+      <TouchableOpacity style={styles.LoginButton} onPress={onSignin}>
+        <Text style={styles.LoginButtonText}>회원가입</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={onFindPw}>
-        <Text style={styles.buttonText}>비밀번호 찾기</Text>
+      <TouchableOpacity style={styles.LoginButton} onPress={onFindPw}>
+        <Text style={styles.LoginButtonText}>비밀번호 찾기</Text>
       </TouchableOpacity>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  textInput: {
-    fontFamily: fontStyle + 'R',
-    marginTop: 15,
-    marginBottom: 10,
-    width: '50%',
-    height: 40,
-    borderRadius: 15,
-    borderColor: 'gray',
-    borderWidth: 1,
-  },
-  button: {
-    backgroundColor: '#DDDDDD',
-    width: '30%',
-    marginTop: 20,
-    borderRadius: 15,
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: 30,
-  },
-  buttonText:{
-    fontFamily: fontStyle + 'R',
-  },
-  mainImage: {
-    width: screenWidth - 250,
-    height: screenWidth - 250,
-  },
-})
 
 export default LoginScreen;

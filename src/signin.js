@@ -1,6 +1,7 @@
-import React, {useState} from 'react';
-import {View, StyleSheet, Text, Button, TextInput, Alert} from 'react-native';
-import {Picker} from '@react-native-picker/picker';
+import React, { useState } from 'react';
+import { Image, View, Text, TextInput, Alert, TouchableOpacity } from 'react-native';
+import { Picker } from '@react-native-picker/picker';
+import styles from './style';
 
 function SignIn() {
   const [pickerValue, setPickerValue] = useState('1');
@@ -36,7 +37,7 @@ function SignIn() {
     setIsNickOk(true);
     // 닉네임 중복
     setIsNickOk(false);
-    
+
   }
 
   function onPressConfirm() {
@@ -55,23 +56,27 @@ function SignIn() {
   }
 
   return (
-    <View style={styles.component}>
-      <View style={styles.headContainer}>
-        <Text style={styles.header}>회원가입</Text>
+    <View style={styles.JoinContainer}>
+      <View style={styles.JoinHeadContainer}>
+        <Text style={styles.JoinHeader}>회원가입</Text>
       </View>
-      <View style={styles.container}>
-        <Text style={styles.title}>이메일</Text>
+      <View style={styles.JoinHeaderImg}><Image
+        style={styles.JoinImg}
+        source={require('../public/png/free-icon-ticket.png')}
+      /></View>
+      <View style={styles.JoinSubContainer}>
+        <Text style={styles.JoinTitle}>이메일 </Text>
         <TextInput
           onChangeText={text => {
             setEmailTxt(text);
           }}
           value={emailTxt}
-          placeholder="이메일을 입력하세요."
-          style={styles.emailInput}
+          placeholder="이메일 주소"
+          style={styles.JoinEmailInput}
         />
-        <Text style={styles.context}>@</Text>
+        <Text style={styles.JoinContext}>@</Text>
         <Picker
-          style={styles.combo}
+          style={styles.JoinCombo}
           selectedValue={pickerValue}
           onValueChange={value => {
             setPickerValue(value);
@@ -82,144 +87,50 @@ function SignIn() {
           <Picker.Item label="hanmail.net" value="hanmail.net" />
         </Picker>
       </View>
-      <View style={styles.container}>
-        <Text style={styles.title}>닉네임</Text>
+      <View style={styles.JoinSubContainer}>
+        <Text style={styles.JoinTitle}>닉네임 </Text>
         <TextInput
           onChangeText={text => {
             setNickTxt(text);
           }}
           value={nickTxt}
-          placeholder="닉네임을 입력하세요."
-          style={styles.txtInput}
+          placeholder="닉네임"
+          style={styles.JoinTxtInput}
         />
-        <Button title="중복확인" color="#FA5858" onPress={onPressCheck} />
+        <TouchableOpacity style={styles.JoinButton} onPress={onPressCheck}>
+          <Text style={styles.LoginButtonText}>중복확인</Text>
+        </TouchableOpacity>
       </View>
-      <View style={styles.container}>
-        <Text style={styles.title}>비밀번호</Text>
+      <View style={styles.JoinSubContainer}>
+        <Text style={styles.JoinTitle}>비밀번호</Text>
         <TextInput
           onChangeText={text => {
             setPwTxt(text);
             setIsPwOk(false);
           }}
           value={pwTxt}
-          placeholder="비밀번호를 입력하세요."
-          style={styles.pwInput}
+          placeholder="비밀번호"
+          style={styles.JoinPwInput}
           secureTextEntry={true}
         />
       </View>
-      <View style={styles.container}>
+      <View style={styles.JoinSubContainer}>
         <TextInput
           onChangeText={onChangePwConfirm}
           value={pwConfirmTxt}
-          placeholder="비밀번호를 한번 더 입력하세요."
-          style={styles.confirmTxt}
+          placeholder="비밀번호(확인)"
+          style={styles.JoinConfirmTxt}
           secureTextEntry={true}
         />
       </View>
-      <Text style={styles.text}>{errText}</Text>
-      <View style={styles.btnContainer}>
-        <Button title="회원가입" color="#A4A4A4" onPress={onPressConfirm} />
+      <Text style={styles.LoginButtonText}>{errText}</Text>
+      <View style={styles.JoinBtnContainer}>
+        <TouchableOpacity style={styles.JoinButton} onPress={onPressConfirm}>
+          <Text style={styles.LoginButtonText}>회원가입</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  component: {
-    backgroundColor: 'white',
-    flex: 1,
-  },
-  headContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderBottomWidth: 0.5,
-  },
-  container: {
-    paddingHorizontal: 10,
-    flexDirection: 'row',
-    alignItems: 'center',
-    // flex: 1
-  },
-  btnContainer: {
-    paddingHorizontal: 10,
-    marginVertical: 20,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    // flex: 1
-  },
-  header: {
-    fontSize: 25,
-    // flex: 5,
-    fontWeight: 'bold',
-    color: 'black',
-    marginRight: 10,
-    paddingVertical: 10,
-  },
-  title: {
-    fontSize: 15,
-    fontWeight: 'bold',
-    color: 'black',
-    marginRight: 10,
-  },
-  text: {
-    paddingVertical: 7,
-    paddingLeft: 10,
-    // paddingHorizontal: 60,
-    fontSize: 15,
-    color: 'black',
-  },
-  context: {
-    fontSize: 10,
-    color: 'black',
-  },
-  emailInput: {
-    width: 130,
-    height: 40,
-    marginLeft: 12,
-    marginVertical: 5,
-    borderStyle: 'solid',
-    borderColor: 'black',
-    borderWidth: 0.5,
-    paddingVertical: 5,
-    marginRight: 10,
-  },
-  combo: {
-    width: 160,
-    height: 40,
-    borderStyle: 'solid',
-    borderColor: 'black',
-    borderWidth: 0.5,
-    paddingVertical: 5,
-  },
-  txtInput: {
-    width: 200,
-    height: 40,
-    marginLeft: 12,
-    marginRight: 7,
-    marginVertical: 5,
-    borderStyle: 'solid',
-    borderColor: 'black',
-    borderWidth: 0.5,
-  },
-  pwInput: {
-    width: 200,
-    height: 40,
-    marginVertical: 5,
-    borderStyle: 'solid',
-    borderColor: 'black',
-    borderWidth: 0.5,
-  },
-  confirmTxt: {
-    width: 200,
-    height: 40,
-    marginLeft: 67,
-    marginVertical: 5,
-    borderStyle: 'solid',
-    borderColor: 'black',
-    borderWidth: 0.5,
-  },
-});
 
 export default SignIn;
