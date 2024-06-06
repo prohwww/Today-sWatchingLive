@@ -19,7 +19,10 @@ import {
     Modal,
     ScrollView,
     useWindowDimensions,
-    Image
+    SafeAreaView,
+    Image,
+    StatusBar,
+    ImageBackground
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import {resultMap} from './map';
@@ -39,7 +42,7 @@ const Calendar = ({ currentDate }) => {
 
     const { width: windowWidth, height: windowHeight } = useWindowDimensions();
     const cellWidth = windowWidth / 7 - 2;
-    const cellHeight = windowHeight / 7;
+    const cellHeight = windowHeight / 9;
 
     const monthStart = startOfMonth(currentDate);
     const monthEnd = endOfMonth(currentDate);
@@ -77,6 +80,10 @@ const Calendar = ({ currentDate }) => {
     };
 
     const styles = StyleSheet.create({
+        container: {
+            flex: 1,
+            paddingTop: StatusBar.currentHeight,
+          },
         calendar: {
             padding: 5,
         },
@@ -84,6 +91,7 @@ const Calendar = ({ currentDate }) => {
             flexDirection: 'row',
             justifyContent: 'space-between',
             paddingHorizontal: 10,
+            backgroundImage: require('../public/img/paper.jpg'),
         },
         weekday: {
             flex: 1,
@@ -97,6 +105,7 @@ const Calendar = ({ currentDate }) => {
             flexWrap: 'wrap',
             justifyContent: 'space-between',
             marginHorizontal: 2,
+            backgroundImage: require('../public/img/paper.jpg'),
         },
         day: {
             width: cellWidth,
@@ -171,11 +180,12 @@ const Calendar = ({ currentDate }) => {
     const selectedDateEvents = events.filter(event => isSameDay(event.GameDate, selectedDate));
 
     return (
+        <SafeAreaView>
         <ScrollView
             style={styles.calendar}
             onScroll={handleScroll}
             scrollEventThrottle={16}
-            contentContainerStyle={{ flexGrow: 1, flex:1 }}
+            contentContainerStyle={{ flexGrow: 1}}
             scrollEnabled={true}
             showsVerticalScrollIndicator={false}
         >
@@ -256,6 +266,7 @@ const Calendar = ({ currentDate }) => {
                 </View>
             </Modal>
         </ScrollView>
+        </SafeAreaView>
     );
 };
 
