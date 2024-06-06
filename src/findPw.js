@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, StyleSheet, Text, Button, TextInput, Alert} from 'react-native';
+import {View, StyleSheet, Text, TextInput, Alert, TouchableOpacity} from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 
 function FindPw() {
@@ -23,6 +23,7 @@ function FindPw() {
 
   function onPressConfim() {
     if (isEmailOk) {
+
       Alert.alert('이메일로 임시코드를 보냈습니다.');
     } else {
       Alert.alert('이메일을 다시 확인해주세요.');
@@ -49,19 +50,26 @@ function FindPw() {
           onValueChange={value => {
             setPickerValue(value);
           }}>
-          <Picker.Item label="gmail.com" value="gmail.com" />
-          <Picker.Item label="naver.com" value="naver.com" />
-          <Picker.Item label="daum.net" value="daum.net" />
-          <Picker.Item label="hanmail.net" value="hanmail.net" />
+          <Picker.Item label="gmail.com" value="gmail.com" style={styles.text}/>
+          <Picker.Item label="naver.com" value="naver.com" style={styles.text}/>
+          <Picker.Item label="daum.net" value="daum.net" style={styles.text}/>
+          <Picker.Item label="hanmail.net" value="hanmail.net" style={styles.text}/>
         </Picker>
       </View>
       <Text style={styles.text}>{errText}</Text>
       <View style={styles.btnContainer}>
-        <Button title="찾기" color="#A4A4A4" onPress={onPressConfim} />
+        <TouchableOpacity style={styles.btn} onPress={onPressConfim}>
+          <Text style={styles.text}>비밀번호 찾기</Text>
+        </TouchableOpacity>
       </View>
+      {/* <View style={styles.btnContainer}>
+        <Button title="찾기" color="#A4A4A4" onPress={onPressConfim} />
+      </View> */}
     </View>
   );
 }
+
+const fontStyle = 'MangoDdobak-';
 
 const styles = StyleSheet.create({
   component: {
@@ -72,7 +80,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    borderBottomWidth: 0.5,
   },
   container: {
     paddingHorizontal: 10,
@@ -81,24 +88,31 @@ const styles = StyleSheet.create({
     // flex: 1
   },
   btnContainer: {
-    paddingHorizontal: 10,
-    marginVertical: 20,
-    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  btn: {
+    backgroundColor: '#DDDDDD',
+    width: '30%',
+    marginTop: 20,
+    borderRadius: 15,
     alignItems: 'center',
     justifyContent: 'center',
-    // flex: 1
+    height: 30,
   },
   header: {
     fontSize: 25,
-    fontWeight: 'bold',
     color: 'black',
     marginRight: 10,
+    marginBottom: 10,
     paddingVertical: 10,
+    fontFamily: fontStyle + 'B',
+    borderBottomWidth: 0.5,
   },
   title: {
     fontSize: 15,
     fontWeight: 'bold',
     color: 'black',
+    fontFamily: fontStyle + 'R',
   },
   text: {
     paddingVertical: 7,
@@ -106,6 +120,7 @@ const styles = StyleSheet.create({
     // paddingHorizontal: 60,
     fontSize: 15,
     color: 'black',
+    fontFamily: fontStyle + 'R',
   },
   context: {
     fontSize: 10,
@@ -126,6 +141,7 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     paddingVertical: 5,
     marginRight: 10,
+    fontFamily: fontStyle + 'R',
   },
   combo: {
     width: 160,
@@ -134,6 +150,7 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     borderWidth: 0.5,
     paddingVertical: 5,
+    fontFamily: fontStyle + 'R',
   },
 });
 

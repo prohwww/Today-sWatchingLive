@@ -21,7 +21,7 @@ const MyInfo = () => {
     };
 
     const handleSettingClick = () => {
-        // 시스템 설정 화면 전환
+        // 계정 설정 화면 전환
         
     };
     const navigation = useNavigation();
@@ -72,9 +72,13 @@ const MyInfo = () => {
                 <Text style={styles.infoText}>응원하는 팀</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.item} onPress={handleSettingClick}>
+                <Image source={require('../public/png/free-icon-user-menu.png')} style={styles.img} />
+                <Text style={styles.infoText}>계정 설정</Text>
+            </TouchableOpacity>
+            {/* <TouchableOpacity style={styles.item} onPress={handleSettingClick}>
                 <Image source={require('../public/png/free-icon-web-settings.png')} style={styles.img} />
                 <Text style={styles.infoText}>시스템 설정</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
         </View>
       );
 

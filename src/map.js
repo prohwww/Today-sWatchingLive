@@ -6,9 +6,9 @@
   };
 
   export const resultMap = {
-    W: require('../public/png/free-icon-victory.png'),
-    L: require('../public/png/free-icon-rubber-stamp.png'),
-    T: require('../public/png/free-icon-rubber-stamp.png'),
+    W: require('../public/png/free-icon-sun.png'),
+    L: require('../public/png/free-icon-cloud.png'),
+    T: require('../public/png/free-icon-storm.png'),
   };
 
   export const teamMap = {

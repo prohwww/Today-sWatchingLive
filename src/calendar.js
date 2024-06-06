@@ -144,7 +144,7 @@ const Calendar = ({ currentDate }) => {
             paddingVertical: 10,
         },
         eventItem: {
-            height: 50,
+            height: 55,
             borderWidth: 0.7,
             borderColor: 'grey',
             marginBottom: 5,
@@ -168,9 +168,12 @@ const Calendar = ({ currentDate }) => {
             fontFamily: fontStyle + 'R',
             color: 'black',
         },
+        score: {
+            flexDirection: 'row',
+            marginTop: 7,
+        },
     });
 
-    const weekStart = startOfWeek(currentDate);
     const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     const weekdayElements = weekdays.map((day, index) => (
         <Text key={index} style={styles.weekday}>{day}</Text>
@@ -244,9 +247,11 @@ const Calendar = ({ currentDate }) => {
                                     <TouchableOpacity onPress={(event) => handleTicketDetail(event)}>
                                         <View style={styles.infoView}>
                                             <Image source={resultMap[event.result]} style={styles.icon} />
-                                            <Text style={styles.text}>{event.AwayScore}</Text>
-                                            <Text style={styles.text}> : </Text>
-                                            <Text style={styles.text}>{event.HomeScore}</Text>
+                                            <View style={styles.score}>
+                                                <Text style={styles.text}>{event.AwayScore}</Text>
+                                                <Text style={styles.text}> : </Text>
+                                                <Text style={styles.text}>{event.HomeScore}</Text>
+                                            </View>
                                         </View>
                                         <View style={styles.infoView}>
                                             <Text style={styles.text}>{event.AwayTeamCd}</Text>

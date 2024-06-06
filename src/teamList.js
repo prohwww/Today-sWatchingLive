@@ -119,7 +119,7 @@ const TeamList = () => {
         },
         modalText: {
             color: 'black',
-            fontFamily: 'NanumGothicBold',
+            fontFamily: fontStyle + 'B',
             fontSize: 15,
             marginBottom: 20,
         },
@@ -173,7 +173,7 @@ const TeamList = () => {
                             style={styles.picker}
                         >
                             {sportsOptions.map((option, index) => (
-                                <Picker.Item key={index} label={option.label} value={option.value} />
+                                <Picker.Item key={index} label={option.label} value={option.value} style={styles.modalText}/>
                             ))}
                         </Picker>
                     </View>
@@ -188,7 +188,7 @@ const TeamList = () => {
                             style={styles.picker}
                         >
                             {teamMap[selectedValue1].map((option, index) => (
-                                <Picker.Item key={index} label={option.label} value={option.value} />
+                                <Picker.Item key={index} label={option.label} value={option.value} style={styles.modalText} />
                             ))}
                         </Picker>
                     </View>
