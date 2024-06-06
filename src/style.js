@@ -32,9 +32,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         height: 30,
     },
-    LoginButtonText: {
-        fontFamily: fontStyle + 'R',
-    },
     LoadingImg: {
         width: screenWidth - 250,
         height: screenWidth - 250,
@@ -52,7 +49,7 @@ const styles = StyleSheet.create({
         marginTop: 10,
         marginBottom: 50,
     },
-    JoinImg:{
+    JoinImg: {
         width: screenWidth - 250,
         height: screenWidth - 250,
         alignItems: 'center',
@@ -162,7 +159,12 @@ const styles = StyleSheet.create({
     },
     JoinPicker: {
         fontFamily: fontStyle + 'R',
-    }
+    },
+    
+    // 로그인, 회원가입 공통사용
+    LoginButtonText: {
+        fontFamily: fontStyle + 'R',
+    },
 });
 
 export default styles;
