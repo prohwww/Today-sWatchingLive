@@ -4,15 +4,14 @@ import {
     StyleSheet,
     Text, 
     TouchableOpacity,
-    Modal,
-    ScrollView,
     useWindowDimensions,
     Image,
-    ImageBackground
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 const MyInfo = () => {
+    const fontStyle = 'MangoDdobak-';
+
     const windowWidth = useWindowDimensions().width;
     const cellWidth = windowWidth - 10;
 
@@ -28,12 +27,8 @@ const MyInfo = () => {
     const navigation = useNavigation();
 
     const styles = StyleSheet.create({
-        background: {
-            flex: 1,
-            resizeMode: 'repeat',
-          },
         container: {
-            // backgroundColor: 'white',
+            backgroundColor: 'white',
             alignItems: 'center',
             justifyContent: 'space-between',
         },
@@ -47,7 +42,7 @@ const MyInfo = () => {
         },
         infoText: {
             color: 'black',
-            fontFamily: 'NanumGothic',
+            fontFamily: fontStyle + 'R',
             fontSize: 15,
             padding: 5,
         },
@@ -67,27 +62,20 @@ const MyInfo = () => {
       });
 
     return (
-        <ImageBackground
-            // source={require('../public/img/grid_1.png')}
-            source={require('../public/img/grid_1.png')}
-            // source={require('../public/img/consistent_lighter_grid_image.png')}
-            style={styles.background}
-        >
-            <View style={styles.container}>
-                <View style={styles.myInfo}>
-                    <Text style={styles.infoText}>Master</Text>
-                    <Text style={styles.infoText}>master@gmail.com</Text>
-                </View>
-                <TouchableOpacity style={styles.item} onPress={handleTeamClick}>
-                    <Image source={require('../public/png/free-icon-flag.png')} style={styles.img} />
-                    <Text style={styles.infoText}>응원하는 팀</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.item} onPress={handleSettingClick}>
-                    <Image source={require('../public/png/free-icon-web-settings.png')} style={styles.img} />
-                    <Text style={styles.infoText}>시스템 설정</Text>
-                </TouchableOpacity>
+        <View style={styles.container}>
+            <View style={styles.myInfo}>
+                <Text style={styles.infoText}>Master</Text>
+                <Text style={styles.infoText}>master@gmail.com</Text>
             </View>
-        </ImageBackground>
+            <TouchableOpacity style={styles.item} onPress={handleTeamClick}>
+                <Image source={require('../public/png/free-icon-flag.png')} style={styles.img} />
+                <Text style={styles.infoText}>응원하는 팀</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.item} onPress={handleSettingClick}>
+                <Image source={require('../public/png/free-icon-web-settings.png')} style={styles.img} />
+                <Text style={styles.infoText}>시스템 설정</Text>
+            </TouchableOpacity>
+        </View>
       );
 
 };

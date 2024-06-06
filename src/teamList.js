@@ -14,6 +14,7 @@ import { sportsMap, teamMap } from './map';
 import { useNavigation } from '@react-navigation/native';
 
 const TeamList = () => {
+    const fontStyle = 'MangoDdobak-';
     const Stack = createStackNavigator();
     
     const windowWidth = useWindowDimensions().width;
@@ -48,7 +49,7 @@ const TeamList = () => {
     const navigation = useNavigation();
     const viewTeamResult = (team) => {
         // 팀 승률 그래프
-        navigation.navigate('teamAnalysis', { selectTeam: team });
+        navigation.navigate('teamAnalysis', { selectTeam: team.team });
     };
 
     const handleSaveTeam = () => {
@@ -84,7 +85,7 @@ const TeamList = () => {
         },
         infoText: {
             color: 'black',
-            fontFamily: 'NanumGothicBold',
+            fontFamily: fontStyle + 'R',
             fontSize: 15,
             padding: 5,
         },

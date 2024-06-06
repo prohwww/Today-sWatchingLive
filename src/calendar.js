@@ -22,12 +22,13 @@ import {
     SafeAreaView,
     Image,
     StatusBar,
-    ImageBackground
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import {resultMap} from './map';
   
 const Calendar = ({ currentDate }) => {
+    const fontStyle = 'MangoDdobak-';
+
     const navigation = useNavigation();
     const [selectedDate, setSelectedDate] = useState(null);
     const [showModal, setShowModal] = useState(false);
@@ -91,13 +92,11 @@ const Calendar = ({ currentDate }) => {
             flexDirection: 'row',
             justifyContent: 'space-between',
             paddingHorizontal: 10,
-            backgroundImage: require('../public/img/paper.jpg'),
         },
         weekday: {
             flex: 1,
             textAlign: 'center',
-            fontWeight: 'bold',
-            fontFamily: 'NanumGothicBold',
+            fontFamily: fontStyle + 'B',
             color: 'black',
         },
         daysContainer: {
@@ -105,7 +104,6 @@ const Calendar = ({ currentDate }) => {
             flexWrap: 'wrap',
             justifyContent: 'space-between',
             marginHorizontal: 2,
-            backgroundImage: require('../public/img/paper.jpg'),
         },
         day: {
             width: cellWidth,
@@ -129,7 +127,7 @@ const Calendar = ({ currentDate }) => {
         },
         modalContent: {
             backgroundColor: 'white',
-            padding: 20,
+            padding: 10,
             width: 300,
             height: 300,
             borderRadius: 10,
@@ -139,15 +137,16 @@ const Calendar = ({ currentDate }) => {
             flexDirection: 'row',
         },
         btnClose: {
-            marginLeft: 200,
+            marginLeft: 230,
         },
         modalList: {
-            padding: 10,
+            paddingHorizontal: 5,
+            paddingVertical: 10,
         },
         eventItem: {
             height: 50,
             borderWidth: 0.7,
-            borderColor: 'black',
+            borderColor: 'grey',
             marginBottom: 5,
             padding: 2,
             paddingLeft: 5,
@@ -160,13 +159,13 @@ const Calendar = ({ currentDate }) => {
         addBtn: {
             width: 30,
             height: 30,
-            marginLeft: 230,
+            marginLeft: 250,
         },
         infoView: {
             flexDirection: 'row',
         },
         text: {
-            fontFamily: 'NanumGothicBold',
+            fontFamily: fontStyle + 'R',
             color: 'black',
         },
     });

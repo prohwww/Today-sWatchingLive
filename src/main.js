@@ -339,10 +339,10 @@ const styles = StyleSheet.create({
   },
   semiTitle: {
     fontSize: 18,
-    fontWeight: 'bold',
     margin: 5,
+    marginVertical: 15,
     color: 'black',
-    fontFamily: fontStyle + 'R'
+    fontFamily: fontStyle + 'B'
   },
   TicketDatailText: {
     fontSize: 20,
