@@ -56,77 +56,74 @@ function SignIn() {
   }
 
   return (
-    <View style={styles.JoinContainer}>
+    <View style={styles.container}>
       <View style={styles.JoinHeadContainer}>
         <Text style={styles.JoinHeader}>회원가입</Text>
       </View>
-      <View style={styles.JoinHeaderImg}><Image
-        style={styles.JoinImg}
-        source={require('../public/png/free-icon-ticket.png')}
-      /></View>
-      <View style={styles.JoinSubContainer}>
-        <Text style={styles.JoinTitle}>이메일 </Text>
-        <TextInput
-          onChangeText={text => {
-            setEmailTxt(text);
-          }}
-          value={emailTxt}
-          placeholder="이메일 주소"
-          style={styles.JoinEmailInput}
-        />
-        <Text style={styles.JoinContext}>@</Text>
-        <Picker
-          style={styles.JoinCombo}
-          selectedValue={pickerValue}
-          onValueChange={value => {
-            setPickerValue(value);
-          }}>
-          <Picker.Item label="gmail.com" value="gmail.com" style={styles.JoinPicker} />
-          <Picker.Item label="naver.com" value="naver.com" style={styles.JoinPicker}/>
-          <Picker.Item label="daum.net" value="daum.net" style={styles.JoinPicker}/>
-          <Picker.Item label="hanmail.net" value="hanmail.net" style={styles.JoinPicker}/>
-        </Picker>
+      <View>
+        <View style={styles.rowCenter}>
+          <Text style={styles.JoinTitle}>이메일 </Text>
+          <TextInput
+            onChangeText={text => {
+              setEmailTxt(text);
+            }}
+            value={emailTxt}
+            placeholder="이메일 주소"
+            style={styles.JoinEmailInput}
+          />
+          <Text style={styles.JoinContext}>@</Text>
+          <Picker
+            style={styles.JoinCombo}
+            selectedValue={pickerValue}
+            onValueChange={value => {
+              setPickerValue(value);
+            }}>
+            <Picker.Item label="gmail.com" value="gmail.com" style={styles.onlyFontR} />
+            <Picker.Item label="naver.com" value="naver.com" style={styles.onlyFontR} />
+            <Picker.Item label="daum.net" value="daum.net" style={styles.onlyFontR} />
+            <Picker.Item label="hanmail.net" value="hanmail.net" style={styles.onlyFontR} />
+          </Picker>
+        </View>
+        <View style={styles.rowCenter}>
+          <Text style={styles.JoinTitle}>닉네임 </Text>
+          <TextInput
+            onChangeText={text => {
+              setNickTxt(text);
+            }}
+            value={nickTxt}
+            placeholder="닉네임"
+            style={styles.JoinTxtInput}
+          />
+          <TouchableOpacity style={styles.overlapButton} onPress={onPressCheck}>
+            <Text style={styles.onlyFontR}>중복확인</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.rowCenter}>
+          <Text style={styles.JoinTitle}>비밀번호</Text>
+          <TextInput
+            onChangeText={text => {
+              setPwTxt(text);
+              setIsPwOk(false);
+            }}
+            value={pwTxt}
+            placeholder="비밀번호"
+            style={styles.JoinPwInput}
+            secureTextEntry={true}
+          />
+        </View>
+        <View style={styles.rowCenter}>
+          <TextInput
+            onChangeText={onChangePwConfirm}
+            value={pwConfirmTxt}
+            placeholder="비밀번호(확인)"
+            style={styles.JoinConfirmTxt}
+            secureTextEntry={true}
+          />
+        </View>
       </View>
-      <View style={styles.JoinSubContainer}>
-        <Text style={styles.JoinTitle}>닉네임 </Text>
-        <TextInput
-          onChangeText={text => {
-            setNickTxt(text);
-          }}
-          value={nickTxt}
-          placeholder="닉네임"
-          style={styles.JoinTxtInput}
-        />
-        <TouchableOpacity style={styles.JoinButton} onPress={onPressCheck}>
-          <Text style={styles.LoginButtonText}>중복확인</Text>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.JoinSubContainer}>
-        <Text style={styles.JoinTitle}>비밀번호</Text>
-        <TextInput
-          onChangeText={text => {
-            setPwTxt(text);
-            setIsPwOk(false);
-          }}
-          value={pwTxt}
-          placeholder="비밀번호"
-          style={styles.JoinPwInput}
-          secureTextEntry={true}
-        />
-      </View>
-      <View style={styles.JoinSubContainer}>
-        <TextInput
-          onChangeText={onChangePwConfirm}
-          value={pwConfirmTxt}
-          placeholder="비밀번호(확인)"
-          style={styles.JoinConfirmTxt}
-          secureTextEntry={true}
-        />
-      </View>
-      <Text style={styles.LoginButtonText}>{errText}</Text>
-      <View style={styles.JoinBtnContainer}>
+      <View style={styles.rowCenter}>
         <TouchableOpacity style={styles.JoinButton} onPress={onPressConfirm}>
-          <Text style={styles.LoginButtonText}>회원가입</Text>
+          <Text style={styles.onlyFontR}>회원가입</Text>
         </TouchableOpacity>
       </View>
     </View>

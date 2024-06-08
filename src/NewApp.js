@@ -3,7 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import StartScreen from './start';
 import LoginScreen from './login';
-import MainScreen, { TicketDatail } from './main';
+import MainScreen, { TicketDetail } from './main';
 import SigninScreen from './signin';
 import FindPassWdScreen from './findPw';
 import TeamListScreen from './teamList';
@@ -49,7 +49,7 @@ const App = () => {
           /> */}
             <Stack.Screen name="teamlist" component={TeamListScreen} options={{ headerShown: false }} />
             <Stack.Screen name="addTicket" component={AddTicketScreen} options={{ headerShown: false }} />
-            <Stack.Screen name="ticketDetail" component={TicketDatail} options={{ headerShown: false }} />
+            <Stack.Screen name="ticketDetail" component={TicketDetail} options={{ headerShown: false }} />
             <Stack.Screen name="teamAnalysis" component={TeamAnalysis} options={{ headerShown: false }} />
           </Stack.Navigator>
         ) : (
