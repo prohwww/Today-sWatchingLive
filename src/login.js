@@ -30,14 +30,16 @@ function LoginScreen({ navigation, onLoginSuccess }) {
 
   return (
     <View style={styles.LoginContainer}>
-      <View><Image
-        style={styles.LoadingImg}
-        source={require('../public/png/free-icon-ticket.png')}
-      /></View>
+      <View>
+        <Image
+          style={styles.LoadingImg}
+          source={require('../public/png/free-icon-ticket.png')}
+        />
+      </View>
       <TextInput
-        style={styles.LoginTextInput}
         onChangeText={text => setUserID(text)}
         placeholder="아이디"
+        style={styles.LoginTextInput}
       />
       <TextInput
         style={styles.LoginTextInput}
@@ -45,13 +47,13 @@ function LoginScreen({ navigation, onLoginSuccess }) {
         placeholder="비밀번호"
       />
       <TouchableOpacity style={styles.LoginButton} onPress={onLogin}>
-        <Text style={styles.LoginButtonText}>로그인</Text>
+        <Text style={styles.onlyFontR}>로그인</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.LoginButton} onPress={onSignin}>
-        <Text style={styles.LoginButtonText}>회원가입</Text>
+        <Text style={styles.onlyFontR}>회원가입</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.LoginButton} onPress={onFindPw}>
-        <Text style={styles.LoginButtonText}>비밀번호 찾기</Text>
+        <Text style={styles.onlyFontR}>비밀번호 찾기</Text>
       </TouchableOpacity>
     </View>
   );

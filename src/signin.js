@@ -121,7 +121,7 @@ function SignIn() {
           />
         </View>
       </View>
-      <View style={styles.rowCenter}>
+      <View style={styles.joinButtonView}>
         <TouchableOpacity style={styles.JoinButton} onPress={onPressConfirm}>
           <Text style={styles.onlyFontR}>회원가입</Text>
         </TouchableOpacity>

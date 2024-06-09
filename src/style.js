@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
         fontFamily: fontStyle + 'R',
         marginTop: screenHeight * 0.02,
         width: '50%',
-        height: '5%',
+        height: 40,
         borderRadius: 15,
         borderColor: 'gray',
         borderWidth: 1,
@@ -36,6 +36,7 @@ const styles = StyleSheet.create({
         width: screenWidth * 0.4,
         height: screenWidth * 0.4,
     },
+
 
     // 회원가입
     JoinHeadContainer: {
@@ -145,6 +146,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
+    joinButtonView: {
+        flexDirection: 'row',
+        alignItems: 'flex-start',
+        justifyContent: 'center',
+    },
 
     // 티켓목록
     mainListContainer: {
@@ -189,10 +195,6 @@ const styles = StyleSheet.create({
         flex: 1,
         marginLeft: screenWidth * 0.002,
     },
-    mainSearchTxt: {
-        fontFamily: fontStyle + 'R',
-        fontSize: 13
-    },
     mainSearchAddBtn: {
         height: '6%',
         aspectRatio: 1,
@@ -208,22 +210,15 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: screenHeight * 0.005,
         right: screenWidth * 0.03,
-        width: '10%', 
+        width: '10%',
         height: '10%',
     },
     buttonSubContainer: {
         width: '100%',
         height: '100%',
     },
+
     // 티켓내용
-    ticketDetailHeadContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-between', 
-        alignItems: 'center',
-        paddingHorizontal: 20,
-        paddingVertical: 10,
-        backgroundColor: 'white',
-    },
     ticketDetailBtn: {
         width: 30,
         height: 30,
@@ -282,24 +277,101 @@ const styles = StyleSheet.create({
         height: 80
     },
     ticketUserImg: {
-        width: 330,
+        width: screenWidth * 0.85,
         height: 330
     },
     ticketUserDiaryTxt: {
         padding: 8,
         fontSize: 12,
         fontFamily: fontStyle + 'R',
-        borderWidth: 1,
-        width: 330,
+        borderWidth: 0.8,
+        width: screenWidth * 0.85,
         height: 100,
         maxHeight: 100,
         marginVertical: 10
+    },
+    calTitle: {
+        fontSize: 18,
+        margin: 5,
+        marginVertical: 15,
+        color: 'black',
+        fontFamily: fontStyle + 'B'
     },
     calView: {
         flex: 1,
         backgroundColor: 'white',
         alignItems: 'center',
         marginTop: 10,
+    },
+
+    // 티켓 추가 & 수정
+    TicketAddBtn: {
+        width: 30,
+        height: 30,
+    },
+    TicketAddcontainer: {
+        paddingHorizontal: 10,
+        marginVertical: 5,
+        padding: 5
+    },
+    TicketQuestion: {
+        fontFamily: fontStyle + 'B',
+        fontSize: 15,
+        color: 'black',
+        marginRight: 10,
+        marginBottom: screenHeight * 0.025,
+
+    },
+    TicketAnswerView: {
+        flexDirection: 'row',
+        flex: 1
+    },
+    TicketAddHome: {
+        fontFamily: fontStyle + 'R',
+        fontSize: 13,
+        marginTop: screenHeight * 0.025,
+        marginLeft: screenWidth * 0.025,
+        marginRight: screenWidth * 0.055
+    },
+    TicketAddAway: {
+        fontFamily: fontStyle + 'R',
+        fontSize: 13,
+        marginTop: screenHeight * 0.025,
+    },
+    TicketAddTeamView: {
+        width: screenWidth * 0.73,
+    },
+    TicketAddPikerSt: {
+        fontFamily: fontStyle + 'R',
+        fontSize: 15,
+    },
+    TicketAddScoreTxtInput: {
+        width: screenWidth * 0.35,
+        height: 40,
+        marginLeft: screenWidth * 0.01,
+        marginRight: screenWidth * 0.02,
+        marginVertical: 5,
+        borderColor: 'black',
+        borderWidth: 0.8,
+        fontFamily: fontStyle + 'R',
+    },
+    TicketAddDateInput: {
+        width: screenWidth * 0.84,
+        height: 40,
+        marginRight: screenWidth * 0.02,
+        marginVertical: 5,
+        borderColor: 'black',
+        borderWidth: 0.8,
+        fontFamily: fontStyle + 'R',
+    },
+    ticketDiaryTxtInput: {
+        flex: 1,
+        width: screenWidth * 0.84,
+        minHeight: screenWidth * 0.4,
+        marginRight: screenWidth * 0.02,
+        borderColor: 'black',
+        borderWidth: 0.8,
+        fontFamily: fontStyle + 'R',
     },
 
     alignCenter: {
@@ -313,18 +385,32 @@ const styles = StyleSheet.create({
     },
 
     /// 공통으로 사용하는 스타일..
-    // 로그인, 회원가입
+    // 로그인, 회원가입, 티켓 추가&수정
     onlyFontR: {
         fontFamily: fontStyle + 'R',
     },
-    // 회원가입,티켓내용
+    // 회원가입,티켓내용, 티켓추가&수정
     container: {
         backgroundColor: 'white',
         flex: 1,
     },
     rowCenter: {
         flexDirection: 'row',
-        alignItems: 'center'
+        alignItems: 'center',
+    },
+    // 티켓내용, 티켓추가&수정
+    headContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        paddingHorizontal: 20,
+        paddingVertical: 10,
+        backgroundColor: 'white',
+    },
+    // 티켓검색, 티켓목록
+    mainMiniTxt: {
+        fontFamily: fontStyle + 'R',
+        fontSize: 13
     },
 
 });

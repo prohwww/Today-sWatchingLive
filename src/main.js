@@ -126,6 +126,7 @@ function TicketScreen({ navigation }) {
     { TicketNo: '1', GameDate: '20240421', TicketName: 'NC다이노스 vs SSG랜더스', HomeTeamCd: 2, AwayTeamCd: 1, HomeScore: 1, AwayScore: 5, Result: 'W', Seat: '응원지정석 10열 D', PhotoName: "KakaoTalk_20240428_193213436.jpg", Price: 15000, UserId: 'Master', TicketDiary: "최정이 467홈런을 친걸 눈으로 봐서 좋았다 500홈런넘자 ㅎ", SportKind: 'B', place: "창원NC다이노스파크" },
     { TicketNo: '2', GameDate: '20240407', TicketName: 'FC서울 vs 전북현대', HomeTeamCd: 3, AwayTeamCd: 4, HomeScore: 3, AwayScore: 1, Result: 'W', Seat: 'R구역 자유석', PhotoName: "KakaoTalk_20240428_193213436.jpg", Price: 13000, UserId: 'Master', TicketDiary: "전북은 승점자판기라는 것을 또 한번 깨달았다.", SportKind: 'S', place: "상암월드컵경기장" },
     { TicketNo: '3', GameDate: '20240321', TicketName: 'SSG랜더스 vs 기아타이거즈', HomeTeamCd: 1, AwayTeamCd: 5, HomeScore: 1, AwayScore: 7, Result: 'L', Seat: '그린존 자유석', PhotoName: "KakaoTalk_20240428_193213436.jpg", Price: 18000, UserId: 'Master', TicketDiary: "기분좋게 그린존을 갔는데 야구실력 때문에 갑자기 기분이 나빠졌다", SportKind: 'B', place: "SSG랜더스파크" },
+    // 길게 나오는거 테스트용
     // { TicketNo: '2', GameDate: '20240407', TicketName: 'FC서울 vs 전북현대', HomeTeamCd: 3, AwayTeamCd: 4, HomeScore: 3, AwayScore: 1, Result: 'W', Seat: 'R구역 자유석', PhotoName: "KakaoTalk_20240428_193213436.jpg", Price: 13000, UserId: 'Master', TicketDiary: "전북은 승점자판기라는 것을 또 한번 깨달았다.", SportKind: 'S', place: "상암월드컵경기장" },
     // { TicketNo: '2', GameDate: '20240407', TicketName: 'FC서울 vs 전북현대', HomeTeamCd: 3, AwayTeamCd: 4, HomeScore: 3, AwayScore: 1, Result: 'W', Seat: 'R구역 자유석', PhotoName: "KakaoTalk_20240428_193213436.jpg", Price: 13000, UserId: 'Master', TicketDiary: "전북은 승점자판기라는 것을 또 한번 깨달았다.", SportKind: 'S', place: "상암월드컵경기장" },
     // { TicketNo: '2', GameDate: '20240407', TicketName: 'FC서울 vs 전북현대', HomeTeamCd: 3, AwayTeamCd: 4, HomeScore: 3, AwayScore: 1, Result: 'W', Seat: 'R구역 자유석', PhotoName: "KakaoTalk_20240428_193213436.jpg", Price: 13000, UserId: 'Master', TicketDiary: "전북은 승점자판기라는 것을 또 한번 깨달았다.", SportKind: 'S', place: "상암월드컵경기장" },
@@ -136,21 +137,21 @@ function TicketScreen({ navigation }) {
 
   const renderItem = ({ item }) => (
     <ScrollView>
-    <TouchableOpacity onPress={() => navigation.navigate('ticketDetail', { item })}>
-      <View style={styles.mainListContainer}>
-        <Image source={sportsImg[item.SportKind]} style={styles.mainListImg} />
-        <View style={styles.mainTicketList}>
-          <Text style={styles.TicketScreenText}>{item.GameDate}</Text>
-          <Text style={styles.mainTicketName}>{item.TicketName}</Text>
-          <View style={styles.RowStyle}>
-            <Text style={styles.TicketScreenText}>{item.HomeTeamCd}</Text>
-            <Text style={styles.TicketScreenText}>:</Text>
-            <Text style={styles.TicketScreenText}>{item.AwayTeamCd}</Text>
+      <TouchableOpacity onPress={() => navigation.navigate('ticketDetail', { item })}>
+        <View style={styles.mainListContainer}>
+          <Image source={sportsImg[item.SportKind]} style={styles.mainListImg} />
+          <View style={styles.mainTicketList}>
+            <Text style={styles.mainMiniTxt}>{item.GameDate}</Text>
+            <Text style={styles.mainTicketName}>{item.TicketName}</Text>
+            <View style={styles.RowStyle}>
+              <Text style={styles.mainMiniTxt}>{item.HomeTeamCd}</Text>
+              <Text style={styles.mainMiniTxt}>:</Text>
+              <Text style={styles.mainMiniTxt}>{item.AwayTeamCd}</Text>
+            </View>
           </View>
+          <Image source={resultImg[item.Result]} style={styles.mainListImg} />
         </View>
-        <Image source={resultImg[item.Result]} style={styles.mainListImg} />
-      </View>
-    </TouchableOpacity>
+      </TouchableOpacity>
     </ScrollView>
   );
 
@@ -160,7 +161,7 @@ function TicketScreen({ navigation }) {
         <Image source={require('../public/png/free-icon-magnifier.png')} style={styles.mainSearchImg} />
         <View style={styles.mainSearchSubItem}>
           <TextInput
-            style={styles.mainSearchTxt}
+            style={styles.mainMiniTxt}
             onChangeText={text => setSearchKeyword(text)}
             placeholder="찾으시려는 티켓을 검색하세요."
           />
@@ -196,7 +197,7 @@ export function TicketDetail({ route }) {
 
   return (
     <View style={styles.container}>
-      <View style={styles.ticketDetailHeadContainer}>
+      <View style={styles.headContainer}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Image source={require('../public/png/free-icon-left-arrow.png')} style={styles.ticketDetailBtn} />
         </TouchableOpacity>
@@ -257,7 +258,7 @@ function CalScreen() {
   const currentDate = new Date(); // 현재 날짜
   return (
     <View style={styles.calView}>
-      <Text style={styles.semiTitle}>{currentDate.getFullYear()}년 {currentDate.getMonth() + 1}월</Text>
+      <Text style={styles.calTitle}>{currentDate.getFullYear()}년 {currentDate.getMonth() + 1}월</Text>
       <Calendar currentDate={currentDate} />
     </View>
   );

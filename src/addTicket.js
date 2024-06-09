@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { ScrollView, View, StyleSheet, Text, TextInput, Alert, TouchableOpacity, Image } from 'react-native';
+import { ScrollView, View, Text, TextInput, Alert, TouchableOpacity, Image, BackHandler } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Picker } from '@react-native-picker/picker';
-
+import styles from './style';
 
 function AddTicket({ route }) {
 
@@ -92,6 +92,28 @@ function AddTicket({ route }) {
   function isNumeric(value) {
     return !isNaN(parseFloat(value)) && isFinite(value);
   }
+
+  // 뒤로가기 할 때 alert창뜨도록..
+  const [showAlert, setShowAlert] = useState(true);
+
+  useEffect(() => {
+    const backAction = () => {
+      if (showAlert) {
+        setShowAlert(false);
+        return true;
+      }
+      
+      onPressCancel();
+      return true;
+    };
+  
+    BackHandler.addEventListener('hardwareBackPress', backAction);
+  
+    return () => {
+      BackHandler.removeEventListener('hardwareBackPress', backAction);
+    };
+  }, [showAlert]);
+
   const onPressConfirm = () => {
     if (!HomeTeamName || !AwayTeamName || !GameDate ||
       !HomeScore || !AwayScore || !TicketDiary) {
@@ -112,12 +134,12 @@ function AddTicket({ route }) {
       [
         {
           text: '취소',
-          onPress: () => { },
+          onPress: () => setShowAlert(false),
           style: 'cancel',
         },
         {
           text: '확인',
-          onPress: () => { navigation.goBack() },
+          onPress: () => navigation.goBack(),
         },
       ],
       { cancelable: false }
@@ -125,52 +147,52 @@ function AddTicket({ route }) {
   };
 
   return (
-    <View style={styles.component}>
+    <View style={styles.container}>
       <View style={styles.headContainer}>
         <TouchableOpacity onPress={onPressCancel}>
-          <Image source={require('../public/png/free-icon-left-arrow.png')} style={styles.addBtn} />
+          <Image source={require('../public/png/free-icon-left-arrow.png')} style={styles.TicketAddBtn} />
         </TouchableOpacity>
         <TouchableOpacity onPress={onPressConfirm}>
-          <Image source={require('../public/png/free-icon-done.png')} style={styles.addBtn} />
+          <Image source={require('../public/png/free-icon-done.png')} style={styles.TicketAddBtn} />
         </TouchableOpacity>
       </View>
-      <ScrollView style={styles.container}>
-        <View style={styles.container}>
-          <Text style={styles.title}>어떤 팀들의 경기를 보셨나요?</Text>
-          <View style={{ flex: 1 }}>
+      <ScrollView style={styles.TicketAddcontainer}>
+        <View style={styles.TicketAddcontainer}>
+          <Text style={styles.TicketQuestion}>어떤 팀들의 경기를 보셨나요?</Text>
+          <View style={styles.fiex1}>
             <Picker
               selectedValue={selectSportsKind}
               onValueChange={(itemValue, itemIndex) => setSelectSportsKind(itemValue)}
             >
               {sportsCategory.map((category, index) => (
-                <Picker.Item label={category} value={index.toString()} key={index} />
+                <Picker.Item label={category} value={index.toString()} key={index}  style={styles.TicketAddPikerSt}/>
               ))}
             </Picker>
           </View>
-          <View style={styles.container}>
-            <View style={{ flexDirection: 'row', flex: 1 }}>
-              <Text style={{ marginTop: 15, marginLeft: 10 }}>홈팀       </Text>
-              <View style={{ flex: 2 }}>
+          <View style={styles.TicketAddcontainer}>
+            <View style={styles.TicketAnswerView}>
+              <Text style={styles.TicketAddHome}>홈팀</Text>
+              <View style={styles.TicketAddTeamView}>
                 <Picker
                   selectedValue={selectedSubHomeTeamName}
                   onValueChange={(itemValue, itemIndex) => setSelectedSubHomeTeamName(itemValue)}
                 >
                   {subSportsCategory.filter(subcategory => subcategory.SportKind === selectSportsKind).map((subcategory, index) => (
-                    <Picker.Item label={subcategory.TeamName} value={subcategory.TeamName} key={index} />
+                    <Picker.Item label={subcategory.TeamName} value={subcategory.TeamName} key={index} style={styles.TicketAddPikerSt}/>
                   ))}
                 </Picker>
               </View>
             </View>
-            <View style={styles.container}>
-              <View style={{ flexDirection: 'row', flex: 1 }}>
-                <Text style={{ marginTop: 15 }}>어웨이팀</Text>
-                <View style={{ flex: 2 }}>
+            <View style={styles.TicketAddcontainer}>
+              <View style={styles.TicketAnswerView}>
+                <Text style={styles.TicketAddAway}>어웨이팀</Text>
+                <View style={styles.TicketAddTeamView}>
                   <Picker
                     selectedValue={selectedSubAwayTeamName}
                     onValueChange={(itemValue, itemIndex) => setSelectedSubAwayTeamName(itemValue)}
                   >
                     {subSportsCategory.filter(subcategory => subcategory.SportKind === selectSportsKind).map((subcategory, index) => (
-                      <Picker.Item label={subcategory.TeamName} value={subcategory.TeamName} key={index} />
+                      <Picker.Item label={subcategory.TeamName} value={subcategory.TeamName} key={index} style={styles.TicketAddPikerSt}/>
                     ))}
                   </Picker>
                 </View>
@@ -178,16 +200,16 @@ function AddTicket({ route }) {
             </View>
           </View>
         </View>
-        <View style={styles.container}>
-          <Text style={styles.title}>스코어는 어떻게 됐나요?</Text>
-          <View style={styles.subContainer}>
+        <View style={styles.TicketAddcontainer}>
+          <Text style={styles.TicketQuestion}>스코어는 어떻게 됐나요?</Text>
+          <View style={styles.rowCenter}>
             <TextInput
               onChangeText={text => {
                 setHomeScore(text);
               }}
               value={HomeScore}
               placeholder="홈팀"
-              style={styles.miniTxtInput}
+              style={styles.TicketAddScoreTxtInput}
             />
             <Text style={{ paddingHorizontal: 10, padding: 15, }}>   :  </Text>
             <TextInput
@@ -196,13 +218,13 @@ function AddTicket({ route }) {
               }}
               value={AwayScore}
               placeholder="어웨이팀"
-              style={styles.miniTxtInput}
+              style={styles.TicketAddScoreTxtInput}
             />
           </View>
         </View>
-        <View style={styles.container}>
-          <Text style={styles.title}>경기장을 관람한 날짜</Text>
-          <View style={styles.subContainer}>
+        <View style={styles.TicketAddcontainer}>
+          <Text style={styles.TicketQuestion}>경기장을 관람한 날짜</Text>
+          <View style={styles.rowCenter}>
 
             <TextInput
               onChangeText={text => {
@@ -210,33 +232,33 @@ function AddTicket({ route }) {
               }}
               value={GameDate}
               placeholder="YYYYMMDD"
-              style={styles.txtInput}
+              style={styles.TicketAddDateInput}
             />
           </View>
         </View>
-        <View style={styles.container}>
-          <Text style={styles.title}>직관을 추억할 수 있는 사진을 첨부해주세요.</Text>
-          <View style={styles.subContainer}>
+        <View style={styles.TicketAddcontainer}>
+          <Text style={styles.TicketQuestion}>직관을 추억할 수 있는 사진을 첨부해주세요.</Text>
+          <View style={styles.rowCenter}>
             <TextInput
               onChangeText={text => {
                 setPhotoName(text);
               }}
               value={PhotoName}
               placeholder="(사진선택)"
-              style={styles.txtInput}
+              style={styles.TicketAddDateInput}
             />
           </View>
         </View>
-        <View style={styles.container}>
-          <Text style={styles.title}>오늘 경기에 대한 관람평을 남겨주세요</Text>
-          <View style={styles.subContainer}>
+        <View style={styles.TicketAddcontainer}>
+          <Text style={styles.TicketQuestion}>오늘 경기에 대한 관람평을 남겨주세요</Text>
+          <View style={styles.rowCenter}>
             <TextInput
               onChangeText={text => {
                 setTicketDiary(text);
               }}
               value={TicketDiary}
               placeholder="관람평을 남겨주세요."
-              style={styles.TicketDiaryTxtInput}
+              style={styles.ticketDiaryTxtInput}
               multiline={true} // 여러 줄 입력 활성화
               numberOfLines={4} // 입력 필드의 초기 높이 설정
               textAlignVertical="top" // 텍스트가 위쪽으로부터 늘어남
@@ -247,97 +269,5 @@ function AddTicket({ route }) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  component: {
-    backgroundColor: 'white',
-    flex: 1,
-  },
-  headContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between', // 텍스트와 버튼을 최대한 멀리 배치합니다.
-    alignItems: 'center', // 요소들을 수직으로 가운데에 정렬합니다.
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    backgroundColor: 'white',
-  },
-  header: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: 'black',
-    textAlign: 'center', // 텍스트를 가운데로 정렬합니다.
-    flex: 1, // 텍스트 컨테이너가 버튼을 제외한 공간을 가득 채우도록 합니다.
-    marginLeft: 50, // 버튼을 화면 오른쪽 끝으로 옮깁니다.
-  },
-  btnContainer: {
-    marginLeft: 'auto', // 버튼을 화면 오른쪽 끝으로 옮깁니다.
-  },
-  textContainer: {
-    flex: 1, // 텍스트 컨테이너가 버튼과 같은 너비를 가지도록 합니다.
-    alignItems: 'center', // 텍스트를 가운데에 정렬합니다.
-  },
-  container: {
-    paddingHorizontal: 10,
-    marginVertical: 5,
-    padding: 5
-  },
-  subContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 13,
-    fontWeight: 'bold',
-    color: 'black',
-    marginRight: 10,
-    fontFamily: 'NanumGothicBold'
-  },
-  miniTxtInput: {
-    width: 148,
-    height: 40,
-    marginLeft: 12,
-    marginRight: 7,
-    marginVertical: 5,
-    borderColor: 'black',
-    borderWidth: 0.8,
-    fontFamily: 'NanumGothicBold'
-  },
-  txtInput: {
-    width: 355,
-    height: 40,
-    marginLeft: 12,
-    marginRight: 7,
-    marginVertical: 5,
-    borderColor: 'black',
-    borderWidth: 0.8,
-    fontFamily: 'NanumGothicBold'
-  },
-  TicketDiaryTxtInput: {
-    flex: 1,
-    minWidth: 355,
-    maxWidth: 355,
-    minHeight: 150,
-    marginLeft: 12,
-    marginRight: 7,
-    marginVertical: 5,
-    borderColor: 'black',
-    borderWidth: 0.8,
-    fontFamily: 'NanumGothicBold'
-  },
-  confirmTxt: {
-    width: 200,
-    height: 40,
-    marginLeft: 67,
-    marginVertical: 5,
-    borderStyle: 'solid',
-    borderColor: 'black',
-    borderWidth: 0.5,
-    fontFamily: 'NanumGothicBold'
-  },
-  addBtn: {
-    width: 30,
-    height: 30,
-  },
-});
 
 export default AddTicket;
