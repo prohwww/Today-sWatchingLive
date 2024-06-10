@@ -1,19 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import {
     View,
-    StyleSheet,
     Text, 
     TouchableOpacity,
+    TextInput,
     Modal,
-    useWindowDimensions,
 } from 'react-native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { useNavigation } from '@react-navigation/native';
+import styles from './style';
 
 const InfoSetting = (userId) => {
-    const fontStyle = 'MangoDdobak-';
-
     const [user, setUser] = useState(null);
+    const [modalVisible, setModalVisible] = useState(false);
+    const [currentPassword, setCurrentPassword] = useState('');
+    const [newPassword, setNewPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
 
     useEffect(() => {
         if (userId != null) {
@@ -21,62 +22,128 @@ const InfoSetting = (userId) => {
         };
     }, [user]);
 
-    const userinfo = {
+    const userInfo = {
         userId: userId,
         nickname: 'Master',
+        email: 'master@google.com',
+        regDate: '2021/03/23',
+    };
+      // 모달 열기 함수
+    const openModal = () => {
+        setModalVisible(true);
+    };
+
+    // 모달 닫기 함수
+    const closeModal = () => {
+        setModalVisible(false);
+        setCurrentPassword('');
+        setNewPassword('');
+        setConfirmPassword('');
+        setErrorMessage('');
+    };
+
+    const handleChangePassword = () => {
+        if (newPassword !== confirmPassword) {
+          setErrorMessage('비밀번호를 다시 확인해주세요.');
+        } else {
+          setErrorMessage('');
+          // TODO 비밀번호 변경 로직 추가(서버)
+          console.log('Password changed');
+          closeModal();
+        }
     };
 
     const onPressConfirm = inputText => {
-        // 닉네임 중복확인
-
+        // TODO 닉네임 중복확인 로직 추가(서버)
+        // alert
     };
-
-    const onPressChange = () => {
-        // 비밀번호 변경 모달
-
-    };
-
-    const styles = StyleSheet.create({
-        container: {
-            backgroundColor: 'white',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-        },
-        content: {
-            flexDirection: 'row',
-        },
-        subject: {
-            fontFamily: fontStyle + 'B',
-        },
-        longText: {
-            width: 200,
-            height: 30,
-            fontFamily: fontStyle + 'R',
-        },
-        text: {
-            fontFamily: fontStyle + 'R',
-        },
-    });
 
     return (
-        <View style={styles.container}>
-            <View style={styles.content}>
-                <Text style={styles.subject}>이메일</Text>
-                <TextInput style={styles.longText}>{userInfo.email}</TextInput>
+        <View style={styles.setContainer}>
+            <View style={styles.pwheadContainer}>
+                <Text style={styles.pwHeader}>계정 설정</Text>
             </View>
-            <View style={styles.content}>
-                <Text style={styles.subject}>닉네임</Text>
-                <TextInput style={styles.text}>{userInfo.nickname}</TextInput>
-                <TouchableOpacity onPress={onPressConfirm}>
-                    <Text style={styles.text}>중복확인</Text>
+            <View>
+                <View style={styles.setContent}>
+                    <Text style={styles.subject}>이메일</Text>
+                    <Text style={styles.setText}>{userInfo.email}</Text>
+                </View>
+                <View style={styles.setContent}>
+                    <Text style={styles.subject}>닉네임</Text>
+                    <TextInput style={styles.setEmailInput}>{userInfo.nickname}</TextInput>
+                    <TouchableOpacity onPress={onPressConfirm} style={styles.searchBtn}>
+                        <Text style={styles.setText}>중복확인</Text>
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.setContent}>
+                    <Text style={styles.subject}>비밀번호</Text>
+                    <TouchableOpacity onPress={openModal} style={styles.searchBtn}>
+                        <Text style={styles.setText}>비밀번호 변경</Text>
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.setContent}>
+                    <Text style={styles.subject}>가입일</Text>
+                    <Text style={styles.setText}>{userInfo.regDate}</Text>
+                </View>
+            </View>
+            <View style={styles.setBtnContainer}>
+                <TouchableOpacity style={styles.cancelBtn} onPress={closeModal}>
+                    <Text style={styles.cancelBtnText}>취소</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.submitBtn} onPress={handleChangePassword}>
+                    <Text style={styles.submitBtnText}>변경</Text>
                 </TouchableOpacity>
             </View>
-            <View style={styles.content}>
-                <Text style={styles.subject}>비밀번호</Text>
-                <TouchableOpacity onPress={onPressChange}>
-                    <Text style={styles.text}>변경</Text>
-                </TouchableOpacity>
-            </View>
+
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={closeModal}
+            >
+                <View style={styles.modalBackground}>
+                    <View style={styles.setModalContainer}>
+                        <Text style={styles.modalTitle}>비밀번호 변경</Text>
+
+                        <TextInput
+                        style={styles.setInput}
+                        placeholder="현재 비밀번호"
+                        secureTextEntry={true}
+                        value={currentPassword}
+                        onChangeText={setCurrentPassword}
+                        />
+
+                        <TextInput
+                        style={styles.setInput}
+                        placeholder="새 비밀번호"
+                        secureTextEntry={true}
+                        value={newPassword}
+                        onChangeText={setNewPassword}
+                        />
+
+                        <TextInput
+                        style={styles.setInput}
+                        placeholder="비밀번호 확인"
+                        secureTextEntry={true}
+                        value={confirmPassword}
+                        onChangeText={setConfirmPassword}
+                        />
+
+                        {errorMessage ? (
+                        <Text style={styles.errorText}>{errorMessage}</Text>
+                        ) : null}
+
+                        <View style={styles.setBtnContainer}>
+                            <TouchableOpacity style={styles.cancelBtn} onPress={closeModal}>
+                                <Text style={styles.cancelBtnText}>취소</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.submitBtn} onPress={handleChangePassword}>
+                                <Text style={styles.submitBtnText}>변경</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </View>
+            </Modal>
         </View>
     );
 };

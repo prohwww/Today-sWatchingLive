@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
     View,
-    StyleSheet,
     Text,
     TouchableOpacity,
     useWindowDimensions,
@@ -11,9 +10,9 @@ import { useNavigation } from '@react-navigation/native';
 import { sportsMap, teamMap } from './map';
 import Svg, { G, Path, Rect } from 'react-native-svg';
 import * as d3 from 'd3-shape';
+import styles from './style';
 
 const TeamAnalysis = ({ selectTeam }) => {
-    const fontStyle = 'MangoDdobak-';
     const [team, setTeam] = useState(null);
 
     useEffect(() => {
@@ -54,97 +53,6 @@ const TeamAnalysis = ({ selectTeam }) => {
     };
 
     const windowWidth = useWindowDimensions().width;
-    const cellWidth = windowWidth - 10;
-
-    const styles = StyleSheet.create({
-        container: {
-            backgroundColor: 'white',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-        },
-        infoText: {
-            color: 'black',
-            fontFamily: fontStyle + 'B',
-            fontSize: 20,
-            margin: 5,
-        },
-        innerText: {
-            color: 'black',
-            fontFamily: fontStyle + 'R',
-            fontSize: 15,
-            margin: 5,
-        },
-        item: {
-            padding: 5,
-            margin: 5,
-            flexDirection: 'row',
-            alignItems: 'center',
-            width: cellWidth,
-        },
-        img: {
-            width: 30,
-            height: 30,
-            marginRight: 5,
-        },
-        innerView: {
-            flexDirection: 'row',
-            alignItems: 'center',
-        },
-        chartTitle: {
-            textAlign: 'center',
-            fontSize: 16,
-            fontFamily: fontStyle + 'R',
-            marginTop: 10,
-            marginBottom: 5,
-        },
-        grid: {
-            margin: 5,
-            marginTop: 20,
-            alignItems: 'center',
-            borderWidth: 1,
-            borderRadius: 15,
-        },
-        innerHeader: {
-            margin: 5,
-            alignItems: 'center',
-            width: 300,
-            borderBottomWidth: 1,
-        },
-        tab: {
-            margin: 5,
-            alignItems: 'center',
-        },
-        headerText: {
-            color: 'black',
-            fontFamily: fontStyle + 'B',
-            fontSize: 15,
-            margin: 5,
-        },
-        contextText: {
-            color: 'black',
-            fontFamily: fontStyle + 'R',
-            fontSize: 15,
-            margin: 5,
-            marginBottom: 10,
-        },
-        backText: {
-            color: 'black',
-            fontFamily: fontStyle + 'B',
-            fontSize: 20,
-            margin: 5,
-            marginLeft: 100,
-        },
-        legendContainer: {
-            flexDirection: 'row',
-            alignItems: 'center',
-            marginVertical: 5,
-        },
-        legendText: {
-            fontSize: 15,
-            marginLeft: 5,
-            fontFamily: fontStyle + 'R', // 사용하고자 하는 폰트 이름으로 변경
-        },
-    });
 
     const CustomLegend = ({ data }) => (
         <View>
@@ -166,18 +74,18 @@ const TeamAnalysis = ({ selectTeam }) => {
     const arcs = pieGenerator(pieData);
 
     return (
-        <View style={styles.container}>
+        <View style={styles.teamContainer}>
             <View style={styles.item}>
-                <View style={styles.innerView}>
-                    <Image source={sportsMap[teamInfo.sportsKind]} style={styles.img} />
-                    <Text style={styles.infoText}>{teamInfo.teamName} 직관 승률</Text>
+                <View style={styles.teamInnerView}>
+                    <Image source={sportsMap[teamInfo.sportsKind]} style={styles.teamImg} />
+                    <Text style={styles.innerText}>{teamInfo.teamName} 직관 승률</Text>
                     <TouchableOpacity onPress={closeWindow}>
                         <Text style={styles.backText}>X</Text>
                     </TouchableOpacity>
                 </View>
             </View>
             <View style={styles.item}>
-                <Text style={styles.innerText}>당신이 {teamInfo.teamName}와 함께한지 {teamInfo.days}일째 입니다.</Text>
+                <Text style={styles.infoText}>당신이 {teamInfo.teamName}와 함께한지 {teamInfo.days}일째 입니다.</Text>
             </View>
 
             <Svg width={windowWidth} height={220}>
@@ -195,7 +103,7 @@ const TeamAnalysis = ({ selectTeam }) => {
                     <Text style={styles.headerText}>전체 승률</Text>
                     <Text style={styles.contextText}>{teamInfo.total * 100}%</Text>
                 </View>
-                <View style={styles.innerView}>
+                <View style={styles.teamInnerView}>
                     <View style={styles.tab}>
                         <Text style={styles.headerText}>직관(홈)</Text>
                         <Text style={styles.contextText}>{teamInfo.homeCnt}회</Text>

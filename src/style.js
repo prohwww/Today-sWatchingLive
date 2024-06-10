@@ -2,8 +2,12 @@ import { StyleSheet, Dimensions } from 'react-native';
 
 // 폰트..
 const fontStyle = 'MangoDdobak-';
+
+// 화면 크기
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
+const cellWidth = screenWidth / 7 - 2;
+const cellHeight = screenHeight / 9;
 
 const styles = StyleSheet.create({
 
@@ -373,7 +377,6 @@ const styles = StyleSheet.create({
         borderWidth: 0.8,
         fontFamily: fontStyle + 'R',
     },
-
     alignCenter: {
         alignItems: 'center'
     },
@@ -382,6 +385,385 @@ const styles = StyleSheet.create({
     },
     RowStyle: {
         flexDirection: 'row'
+    },
+    
+    // findPw.js
+    component: {
+        backgroundColor: 'white',
+        flex: 1,
+    },
+    pwContainer: {
+        paddingHorizontal: 10,
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    btnContainer: {
+        alignItems: 'center',
+    },
+    pwEmailInput: {
+        width: 130,
+        height: 40,
+        marginLeft: 12,
+        marginVertical: 5,
+        borderStyle: 'solid',
+        borderColor: 'black',
+        borderWidth: 0.5,
+        paddingVertical: 5,
+        marginRight: 10,
+        fontFamily: fontStyle + 'R',
+    },
+    searchBtn: {
+        backgroundColor: '#DDDDDD',
+        width: '30%',
+        marginTop: 20,
+        borderRadius: 15,
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: 30,
+    },
+    pwTitle: {
+        fontSize: 15,
+        color: 'black',
+        fontFamily: fontStyle + 'B',
+    },
+    pwText: {
+        paddingVertical: 7,
+        paddingLeft: 10,
+        fontSize: 15,
+        color: 'black',
+        fontFamily: fontStyle + 'R',
+    },
+    pwContext: {
+        fontSize: 15,
+        color: 'black',
+        fontFamily: fontStyle + 'R',
+    },
+    pwCombo: {
+        width: 160,
+        height: 40,
+        borderStyle: 'solid',
+        borderColor: 'black',
+        borderWidth: 0.5,
+        paddingVertical: 5,
+        fontFamily: fontStyle + 'R',
+    },
+
+    // calendar.js
+    calendar: {
+        padding: 5,
+    },
+    weekdaysContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingHorizontal: 10,
+    },
+    weekday: {
+        flex: 1,
+        textAlign: 'center',
+        fontFamily: fontStyle + 'B',
+        color: 'black',
+    },
+    daysContainer: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'space-between',
+        marginHorizontal: 2,
+    },
+    calDay: {
+        width: cellWidth,
+        height: cellHeight,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderWidth: 0,
+        borderColor: '#ccc',
+        borderRadius: 40,
+    },
+    otherMonth: {
+        opacity: 0.3,
+    },
+    selectedDay: {
+        backgroundColor: '#fef4c2',
+    },
+    modalContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    modalContent: {
+        backgroundColor: 'white',
+        padding: 10,
+        width: 300,
+        height: 300,
+        borderRadius: 10,
+        elevation: 5,
+    },
+    horizontalContainer: {
+        flexDirection: 'row',
+    },
+    btnClose: {
+        marginLeft: 210,
+        paddingHorizontal: 10,
+        paddingVertical: 5,        
+    },
+    modalList: {
+        paddingHorizontal: 5,
+        paddingVertical: 10,
+    },
+    eventItem: {
+        height: 55,
+        borderWidth: 0.7,
+        borderColor: 'grey',
+        marginBottom: 5,
+        padding: 2,
+        paddingLeft: 5,
+    },
+    icon: {
+        width: 30,
+        height: 30,
+        marginRight: 10,
+    },
+    calendarAddBtn: {
+        width: 30,
+        height: 30,
+        marginLeft: 250,
+    },
+    infoView: {
+        flexDirection: 'row',
+    },
+    calendarText: {
+        fontFamily: fontStyle + 'R',
+        color: 'black',
+    },
+    calendarCloseBtn: {
+        fontFamily: fontStyle + 'R',
+        color: 'black',
+    },
+    calendarScore: {
+        flexDirection: 'row',
+        marginTop: 7,
+    },
+
+    // myInfo.js
+    myInfo: {
+        padding: 10,
+        margin: 5,
+        borderWidth: 1,
+        justifyContent: 'space-between',
+        width: screenWidth - 10,
+        backgroundColor: '#D8D8D8',
+    },
+
+    // teamList.js
+    innerView: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    teamModalContainer: {
+        padding: 20,
+        alignItems: 'center',
+    },
+    modalView: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    modalText: {
+        color: 'black',
+        fontFamily: fontStyle + 'B',
+        fontSize: 15,
+        marginBottom: 20,
+    },
+    picker: {
+        width: 250,
+    },
+    modalBtn: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginTop: 20,
+    },
+
+    // teamAnalysis.js
+    teamContainer: {
+        backgroundColor: 'white',
+        alignItems: 'center',
+        flex: 1,
+    },
+    innerText: {
+        color: 'black',
+        fontFamily: fontStyle + 'B',
+        fontSize: 20,
+        margin: 5,
+        padding: 10,
+    },
+    teamImg: {
+        width: 30,
+        height: 30,
+        marginRight: 5,
+    },
+    teamInnerView: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    chartTitle: {
+        textAlign: 'center',
+        fontSize: 16,
+        fontFamily: fontStyle + 'R',
+        marginTop: 10,
+        marginBottom: 5,
+    },
+    grid: {
+        margin: 5,
+        marginTop: 20,
+        alignItems: 'center',
+        borderWidth: 1,
+        borderRadius: 15,
+    },
+    innerHeader: {
+        margin: 5,
+        alignItems: 'center',
+        width: 300,
+        borderBottomWidth: 1,
+    },
+    tab: {
+        margin: 5,
+        alignItems: 'center',
+    },
+    headerText: {
+        color: 'black',
+        fontFamily: fontStyle + 'B',
+        fontSize: 15,
+        margin: 5,
+    },
+    contextText: {
+        color: 'black',
+        fontFamily: fontStyle + 'R',
+        fontSize: 15,
+        margin: 5,
+        marginBottom: 10,
+    },
+    backText: {
+        color: 'black',
+        fontFamily: fontStyle + 'B',
+        fontSize: 20,
+        margin: 5,
+        marginLeft: 100,
+    },
+    legendContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginVertical: 5,
+    },
+    legendText: {
+        fontSize: 15,
+        marginLeft: 5,
+        fontFamily: fontStyle + 'R',
+    },
+
+    // infoSetting.js
+    setContainer: {
+        backgroundColor: 'white',
+        alignItems: 'left',
+        flex: 1,
+        margin: 10,
+    },
+    setContent: {
+        flexDirection: 'row',
+        marginVertical: 10,
+    },
+    subject: {
+        fontFamily: fontStyle + 'B',
+        color: 'black',
+        marginRight: 20,
+    },
+    contentText: {
+        fontFamily: fontStyle + 'R',
+        color: 'black',
+    },
+    setText: {
+        fontFamily: fontStyle + 'R',
+        color: 'black',
+    },
+    setEmailInput: {
+        width: 130,
+        height: 30,
+        borderStyle: 'solid',
+        borderColor: 'black',
+        borderWidth: 0.5,
+        paddingVertical: 5,
+        marginRight: 10,
+        fontFamily: fontStyle + 'R',
+    },
+    searchBtn: {
+        backgroundColor: '#DDDDDD',
+        width: '30%',
+        borderRadius: 15,
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: 30,
+    },
+    modalBackground: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
+    setModalContainer: {
+        width: '80%',
+        backgroundColor: 'white',
+        borderRadius: 10,
+        padding: 20,
+        alignItems: 'center',
+    },
+    modalTitle: {
+        fontSize: 20,
+        marginBottom: 20,
+        fontFamily: fontStyle + 'R',
+        color: 'black',
+    },
+    setInput: {
+        width: '100%',
+        height: 40,
+        borderColor: 'gray',
+        borderWidth: 1,
+        borderRadius: 5,
+        paddingLeft: 10,
+        marginBottom: 15,
+        fontFamily: fontStyle + 'R',
+    },
+    setBtnContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        width: '100%',
+    },
+    cancelBtn: {
+        backgroundColor: '#ccc',
+        padding: 10,
+        borderRadius: 15,
+        flex: 1,
+        marginRight: 5,
+        alignItems: 'center',
+    },
+    cancelBtnText: {
+        color: '#333',
+        fontSize: 16,
+        fontFamily: fontStyle + 'R',
+    },
+    submitBtn: {
+        backgroundColor: '#007BFF',
+        padding: 10,
+        borderRadius: 15,
+        flex: 1,
+        marginLeft: 5,
+        alignItems: 'center',
+    },
+    submitBtnText: {
+        color: 'white',
+        fontSize: 16,
+        fontFamily: fontStyle + 'R',
+    },
+    errorText: {
+        color: 'red',
+        marginBottom: 10,
+        fontFamily: fontStyle + 'R',
     },
 
     /// 공통으로 사용하는 스타일..
@@ -411,6 +793,48 @@ const styles = StyleSheet.create({
     mainMiniTxt: {
         fontFamily: fontStyle + 'R',
         fontSize: 13
+    },
+
+    // myInfo.js, teamList.js
+    infoContainer: {
+        backgroundColor: 'white',
+        alignItems: 'center',
+        flex: 1 ,
+    },
+    infoText: {
+        color: 'black',
+        fontFamily: fontStyle + 'R',
+        fontSize: 15,
+        padding: 5,
+    },
+    infoItem: {
+        padding: 5,
+        margin: 5,
+        flexDirection: 'row',
+        alignItems: 'center',
+        borderWidth: 1,
+        width: screenWidth - 10,
+    },
+    infoImg: {
+        width: 50,
+        height: 50,
+        marginRight: 5,
+    },
+
+    //findPw.js, infoSetting.js
+    pwheadContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    pwHeader: {
+        fontSize: 25,
+        color: 'black',
+        marginRight: 10,
+        marginBottom: 10,
+        paddingVertical: 10,
+        fontFamily: fontStyle + 'B',
+        borderBottomWidth: 0.5,
     },
 
 });

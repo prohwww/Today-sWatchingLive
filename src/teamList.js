@@ -8,18 +8,12 @@ import {
     useWindowDimensions,
     Image,
 } from 'react-native';
-import { createStackNavigator } from '@react-navigation/stack';
 import { Picker } from '@react-native-picker/picker';
 import { sportsMap, teamMap } from './map';
 import { useNavigation } from '@react-navigation/native';
+import styles from './style';
 
 const TeamList = () => {
-    const fontStyle = 'MangoDdobak-';
-    const Stack = createStackNavigator();
-    
-    const windowWidth = useWindowDimensions().width;
-    const cellWidth = windowWidth - 10;
-
     const [myTeams, setMyTeams] = useState([
         { sports: 'B', team: 'SSG 랜더스'},
         { sports: 'S', team: 'FC서울'},
@@ -27,13 +21,13 @@ const TeamList = () => {
     
     const selectedTeamSports = myTeams.filter(team => sportsMap.hasOwnProperty(team.sports));
 
-    const [selectedValue1, setSelectedValue1] = useState("B");
-    const [selectedValue2, setSelectedValue2] = useState({ label: "SSG 랜더스", value: "SSG 랜더스" });
+    const [selectedValue1, setSelectedValue1] = useState("BS");
+    const [selectedValue2, setSelectedValue2] = useState({ label: "SSG 랜더스", value: "32" });
     const sportsOptions = [
-        { label: "야구", value: "B" },
-        { label: "축구", value: "S" },
-        { label: "농구", value: "K" },
-        { label: "배구", value: "V" },
+        { label: "야구", value: "BS" },
+        { label: "축구", value: "SC" },
+        { label: "농구", value: "BK" },
+        { label: "배구", value: "VB" },
     ];
     
     const [modalVisible, setModalVisible] = useState(false);
@@ -64,6 +58,7 @@ const TeamList = () => {
             team: selectedValue2.label,
         };
         setMyTeams([...myTeams, newTeam]);
+        // console.log(selectedValue1 + " " + selectedValue2.label);
         setModalVisible(false);
     };
 
@@ -77,67 +72,11 @@ const TeamList = () => {
         setSelectedValue2(teamMap[selectedValue1][0]);
     }, [selectedValue1]);
 
-    const styles = StyleSheet.create({
-        container: {
-            backgroundColor: 'white',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-        },
-        infoText: {
-            color: 'black',
-            fontFamily: fontStyle + 'R',
-            fontSize: 15,
-            padding: 5,
-        },
-        item: {
-            padding: 5,
-            margin: 5,
-            flexDirection: 'row',
-            alignItems: 'center',
-            borderWidth: 1,
-            width: cellWidth,
-        },
-        img: {
-            width: 50,
-            height: 50,
-            marginRight: 5,
-        },
-        teamView: {
-            flexDirection: 'row'
-        },
-        innerView: {
-            flexDirection: 'row',
-            alignItems: 'center',
-        },
-        modalContainer: {
-            padding: 20,
-            alignItems: 'center',
-        },
-        modalView: {
-            flexDirection: 'row',
-            alignItems: 'center',
-        },
-        modalText: {
-            color: 'black',
-            fontFamily: fontStyle + 'B',
-            fontSize: 15,
-            marginBottom: 20,
-        },
-        picker: {
-            width: 250,
-        },
-        modalBtn: {
-            flexDirection: 'row',
-            alignItems: 'center',
-            marginTop: 20,
-        }
-    });
-
     return (
-        <View style={styles.container}>
+        <View style={styles.infoContainer}>
             <TouchableOpacity onPress={addBtnClick}>
-                <View style={styles.item}>
-                    <Image source={require('../public/png/free-icon-add-button.png')} style={styles.img} />
+                <View style={styles.infoItem}>
+                    <Image source={require('../public/png/free-icon-add-button.png')} style={styles.infoImg} />
                     <Text style={styles.infoText}>응원하는 팀을 추가해주세요</Text>
                 </View>
             </TouchableOpacity>
@@ -145,9 +84,9 @@ const TeamList = () => {
             <View>
                 {selectedTeamSports.map((team, index) => (
                     <TouchableOpacity key={index} onPress={viewTeamResult}>
-                        <View style={styles.item}>
+                        <View style={styles.infoItem}>
                             <View style={styles.innerView}>
-                                <Image source={sportsMap[team.sports]} style={styles.img} />
+                                <Image source={sportsMap[team.sports]} style={styles.infoImg} />
                                 <Text style={styles.infoText}>{team.team}</Text>
                             </View>
                         </View>
@@ -160,7 +99,7 @@ const TeamList = () => {
                 visible={modalVisible}
                 onRequestClose={closeModal}
             >
-                <View style={styles.modalContainer}>
+                <View style={styles.teamModalContainer}>
                     <View style={styles.modalView}>
                         <Text style={styles.modalText}>스포츠를 선택하세요.</Text>
                     </View>

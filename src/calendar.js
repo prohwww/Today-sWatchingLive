@@ -25,6 +25,7 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import {resultMap} from './map';
+import styles from './style';
   
 const Calendar = ({ currentDate }) => {
     const fontStyle = 'MangoDdobak-';
@@ -40,10 +41,6 @@ const Calendar = ({ currentDate }) => {
         { GameDate: new Date(2024, 5, 21), SportKind: 'B', result: 'L', HomeTeamCd: 'SSG 랜더스', AwayTeamCd: 'LG 트윈스', HomeScore: 8, AwayScore: 10 },
         { GameDate: new Date(2024, 5, 21), SportKind: 'B', result: 'T', HomeTeamCd: 'SSG 랜더스', AwayTeamCd: 'LG 트윈스', HomeScore: 5, AwayScore: 5 },
     ]);
-
-    const { width: windowWidth, height: windowHeight } = useWindowDimensions();
-    const cellWidth = windowWidth / 7 - 2;
-    const cellHeight = windowHeight / 9;
 
     const monthStart = startOfMonth(currentDate);
     const monthEnd = endOfMonth(currentDate);
@@ -80,100 +77,6 @@ const Calendar = ({ currentDate }) => {
         }
     };
 
-    const styles = StyleSheet.create({
-        container: {
-            flex: 1,
-            paddingTop: StatusBar.currentHeight,
-          },
-        calendar: {
-            padding: 5,
-        },
-        weekdaysContainer: {
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            paddingHorizontal: 10,
-        },
-        weekday: {
-            flex: 1,
-            textAlign: 'center',
-            fontFamily: fontStyle + 'B',
-            color: 'black',
-        },
-        daysContainer: {
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-            justifyContent: 'space-between',
-            marginHorizontal: 2,
-        },
-        day: {
-            width: cellWidth,
-            height: cellHeight,
-            justifyContent: 'center',
-            alignItems: 'center',
-            borderWidth: 0,
-            borderColor: '#ccc',
-            borderRadius: 40,
-        },
-        otherMonth: {
-            opacity: 0.3,
-        },
-        selectedDay: {
-            backgroundColor: '#fef4c2',
-        },
-        modalContainer: {
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-        },
-        modalContent: {
-            backgroundColor: 'white',
-            padding: 10,
-            width: 300,
-            height: 300,
-            borderRadius: 10,
-            elevation: 5,
-        },
-        horizontalContainer: {
-            flexDirection: 'row',
-        },
-        btnClose: {
-            marginLeft: 230,
-        },
-        modalList: {
-            paddingHorizontal: 5,
-            paddingVertical: 10,
-        },
-        eventItem: {
-            height: 55,
-            borderWidth: 0.7,
-            borderColor: 'grey',
-            marginBottom: 5,
-            padding: 2,
-            paddingLeft: 5,
-        },
-        icon: {
-            width: 30,
-            height: 30,
-            marginRight: 10,
-        },
-        addBtn: {
-            width: 30,
-            height: 30,
-            marginLeft: 250,
-        },
-        infoView: {
-            flexDirection: 'row',
-        },
-        text: {
-            fontFamily: fontStyle + 'R',
-            color: 'black',
-        },
-        score: {
-            flexDirection: 'row',
-            marginTop: 7,
-        },
-    });
-
     const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     const weekdayElements = weekdays.map((day, index) => (
         <Text key={index} style={styles.weekday}>{day}</Text>
@@ -199,13 +102,13 @@ const Calendar = ({ currentDate }) => {
                     <TouchableOpacity
                         key={day}
                         style={[
-                            styles.day, 
+                            styles.calDay, 
                             !isSameMonth(day, currentDate) && styles.otherMonth,
                             selectedDate && isSameDay(day, selectedDate) && styles.selectedDay
                         ]}
                         onPress={() => handleDateClick(day)}
                     >
-                        <Text style={styles.text}>{format(day, 'd')}</Text>
+                        <Text style={styles.calendarText}>{format(day, 'd')}</Text>
                         {events.some(event => isSameDay(event.GameDate, day)) && (
                             events
                                 .filter(event => isSameDay(event.GameDate, day))
@@ -220,7 +123,6 @@ const Calendar = ({ currentDate }) => {
                     </TouchableOpacity>
                 ))}
             </View>
-
             <Modal
                 visible={showModal}
                 animationType="slide"
@@ -231,9 +133,9 @@ const Calendar = ({ currentDate }) => {
                     <View style={styles.modalContent}>
 
                         <View style={styles.horizontalContainer}>
-                            <Text style={styles.text}>{selectedDate ? format(selectedDate, 'MM/dd') : ''}</Text>
+                            <Text style={styles.calendarText}>{selectedDate ? format(selectedDate, 'MM/dd') : ''}</Text>
                             <TouchableOpacity onPress={closeModal} style={styles.btnClose}>
-                                <Text style={styles.text}>X</Text>
+                                <Text style={styles.calendarCloseBtn}>X</Text>
                             </TouchableOpacity>
                         </View>
 
@@ -247,16 +149,16 @@ const Calendar = ({ currentDate }) => {
                                     <TouchableOpacity onPress={(event) => handleTicketDetail(event)}>
                                         <View style={styles.infoView}>
                                             <Image source={resultMap[event.result]} style={styles.icon} />
-                                            <View style={styles.score}>
-                                                <Text style={styles.text}>{event.AwayScore}</Text>
-                                                <Text style={styles.text}> : </Text>
-                                                <Text style={styles.text}>{event.HomeScore}</Text>
+                                            <View style={styles.calendarScore}>
+                                                <Text style={styles.calendarText}>{event.AwayScore}</Text>
+                                                <Text style={styles.calendarText}> : </Text>
+                                                <Text style={styles.calendarText}>{event.HomeScore}</Text>
                                             </View>
                                         </View>
                                         <View style={styles.infoView}>
-                                            <Text style={styles.text}>{event.AwayTeamCd}</Text>
-                                            <Text style={styles.text}> vs </Text>
-                                            <Text style={styles.text}>{event.HomeTeamCd}</Text>
+                                            <Text style={styles.calendarText}>{event.AwayTeamCd}</Text>
+                                            <Text style={styles.calendarText}> vs </Text>
+                                            <Text style={styles.calendarText}>{event.HomeTeamCd}</Text>
                                         </View>
                                     </TouchableOpacity>
                                 </View>
@@ -264,7 +166,7 @@ const Calendar = ({ currentDate }) => {
                         </ScrollView>
 
                         <TouchableOpacity onPress={(date) => handleAddTicket(date)}>
-                            <Image source={require('../public/png/free-icon-add-button.png')} style={styles.addBtn}/>
+                            <Image source={require('../public/png/free-icon-add-button.png')} style={styles.calendarAddBtn}/>
                         </TouchableOpacity>
                     </View>
                 </View>
