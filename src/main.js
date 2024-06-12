@@ -257,7 +257,6 @@ function CalScreen() {
   const currentDate = new Date(); // 현재 날짜
   return (
     <View style={styles.calView}>
-      <Text style={styles.calTitle}>{currentDate.getFullYear()}년 {currentDate.getMonth() + 1}월</Text>
       <Calendar currentDate={currentDate} />
     </View>
   );

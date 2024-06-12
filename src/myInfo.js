@@ -1,10 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
     View,
-    StyleSheet,
     Text, 
     TouchableOpacity,
-    useWindowDimensions,
     Image,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';

@@ -1,8 +1,7 @@
 import React, {useState} from 'react';
-import {View, StyleSheet, Text, TextInput, Alert, TouchableOpacity} from 'react-native';
+import {View, Text, TextInput, Alert, TouchableOpacity} from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import styles from './style';
-
 
 function FindPw() {
   const [pickerValue, setPickerValue] = useState('1');

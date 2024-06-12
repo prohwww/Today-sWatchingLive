@@ -6,8 +6,7 @@ const fontStyle = 'MangoDdobak-';
 // 화면 크기
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
-const cellWidth = screenWidth / 7 - 2;
-const cellHeight = screenHeight / 9;
+const cellHeight = screenHeight / 7.5;
 
 const styles = StyleSheet.create({
 
@@ -305,7 +304,6 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: 'white',
         alignItems: 'center',
-        marginTop: 10,
     },
 
     // 티켓 추가 & 수정
@@ -449,7 +447,39 @@ const styles = StyleSheet.create({
     },
 
     // calendar.js
+    safeView: {
+        flex: 1,
+        backgroundColor: 'white',
+    },
+    header: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        padding: 10,
+        backgroundColor: 'white',
+    },
+    monthNavButton: {
+        padding: 10,
+        fontFamily: fontStyle + 'B',
+        color: 'black',
+    },
+    navText: {
+        fontFamily: fontStyle + 'B',
+        fontSize: 18,
+        color: 'black',
+    },
+    monthText: {
+        fontSize: 18,
+        fontFamily: fontStyle + 'B',
+        color: 'black',
+    },
+    monthTextButton: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
     calendar: {
+        flex: 1,
         padding: 5,
     },
     weekdaysContainer: {
@@ -468,15 +498,19 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap',
         justifyContent: 'space-between',
         marginHorizontal: 2,
+        paddingVertical: 2,
     },
     calDay: {
-        width: cellWidth,
+        width: '14.28%',
         height: cellHeight,
-        justifyContent: 'center',
         alignItems: 'center',
         borderWidth: 0,
         borderColor: '#ccc',
         borderRadius: 40,
+    },
+    calImg: {
+        width: 20,
+        height: 20,
     },
     otherMonth: {
         opacity: 0.3,
@@ -542,6 +576,67 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         marginTop: 7,
     },
+
+    smallCalendarContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
+    smallCalendarContent: {
+        backgroundColor: '#ffffff',
+        padding: 20,
+        borderRadius: 10,
+        width: '90%',
+        fontFamily: fontStyle + 'R',
+    },
+    calBtnClose: {
+        backgroundColor: '#ccc',
+        padding: 5,
+        alignItems: 'center',
+        borderRadius: 5,
+        marginHorizontal: 10,
+    },
+    calendarCloseBtn: {
+        color: 'black',
+        fontSize: 15,
+        fontFamily: fontStyle + 'R',
+    },
+
+    // 년도/월만 선택
+    // pickerContainer: {
+    //     flex: 1,
+    //     justifyContent: 'center',
+    //     alignItems: 'center',
+    //     backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    // },
+    // pickerContent: {
+    //     backgroundColor: '#ffffff',
+    //     padding: 20,
+    //     borderRadius: 10,
+    //     width: '80%',
+    // },
+    // pickerTitle: {
+    //     fontSize: 18,
+    //     fontWeight: 'bold',
+    //     marginBottom: 10,
+    //     textAlign: 'center',
+    // },
+    // picker: {
+    //     width: '100%',
+    //     marginVertical: 10,
+    // },
+    // confirmButton: {
+    //     marginTop: 10,
+    //     backgroundColor: '#000',
+    //     paddingVertical: 10,
+    //     borderRadius: 5,
+    //     alignItems: 'center',
+    // },
+    // confirmText: {
+    //     color: '#fff',
+    //     fontSize: 16,
+    // },
 
     // myInfo.js
     myInfo: {

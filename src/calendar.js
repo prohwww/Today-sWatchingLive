@@ -18,30 +18,33 @@ import {
     TouchableOpacity,
     Modal,
     ScrollView,
-    useWindowDimensions,
     SafeAreaView,
     Image,
-    StatusBar,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { Calendar as RNCalendar } from 'react-native-calendars';
+// import { Picker } from '@react-native-picker/picker';
 import {resultMap} from './map';
 import styles from './style';
   
-const Calendar = ({ currentDate }) => {
-    const fontStyle = 'MangoDdobak-';
-
+const Calendar = ({ initialDate }) => {
     const navigation = useNavigation();
+    const [currentDate, setCurrentDate] = useState(initialDate || new Date());
     const [selectedDate, setSelectedDate] = useState(null);
     const [showModal, setShowModal] = useState(false);
+    // const [showYearMonthPicker, setShowYearMonthPicker] = useState(false);
+    // const [selectedYear, setSelectedYear] = useState(currentDate.getFullYear());
+    // const [selectedMonth, setSelectedMonth] = useState(currentDate.getMonth() + 1);
+    const [showSmallCalendar, setShowSmallCalendar] = useState(false); 
     const [events, setEvents] = useState([
-        { GameDate: new Date(2024, 3, 28), SportKind: 'B', result: 'W', HomeTeamCd: 'SSG 랜더스', AwayTeamCd: 'KT 위즈', HomeScore: 11, AwayScore: 6 },
-        { GameDate: new Date(2024, 3, 21), SportKind: 'B', result: 'L', HomeTeamCd: 'SSG 랜더스', AwayTeamCd: 'LG 트윈스', HomeScore: 8, AwayScore: 10 },
-        { GameDate: new Date(2024, 3, 21), SportKind: 'B', result: 'T', HomeTeamCd: 'SSG 랜더스', AwayTeamCd: 'LG 트윈스', HomeScore: 5, AwayScore: 5 },
-        { GameDate: new Date(2024, 5, 1), SportKind: 'B', result: 'W', HomeTeamCd: '한화 이글스', AwayTeamCd: 'SSG 랜더스', HomeScore: 6, AwayScore: 8 },
-        { GameDate: new Date(2024, 5, 21), SportKind: 'B', result: 'L', HomeTeamCd: 'SSG 랜더스', AwayTeamCd: 'LG 트윈스', HomeScore: 8, AwayScore: 10 },
-        { GameDate: new Date(2024, 5, 21), SportKind: 'B', result: 'T', HomeTeamCd: 'SSG 랜더스', AwayTeamCd: 'LG 트윈스', HomeScore: 5, AwayScore: 5 },
+        { GameDate: new Date(2024, 3, 28), SportKind: 'BS', result: 'W', HomeTeamCd: 'SSG 랜더스', AwayTeamCd: 'KT 위즈', HomeScore: 11, AwayScore: 6 },
+        { GameDate: new Date(2024, 3, 21), SportKind: 'BS', result: 'L', HomeTeamCd: 'SSG 랜더스', AwayTeamCd: 'LG 트윈스', HomeScore: 8, AwayScore: 10 },
+        { GameDate: new Date(2024, 3, 21), SportKind: 'BS', result: 'T', HomeTeamCd: 'SSG 랜더스', AwayTeamCd: 'LG 트윈스', HomeScore: 5, AwayScore: 5 },
+        { GameDate: new Date(2024, 5, 1), SportKind: 'BS', result: 'W', HomeTeamCd: '한화 이글스', AwayTeamCd: 'SSG 랜더스', HomeScore: 6, AwayScore: 8 },
+        { GameDate: new Date(2024, 5, 21), SportKind: 'BS', result: 'L', HomeTeamCd: 'SSG 랜더스', AwayTeamCd: 'LG 트윈스', HomeScore: 8, AwayScore: 10 },
+        { GameDate: new Date(2024, 5, 21), SportKind: 'BS', result: 'T', HomeTeamCd: 'SSG 랜더스', AwayTeamCd: 'LG 트윈스', HomeScore: 5, AwayScore: 5 },
     ]);
-
+    
     const monthStart = startOfMonth(currentDate);
     const monthEnd = endOfMonth(currentDate);
     const startDate = startOfWeek(monthStart);
@@ -58,6 +61,16 @@ const Calendar = ({ currentDate }) => {
         setShowModal(false);
     };
 
+    const selectDateFromSmallCalendar = (day) => {
+        setCurrentDate(new Date(day.timestamp));
+        setShowSmallCalendar(false);
+    };
+
+    // const handleYearMonthSelect = () => {
+    //     setCurrentDate(new Date(selectedYear, selectedMonth - 1, 1));
+    //     setShowYearMonthPicker(false);
+    // };
+
     const handleTicketDetail = (event) => {
         // 티켓 상세 화면 조회
         navigation.navigate('ticketDetail', { route: event });
@@ -68,12 +81,11 @@ const Calendar = ({ currentDate }) => {
         navigation.navigate('addTicket');
     };
 
-    const handleScroll = (event) => {
-        const offsetY = event.nativeEvent.contentOffset.y;
-        if (offsetY < -50) {
-            setCurrentDate(subMonths(currentDate, 1)); 
-        } else if (offsetY > 50) {
+    const changeMonth = (direction) => {
+        if (direction === 'next') {
             setCurrentDate(addMonths(currentDate, 1));
+        } else if (direction === 'prev') {
+            setCurrentDate(subMonths(currentDate, 1));
         }
     };
 
@@ -85,44 +97,54 @@ const Calendar = ({ currentDate }) => {
     const selectedDateEvents = events.filter(event => isSameDay(event.GameDate, selectedDate));
 
     return (
-        <SafeAreaView>
-        <ScrollView
-            style={styles.calendar}
-            onScroll={handleScroll}
-            scrollEventThrottle={16}
-            contentContainerStyle={{ flexGrow: 1}}
-            scrollEnabled={true}
-            showsVerticalScrollIndicator={false}
-        >
-            <View style={styles.weekdaysContainer}>
-                {weekdayElements}
+        <SafeAreaView style={styles.safeView}>
+            <View style={styles.header}>
+                <TouchableOpacity onPress={() => changeMonth('prev')} style={styles.monthNavButton}>
+                    <Text style={styles.navText}>{"<"}</Text>
+                </TouchableOpacity>
+                {/* <TouchableOpacity onPress={() => setShowYearMonthPicker(true)} style={styles.monthTextButton}> */}
+                <TouchableOpacity onPress={() => setShowSmallCalendar(true)} style={styles.monthTextButton}>
+                    <Text style={styles.monthText}>{format(currentDate, 'yyyy년 MM월')}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => changeMonth('next')} style={styles.monthNavButton}>
+                    <Text style={styles.navText}>{">"}</Text>
+                </TouchableOpacity>
             </View>
-            <View style={styles.daysContainer}>
-                {days.map((day) => (
-                    <TouchableOpacity
-                        key={day}
-                        style={[
-                            styles.calDay, 
-                            !isSameMonth(day, currentDate) && styles.otherMonth,
-                            selectedDate && isSameDay(day, selectedDate) && styles.selectedDay
-                        ]}
-                        onPress={() => handleDateClick(day)}
-                    >
-                        <Text style={styles.calendarText}>{format(day, 'd')}</Text>
-                        {events.some(event => isSameDay(event.GameDate, day)) && (
-                            events
-                                .filter(event => isSameDay(event.GameDate, day))
-                                .map((event, index) => (
-                                    <Image 
-                                        key={index}
-                                        source={resultMap[event.result]}
-                                        style={{ width: 20, height: 20, position: 'absolute', top: 5, right: 5 }} 
-                                    />
-                                ))
-                        )}
-                    </TouchableOpacity>
-                ))}
-            </View>
+            <ScrollView
+                style={styles.calendar}
+                contentContainerStyle={styles.contentContainer}
+                showsVerticalScrollIndicator={false}
+            >
+                <View style={styles.weekdaysContainer}>
+                    {weekdayElements}
+                </View>
+                <View style={styles.daysContainer}>
+                    {days.map((day) => (
+                        <TouchableOpacity
+                            key={day}
+                            style={[
+                                styles.calDay, 
+                                !isSameMonth(day, currentDate) && styles.otherMonth,
+                                selectedDate && isSameDay(day, selectedDate) && styles.selectedDay
+                            ]}
+                            onPress={() => handleDateClick(day)}
+                        >
+                            <Text style={styles.calendarText}>{format(day, 'd')}</Text>
+                            {events.some(event => isSameDay(event.GameDate, day)) && (
+                                events
+                                    .filter(event => isSameDay(event.GameDate, day))
+                                    .map((event, index) => (
+                                        <Image 
+                                            key={index}
+                                            source={resultMap[event.result]}
+                                            style={styles.calImg} 
+                                        />
+                                    ))
+                            )}
+                        </TouchableOpacity>
+                    ))}
+                </View>
+            </ScrollView>
             <Modal
                 visible={showModal}
                 animationType="slide"
@@ -171,7 +193,61 @@ const Calendar = ({ currentDate }) => {
                     </View>
                 </View>
             </Modal>
-        </ScrollView>
+            <Modal
+                visible={showSmallCalendar}
+                animationType="fade"
+                transparent={true}
+                onRequestClose={() => setShowSmallCalendar(false)}
+            >
+                <View style={styles.smallCalendarContainer}>
+                    <View style={styles.smallCalendarContent}>
+                        <RNCalendar
+                            onDayPress={selectDateFromSmallCalendar}
+                            markedDates={{
+                                [format(currentDate, 'yyyy-MM-dd')]: { selected: true }
+                            }}
+                        />
+                        <TouchableOpacity onPress={() => setShowSmallCalendar(false)} style={styles.calBtnClose}>
+                            <Text style={styles.calendarCloseBtn}>Close</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </Modal>
+
+            {/* <Modal
+                visible={showYearMonthPicker}
+                animationType="slide"
+                transparent={true}
+                onRequestClose={() => setShowYearMonthPicker(false)}
+            >
+                <View style={styles.pickerContainer}>
+                    <View style={styles.pickerContent}>
+                        <Text style={styles.pickerTitle}>Select Year and Month</Text>
+                        <Picker
+                            selectedValue={selectedYear}
+                            onValueChange={(itemValue) => setSelectedYear(itemValue)}
+                            style={styles.picker}
+                        >
+                            {[...Array(10).keys()].map(offset => {
+                                const year = currentDate.getFullYear() - 5 + offset;
+                                return <Picker.Item key={year} label={year.toString()} value={year} />;
+                            })}
+                        </Picker>
+                        <Picker
+                            selectedValue={selectedMonth}
+                            onValueChange={(itemValue) => setSelectedMonth(itemValue)}
+                            style={styles.picker}
+                        >
+                            {[...Array(12).keys()].map(month => (
+                                <Picker.Item key={month} label={(month + 1).toString()} value={month + 1} />
+                            ))}
+                        </Picker>
+                        <TouchableOpacity onPress={handleYearMonthSelect} style={styles.confirmButton}>
+                            <Text style={styles.confirmText}>Confirm</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </Modal> */}
         </SafeAreaView>
     );
 };

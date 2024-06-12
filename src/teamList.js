@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import {
     View,
-    StyleSheet,
     Text, 
     TouchableOpacity,
     Modal,
-    useWindowDimensions,
     Image,
 } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
