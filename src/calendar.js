@@ -13,7 +13,6 @@ import {
 } from 'date-fns';
 import {
     View,
-    StyleSheet,
     Text, 
     TouchableOpacity,
     Modal,
@@ -41,7 +40,11 @@ const Calendar = ({ initialDate }) => {
         { GameDate: new Date(2024, 3, 21), SportKind: 'BS', result: 'L', HomeTeamCd: 'SSG 랜더스', AwayTeamCd: 'LG 트윈스', HomeScore: 8, AwayScore: 10 },
         { GameDate: new Date(2024, 3, 21), SportKind: 'BS', result: 'T', HomeTeamCd: 'SSG 랜더스', AwayTeamCd: 'LG 트윈스', HomeScore: 5, AwayScore: 5 },
         { GameDate: new Date(2024, 5, 1), SportKind: 'BS', result: 'W', HomeTeamCd: '한화 이글스', AwayTeamCd: 'SSG 랜더스', HomeScore: 6, AwayScore: 8 },
-        { GameDate: new Date(2024, 5, 21), SportKind: 'BS', result: 'L', HomeTeamCd: 'SSG 랜더스', AwayTeamCd: 'LG 트윈스', HomeScore: 8, AwayScore: 10 },
+        { GameDate: new Date(2024, 5, 21), SportKind: 'BS', result: 'W', HomeTeamCd: 'SSG 랜더스', AwayTeamCd: 'LG 트윈스', HomeScore: 8, AwayScore: 10 },
+        { GameDate: new Date(2024, 5, 21), SportKind: 'BS', result: 'W', HomeTeamCd: 'SSG 랜더스', AwayTeamCd: 'LG 트윈스', HomeScore: 5, AwayScore: 5 },
+        { GameDate: new Date(2024, 5, 21), SportKind: 'BS', result: 'W', HomeTeamCd: 'SSG 랜더스', AwayTeamCd: 'LG 트윈스', HomeScore: 5, AwayScore: 5 },
+        { GameDate: new Date(2024, 5, 21), SportKind: 'BS', result: 'W', HomeTeamCd: 'SSG 랜더스', AwayTeamCd: 'LG 트윈스', HomeScore: 5, AwayScore: 5 },
+        { GameDate: new Date(2024, 5, 21), SportKind: 'BS', result: 'T', HomeTeamCd: 'SSG 랜더스', AwayTeamCd: 'LG 트윈스', HomeScore: 5, AwayScore: 5 },
         { GameDate: new Date(2024, 5, 21), SportKind: 'BS', result: 'T', HomeTeamCd: 'SSG 랜더스', AwayTeamCd: 'LG 트윈스', HomeScore: 5, AwayScore: 5 },
     ]);
     

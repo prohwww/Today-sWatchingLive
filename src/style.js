@@ -218,7 +218,9 @@ const styles = StyleSheet.create({
     },
     buttonSubContainer: {
         width: '100%',
-        height: '100%',
+        height: '75%',
+        backgroundColor: 'white',
+        borderRadius: 50,
     },
 
     // 티켓내용
