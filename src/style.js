@@ -513,6 +513,7 @@ const styles = StyleSheet.create({
     calImg: {
         width: 20,
         height: 20,
+        justifyContent: 'center',
     },
     otherMonth: {
         opacity: 0.3,
@@ -546,7 +547,7 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
     },
     eventItem: {
-        height: 55,
+        height: 60,
         borderWidth: 0.7,
         borderColor: 'grey',
         marginBottom: 5,
@@ -569,6 +570,7 @@ const styles = StyleSheet.create({
     calendarText: {
         fontFamily: fontStyle + 'R',
         color: 'black',
+        marginBottom: 10,
     },
     calendarCloseBtn: {
         fontFamily: fontStyle + 'R',

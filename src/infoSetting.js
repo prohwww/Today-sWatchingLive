@@ -7,8 +7,11 @@ import {
     Modal,
 } from 'react-native';
 import styles from './style';
+import { useNavigation } from '@react-navigation/native';
 
 const InfoSetting = (userId) => {
+    const navigation = useNavigation();
+
     const [user, setUser] = useState(null);
     const [modalVisible, setModalVisible] = useState(false);
     const [currentPassword, setCurrentPassword] = useState('');
@@ -40,6 +43,16 @@ const InfoSetting = (userId) => {
         setNewPassword('');
         setConfirmPassword('');
         setErrorMessage('');
+    };
+
+    // 창 닫기
+    const closeWindow = () => {
+        navigation.goBack();
+    };
+
+    const handleChangeSetting = () => {
+        // TODO 내 정보 변경
+
     };
 
     const handleChangePassword = () => {
@@ -87,10 +100,10 @@ const InfoSetting = (userId) => {
                 </View>
             </View>
             <View style={styles.setBtnContainer}>
-                <TouchableOpacity style={styles.cancelBtn} onPress={closeModal}>
+                <TouchableOpacity style={styles.cancelBtn} onPress={closeWindow}>
                     <Text style={styles.cancelBtnText}>취소</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.submitBtn} onPress={handleChangePassword}>
+                <TouchableOpacity style={styles.submitBtn} onPress={handleChangeSetting}>
                     <Text style={styles.submitBtnText}>변경</Text>
                 </TouchableOpacity>
             </View>

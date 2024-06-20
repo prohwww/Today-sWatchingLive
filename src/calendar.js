@@ -36,16 +36,16 @@ const Calendar = ({ initialDate }) => {
     // const [selectedMonth, setSelectedMonth] = useState(currentDate.getMonth() + 1);
     const [showSmallCalendar, setShowSmallCalendar] = useState(false); 
     const [events, setEvents] = useState([
-        { GameDate: new Date(2024, 3, 28), SportKind: 'BS', result: 'W', HomeTeamCd: 'SSG 랜더스', AwayTeamCd: 'KT 위즈', HomeScore: 11, AwayScore: 6 },
-        { GameDate: new Date(2024, 3, 21), SportKind: 'BS', result: 'L', HomeTeamCd: 'SSG 랜더스', AwayTeamCd: 'LG 트윈스', HomeScore: 8, AwayScore: 10 },
-        { GameDate: new Date(2024, 3, 21), SportKind: 'BS', result: 'T', HomeTeamCd: 'SSG 랜더스', AwayTeamCd: 'LG 트윈스', HomeScore: 5, AwayScore: 5 },
-        { GameDate: new Date(2024, 5, 1), SportKind: 'BS', result: 'W', HomeTeamCd: '한화 이글스', AwayTeamCd: 'SSG 랜더스', HomeScore: 6, AwayScore: 8 },
-        { GameDate: new Date(2024, 5, 21), SportKind: 'BS', result: 'W', HomeTeamCd: 'SSG 랜더스', AwayTeamCd: 'LG 트윈스', HomeScore: 8, AwayScore: 10 },
-        { GameDate: new Date(2024, 5, 21), SportKind: 'BS', result: 'W', HomeTeamCd: 'SSG 랜더스', AwayTeamCd: 'LG 트윈스', HomeScore: 5, AwayScore: 5 },
-        { GameDate: new Date(2024, 5, 21), SportKind: 'BS', result: 'W', HomeTeamCd: 'SSG 랜더스', AwayTeamCd: 'LG 트윈스', HomeScore: 5, AwayScore: 5 },
-        { GameDate: new Date(2024, 5, 21), SportKind: 'BS', result: 'W', HomeTeamCd: 'SSG 랜더스', AwayTeamCd: 'LG 트윈스', HomeScore: 5, AwayScore: 5 },
-        { GameDate: new Date(2024, 5, 21), SportKind: 'BS', result: 'T', HomeTeamCd: 'SSG 랜더스', AwayTeamCd: 'LG 트윈스', HomeScore: 5, AwayScore: 5 },
-        { GameDate: new Date(2024, 5, 21), SportKind: 'BS', result: 'T', HomeTeamCd: 'SSG 랜더스', AwayTeamCd: 'LG 트윈스', HomeScore: 5, AwayScore: 5 },
+        { TicketNo: 1, GameDate: new Date(2024, 3, 28), SportKind: 'BS', result: 'W', HomeTeamCd: 'SSG 랜더스', AwayTeamCd: 'KT 위즈', HomeScore: 11, AwayScore: 6 },
+        { TicketNo: 2, GameDate: new Date(2024, 3, 21), SportKind: 'BS', result: 'L', HomeTeamCd: 'SSG 랜더스', AwayTeamCd: 'LG 트윈스', HomeScore: 8, AwayScore: 10 },
+        { TicketNo: 3, GameDate: new Date(2024, 3, 21), SportKind: 'BS', result: 'T', HomeTeamCd: 'SSG 랜더스', AwayTeamCd: 'LG 트윈스', HomeScore: 5, AwayScore: 5 },
+        { TicketNo: 1, GameDate: new Date(2024, 5, 1), SportKind: 'BS', result: 'W', HomeTeamCd: '한화 이글스', AwayTeamCd: 'SSG 랜더스', HomeScore: 6, AwayScore: 8 },
+        { TicketNo: 2, GameDate: new Date(2024, 5, 21), SportKind: 'BS', result: 'W', HomeTeamCd: 'SSG 랜더스', AwayTeamCd: 'LG 트윈스', HomeScore: 8, AwayScore: 10 },
+        { TicketNo: 3, GameDate: new Date(2024, 5, 21), SportKind: 'BS', result: 'W', HomeTeamCd: 'SSG 랜더스', AwayTeamCd: 'LG 트윈스', HomeScore: 5, AwayScore: 5 },
+        { TicketNo: 1, GameDate: new Date(2024, 5, 21), SportKind: 'BS', result: 'W', HomeTeamCd: 'SSG 랜더스', AwayTeamCd: 'LG 트윈스', HomeScore: 5, AwayScore: 5 },
+        { TicketNo: 2, GameDate: new Date(2024, 5, 21), SportKind: 'BS', result: 'W', HomeTeamCd: 'SSG 랜더스', AwayTeamCd: 'LG 트윈스', HomeScore: 5, AwayScore: 5 },
+        { TicketNo: 3, GameDate: new Date(2024, 5, 21), SportKind: 'BS', result: 'T', HomeTeamCd: 'SSG 랜더스', AwayTeamCd: 'LG 트윈스', HomeScore: 5, AwayScore: 5 },
+        { TicketNo: 1, GameDate: new Date(2024, 5, 21), SportKind: 'BS', result: 'T', HomeTeamCd: 'SSG 랜더스', AwayTeamCd: 'LG 트윈스', HomeScore: 5, AwayScore: 5 },
     ]);
     
     const monthStart = startOfMonth(currentDate);
@@ -76,7 +76,8 @@ const Calendar = ({ initialDate }) => {
 
     const handleTicketDetail = (event) => {
         // 티켓 상세 화면 조회
-        navigation.navigate('ticketDetail', { route: event });
+        console.log(event.SportKind);
+        navigation.navigate('ticketDetail', { event });
     };
 
     const handleAddTicket = (date) => {
@@ -136,6 +137,7 @@ const Calendar = ({ initialDate }) => {
                             {events.some(event => isSameDay(event.GameDate, day)) && (
                                 events
                                     .filter(event => isSameDay(event.GameDate, day))
+                                    .slice(0, 3)
                                     .map((event, index) => (
                                         <Image 
                                             key={index}
@@ -166,12 +168,11 @@ const Calendar = ({ initialDate }) => {
 
                         <ScrollView 
                             style={styles.modalList}
-                            horizontal={true}
-                            contentContainerStyle={{ flexGrow: 1, flexDirection: 'column'}}
+                            contentContainerStyle={{ flexGrow: 1}}
                         >
                             {selectedDateEvents.map((event, index) => (
                                 <View key={index} style={styles.eventItem}>
-                                    <TouchableOpacity onPress={(event) => handleTicketDetail(event)}>
+                                    <TouchableOpacity onPress={() => handleTicketDetail(event)}>
                                         <View style={styles.infoView}>
                                             <Image source={resultMap[event.result]} style={styles.icon} />
                                             <View style={styles.calendarScore}>
