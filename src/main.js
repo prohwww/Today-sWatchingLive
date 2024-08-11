@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Alert, ScrollView, View, StyleSheet, Text, Image, FlatList, TextInput, TouchableOpacity } from 'react-native';
+import { Alert, ScrollView, View, Text, Image, FlatList, TextInput, TouchableOpacity } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import Calendar from './calendar';
 import MyInfo from './myInfo';
 import styles from './style';
@@ -121,7 +121,7 @@ function TicketScreen({ navigation }) {
   const [searchKeyword, setSearchKeyword] = useState('');
   const [data, setData] = useState([]); // 데이터 상태 추가
 
-  useEffect(() => {
+  const fetchData = useCallback(() => {
     fetch(host + '/ticket/postView', {
       method: 'POST',
       headers: {
@@ -139,10 +139,17 @@ function TicketScreen({ navigation }) {
       setData(data); // 데이터를 상태에 저장
     })
     .catch(error => {
-      alert('error!');
+      alert('Error fetching data!');
       console.error('Error fetching data:', error);
     });
-  }, []); // 빈 배열을 두 번째 인자로 전달하여 컴포넌트가 마운트될 때 한 번만 실행되도록 설정
+  }, []); // 빈 배열을 두 번째 인자로 전달하여 `fetchData`는 한 번만 생성됨
+
+  // 화면이 포커스될 때마다 데이터 요청
+  useFocusEffect(
+    useCallback(() => {
+      fetchData();
+    }, [fetchData])
+  );
 
   const renderItem = ({ item }) => (
     <ScrollView>
@@ -251,7 +258,9 @@ export function TicketDetail({ route }) {
               <Text style={{ fontSize: 10 }}></Text>
               <View style={styles.RowStyle}>
                 <View style={[styles.ticketTitle, styles.fiex1]}>
-                  <Text style={styles.ticketDetailText}>{data.ticketName.split(' VS ')[0]}</Text>
+                  <Text style={styles.ticketDetailText}>
+                    {(data.ticketName ? data.ticketName.split(' VS ')[0] : '')}
+                  </Text>
                   <Text style={{fontSize: 10}}></Text>
                   <Text style={styles.ticketDetailText}>{data.homeScore}</Text>
                 </View>
@@ -259,7 +268,9 @@ export function TicketDetail({ route }) {
                   <Text style={styles.ticketDetailVS}> vs </Text>
                 </View>
                 <View style={[styles.ticketTitle, styles.fiex1]}>
-                  <Text style={styles.ticketDetailText}>{data.ticketName.split(' VS ')[1]}</Text>
+                  <Text style={styles.ticketDetailText}>
+                    {(data.ticketName ? data.ticketName.split(' VS ')[1] : '')}
+                  </Text>
                   <Text style={{fontSize: 10}}></Text>
                   <Text style={styles.ticketDetailText}>{data.awayScore}</Text>
                 </View>
@@ -322,7 +333,31 @@ export function TicketDelete(navigation, data) {
       },
       {
         text: '확인',
-        onPress: () => { navigation.navigate('ticket') },
+        onPress: () => {
+          fetch('http://14.6.16.195:9004/ticket/deleteEntry', {
+            method: 'POST', // 메서드를 POST로 설정
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              "ticketNo": data.params.item.ticketNo
+            })
+          })
+            .then(response => response.text())
+            .then(data => {
+              console.log('Received data:', data);
+              if (data == "ticket delete success") {
+                navigation.navigate('ticket');
+              }else{
+                alert('티켓삭제 error!');
+              }
+            })
+            .catch(error => {
+              alert('error!');
+              console.error('Error fetching data:', error);
+              // 에러 처리를 수행할 수 있습니다.
+            });    
+        },
       },
     ],
     { cancelable: false }
