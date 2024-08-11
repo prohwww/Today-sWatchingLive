@@ -9,15 +9,36 @@ function LoginScreen({ navigation, onLoginSuccess }) {
 
   // 로그인
   const onLogin = () => {
+
     if (!userID) alert('아이디를 입력해주세요.');
-    else if (!password) alert('비밀번호를 입력해주세요.');
-    // 임시 마스터 계정
-    else if (userID === 'master' && password === '0000') {
-      onLoginSuccess();
-    } else {
-      alert('아이디 또는 비밀번호가 잘못되었습니다.');
-    }
-  };
+    if (!password) alert('비밀번호를 입력해주세요.');
+
+    fetch('http://14.6.16.195:9004/user/login', {
+      method: 'POST', // 메서드를 POST로 설정
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        userId: userID,
+        // 추후 암호화하는게 좋을,,
+        password: password
+      })
+    })
+      .then(response => response.json()) // response.text() 대신 response.json() 사용
+      .then(data => {
+        console.log('Received data:', data);
+        if (data === true) {
+          onLoginSuccess();
+        } else {
+          alert('아이디 또는 비밀번호가 잘못되었습니다.');
+        }
+      })
+      .catch(error => {
+        alert('error!');
+        console.error('Error fetching data:', error);
+        // 에러 처리를 수행할 수 있습니다.
+      });
+  }
 
   const onSignin = () => {
     navigation.navigate('signin');

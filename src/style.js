@@ -182,7 +182,6 @@ const styles = StyleSheet.create({
         position: 'relative',
         flex: 1,
         backgroundColor: 'white',
-        marginTop: screenHeight * 0.01,
     },
     mainSearchItem: {
         marginHorizontal: 5,
@@ -247,7 +246,7 @@ const styles = StyleSheet.create({
         marginBottom: 5
     },
     ticketDetailText: {
-        fontSize: 20,
+        fontSize: 18,
         fontFamily: fontStyle + 'B'
     },
     ticketDetailVS: {
@@ -283,7 +282,7 @@ const styles = StyleSheet.create({
     },
     ticketUserImg: {
         width: screenWidth * 0.85,
-        height: 330
+        height: 300
     },
     ticketUserDiaryTxt: {
         padding: 8,
@@ -306,6 +305,18 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: 'white',
         alignItems: 'center',
+    },
+    ticketTitle: {
+        alignItems: 'center',
+    },
+    ticketRoeStyle: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+    },
+    flexCenter: {
+        flex: 0, // 가운데 View의 크기를 작게 설정
+        paddingHorizontal: 10, // 텍스트가 들어갈 수 있을 정도의 여유 공간 부여
     },
 
     // 티켓 추가 & 수정
