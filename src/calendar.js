@@ -21,8 +21,7 @@ import {
     Image,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { Calendar as RNCalendar } from 'react-native-calendars';
-// import { Picker } from '@react-native-picker/picker';
+import { Picker } from '@react-native-picker/picker';
 import {resultMap} from './map';
 import styles from './style';
   
@@ -31,10 +30,11 @@ const Calendar = ({ initialDate }) => {
     const [currentDate, setCurrentDate] = useState(initialDate || new Date());
     const [selectedDate, setSelectedDate] = useState(null);
     const [showModal, setShowModal] = useState(false);
-    // const [showYearMonthPicker, setShowYearMonthPicker] = useState(false);
-    // const [selectedYear, setSelectedYear] = useState(currentDate.getFullYear());
-    // const [selectedMonth, setSelectedMonth] = useState(currentDate.getMonth() + 1);
-    const [showSmallCalendar, setShowSmallCalendar] = useState(false); 
+  
+    const [showYearMonthPicker, setShowYearMonthPicker] = useState(false);
+    const [selectedYear, setSelectedYear] = useState(currentDate.getFullYear());
+    const [selectedMonth, setSelectedMonth] = useState(currentDate.getMonth() + 1);
+    
     const [events, setEvents] = useState([
         { TicketNo: 1, GameDate: new Date(2024, 3, 28), SportKind: 'BS', result: 'W', HomeTeamCd: 'SSG 랜더스', AwayTeamCd: 'KT 위즈', HomeScore: 11, AwayScore: 6 },
         { TicketNo: 2, GameDate: new Date(2024, 3, 21), SportKind: 'BS', result: 'L', HomeTeamCd: 'SSG 랜더스', AwayTeamCd: 'LG 트윈스', HomeScore: 8, AwayScore: 10 },
@@ -64,15 +64,10 @@ const Calendar = ({ initialDate }) => {
         setShowModal(false);
     };
 
-    const selectDateFromSmallCalendar = (day) => {
-        setCurrentDate(new Date(day.timestamp));
-        setShowSmallCalendar(false);
+    const handleYearMonthSelect = () => {
+        setCurrentDate(new Date(selectedYear, selectedMonth - 1, 1));
+        setShowYearMonthPicker(false);
     };
-
-    // const handleYearMonthSelect = () => {
-    //     setCurrentDate(new Date(selectedYear, selectedMonth - 1, 1));
-    //     setShowYearMonthPicker(false);
-    // };
 
     const handleTicketDetail = (event) => {
         // 티켓 상세 화면 조회
@@ -106,8 +101,8 @@ const Calendar = ({ initialDate }) => {
                 <TouchableOpacity onPress={() => changeMonth('prev')} style={styles.monthNavButton}>
                     <Text style={styles.navText}>{"<"}</Text>
                 </TouchableOpacity>
-                {/* <TouchableOpacity onPress={() => setShowYearMonthPicker(true)} style={styles.monthTextButton}> */}
-                <TouchableOpacity onPress={() => setShowSmallCalendar(true)} style={styles.monthTextButton}>
+                <TouchableOpacity onPress={() => setShowYearMonthPicker(true)} style={styles.monthTextButton}>
+                {/* <TouchableOpacity onPress={() => setShowSmallCalendar(true)} style={styles.monthTextButton}> */}
                     <Text style={styles.monthText}>{format(currentDate, 'yyyy년 MM월')}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => changeMonth('next')} style={styles.monthNavButton}>
@@ -198,27 +193,6 @@ const Calendar = ({ initialDate }) => {
                 </View>
             </Modal>
             <Modal
-                visible={showSmallCalendar}
-                animationType="fade"
-                transparent={true}
-                onRequestClose={() => setShowSmallCalendar(false)}
-            >
-                <View style={styles.smallCalendarContainer}>
-                    <View style={styles.smallCalendarContent}>
-                        <RNCalendar
-                            onDayPress={selectDateFromSmallCalendar}
-                            markedDates={{
-                                [format(currentDate, 'yyyy-MM-dd')]: { selected: true }
-                            }}
-                        />
-                        <TouchableOpacity onPress={() => setShowSmallCalendar(false)} style={styles.calBtnClose}>
-                            <Text style={styles.calendarCloseBtn}>Close</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-            </Modal>
-
-            {/* <Modal
                 visible={showYearMonthPicker}
                 animationType="slide"
                 transparent={true}
@@ -226,7 +200,7 @@ const Calendar = ({ initialDate }) => {
             >
                 <View style={styles.pickerContainer}>
                     <View style={styles.pickerContent}>
-                        <Text style={styles.pickerTitle}>Select Year and Month</Text>
+                        <Text style={styles.pickerTitle}>기록할 날짜를 선택하세요.</Text>
                         <Picker
                             selectedValue={selectedYear}
                             onValueChange={(itemValue) => setSelectedYear(itemValue)}
@@ -247,11 +221,11 @@ const Calendar = ({ initialDate }) => {
                             ))}
                         </Picker>
                         <TouchableOpacity onPress={handleYearMonthSelect} style={styles.confirmButton}>
-                            <Text style={styles.confirmText}>Confirm</Text>
+                            <Text style={styles.confirmText}>확인</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
-            </Modal> */}
+            </Modal>
         </SafeAreaView>
     );
 };

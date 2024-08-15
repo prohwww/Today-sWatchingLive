@@ -40,7 +40,6 @@ const styles = StyleSheet.create({
         height: screenWidth * 0.4,
     },
 
-
     // 회원가입
     JoinHeadContainer: {
         flexDirection: 'row',
@@ -70,7 +69,7 @@ const styles = StyleSheet.create({
         fontFamily: fontStyle + 'B',
         fontSize: 14,
         color: 'black',
-        marginRight: screenWidth * 0.035,
+        width: 70,
         marginLeft: screenWidth * 0.03,
     },
     JoinContext: {
@@ -81,8 +80,7 @@ const styles = StyleSheet.create({
         fontFamily: fontStyle + 'R',
         fontSize: 12,
         width: '35%',
-        height: '65%',
-        marginLeft: screenWidth * 0.03,
+        height: '70%',
         marginRight: screenWidth * 0.03,
         marginVertical: 5,
         borderStyle: 'solid',
@@ -94,8 +92,7 @@ const styles = StyleSheet.create({
         fontFamily: fontStyle + 'R',
         fontSize: 12,
         width: '50%',
-        height: '55%',
-        marginLeft: screenWidth * 0.03,
+        height: '43%',
         marginRight: screenWidth * 0.04,
         marginVertical: 5,
         borderStyle: 'solid',
@@ -106,7 +103,7 @@ const styles = StyleSheet.create({
         fontFamily: fontStyle + 'R',
         fontSize: 12,
         width: '50%',
-        height: '65%',
+        height: '60%',
         marginVertical: 5,
         borderStyle: 'solid',
         borderColor: 'black',
@@ -153,6 +150,18 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'flex-start',
         justifyContent: 'center',
+    },
+    joinPwOkTxt: {
+        fontFamily: fontStyle,
+        fontSize: 14,
+        color: 'blue',
+        marginLeft: screenWidth * 0.2,
+    },
+    joinPwErrTxt: {
+        fontFamily: fontStyle,
+        fontSize: 14,
+        color: 'red',
+        marginLeft: screenWidth * 0.2,
     },
 
     // 티켓목록
@@ -388,6 +397,33 @@ const styles = StyleSheet.create({
         borderWidth: 0.8,
         fontFamily: fontStyle + 'R',
     },
+    radioButtonContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        flexWrap: 'wrap',
+    },
+    radioButton: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginHorizontal: 8,
+        padding: 8,
+        borderRadius: 4,
+        borderColor: '#ccc',
+        borderWidth: 1,
+    },
+    selectedRadioButton: {
+        borderColor: 'black',
+    },
+    innerCircle: {
+        width: 16,
+        height: 16,
+        borderRadius: 8,
+        borderWidth: 2,
+        marginRight: 8,
+    },
+    radioButtonLabel: {
+        fontSize: 14
+    },
     alignCenter: {
         alignItems: 'center'
     },
@@ -592,66 +628,43 @@ const styles = StyleSheet.create({
         marginTop: 7,
     },
 
-    smallCalendarContainer: {
+    // 년도/월 선택 모달
+    pickerContainer: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
-    smallCalendarContent: {
+    pickerContent: {
         backgroundColor: '#ffffff',
         padding: 20,
         borderRadius: 10,
-        width: '90%',
-        fontFamily: fontStyle + 'R',
+        width: '80%',
     },
-    calBtnClose: {
-        backgroundColor: '#ccc',
-        padding: 5,
-        alignItems: 'center',
-        borderRadius: 5,
-        marginHorizontal: 10,
-    },
-    calendarCloseBtn: {
+    pickerTitle: {
+        fontFamily: fontStyle + "B",
+        fontSize: 18,
+        marginBottom: 10,
+        textAlign: 'center',
         color: 'black',
-        fontSize: 15,
-        fontFamily: fontStyle + 'R',
     },
-
-    // 년도/월만 선택
-    // pickerContainer: {
-    //     flex: 1,
-    //     justifyContent: 'center',
-    //     alignItems: 'center',
-    //     backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    // },
-    // pickerContent: {
-    //     backgroundColor: '#ffffff',
-    //     padding: 20,
-    //     borderRadius: 10,
-    //     width: '80%',
-    // },
-    // pickerTitle: {
-    //     fontSize: 18,
-    //     fontWeight: 'bold',
-    //     marginBottom: 10,
-    //     textAlign: 'center',
-    // },
-    // picker: {
-    //     width: '100%',
-    //     marginVertical: 10,
-    // },
-    // confirmButton: {
-    //     marginTop: 10,
-    //     backgroundColor: '#000',
-    //     paddingVertical: 10,
-    //     borderRadius: 5,
-    //     alignItems: 'center',
-    // },
-    // confirmText: {
-    //     color: '#fff',
-    //     fontSize: 16,
-    // },
+    picker: {
+        fontFamily: fontStyle + "R",
+        width: '100%',
+        marginVertical: 10,
+    },
+    confirmButton: {
+        marginTop: 10,
+        backgroundColor: '#000',
+        paddingVertical: 10,
+        borderRadius: 5,
+        alignItems: 'center',
+    },
+    confirmText: {
+        fontFamily: fontStyle + "B",
+        color: '#fff',
+        fontSize: 16,
+    },
 
     // myInfo.js
     myInfo: {

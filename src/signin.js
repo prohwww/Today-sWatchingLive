@@ -1,23 +1,28 @@
 import React, { useState } from 'react';
-import { Image, View, Text, TextInput, Alert, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, Alert, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { Picker } from '@react-native-picker/picker';
 import styles from './style';
 
 function SignIn() {
-  const [pickerValue, setPickerValue] = useState('1');
+  const navigation = useNavigation();
+
+  const [pickerValue, setPickerValue] = useState('gmail.com');
+  const [idTxt, setIdTxt] = useState('');
   const [emailTxt, setEmailTxt] = useState('');
   const [nickTxt, setNickTxt] = useState('');
   const [pwTxt, setPwTxt] = useState('');
   const [pwConfirmTxt, setPwConfirmTxt] = useState('');
   const [errText, setErrText] = useState('');
-  const [isEmailOk, setIsEmailOk] = useState(false);
-  const [isNickOk, setIsNickOk] = useState(false);
+  const [isIdOk, setIsIdOk] = useState(false);
   const [isPwOk, setIsPwOk] = useState(false);
+  const [fullEmail, setFullEmail] = useState('');
 
   const onChangePwConfirm = inputText => {
+
     // 비밀번호 확인 검사
     setPwConfirmTxt(inputText);
-    if (pwTxt.matchAll(inputText) && !pwTxt.matchAll('')) {
+    if (pwTxt === inputText) {
       setErrText('비밀번호가 일치합니다.');
       setIsPwOk(true);
     } else {
@@ -26,33 +31,125 @@ function SignIn() {
     }
   };
 
-  function onPressCheck() {
-    // 중복확인 버튼
-    // 이메일 및 닉네임 중복 검사
-    // 이메일 검사
-    setIsEmailOk(true);
-    // 이메일 중복
-    setIsEmailOk(false);
-    // 닉네임 검사
-    setIsNickOk(true);
-    // 닉네임 중복
-    setIsNickOk(false);
+  function checkId() {
+    if (!idTxt) {
+      Alert.alert('아이디를 입력해주세요.');
+      return;
+    }
 
+    const url = `http://14.6.16.195:9004/user/checkId?userId=${encodeURIComponent(idTxt)}`;
+    fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log('signin/checkId/Received data:', data);
+        if (data === true) { // 기존Id에 존재하면 True
+          setIsIdOk(false);
+          Alert.alert('중복된 아이디 입니다.');
+        } else {
+          setIsIdOk(true);
+          Alert.alert('사용가능한 아이디 입니다.');
+        }
+      })
+      .catch(error => {
+        Alert.alert('내부 오류가 있습니다. 잠시 후 다시 시도해주세요.');
+        console.error('signin/checkId/Error fetching data:', error);
+      });
+  }
+
+  const fetchEmailFromServer = async () => {
+    const response = await fetch(`http://14.6.16.195:9004/user/checkEmail?email=${encodeURIComponent(fullEmail)}`);
+    const data = await response.json();
+    return data;
+  };
+  const fetchNickFromServer = async () => {
+    const response = await fetch(`http://14.6.16.195:9004/user/checkNickname?nickName=${encodeURIComponent(nickTxt)}`);
+    const data = await response.json();
+    return data;
+  };
+  const fetchJoinFromServer = async () => {
+    const response = await fetch('http://14.6.16.195:9004/user/join', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        userId: idTxt,
+        password: pwTxt,
+        nickName: nickTxt,
+        email: fullEmail
+      })
+    });
+    const data = await response.text();
+    return data;
+  };
+
+  const [loading, setLoading] = React.useState(false);
+  const handleFetchData = async () => {
+    setLoading(true);
+    try {
+      // checkEmail
+      const result1 = await fetchEmailFromServer();
+      console.log("checkEmail.data : " + result1);
+      if (result1 === true) {
+        Alert.alert('중복된 이메일 입니다.');
+        return;
+      }
+
+      // checkNickname
+      const result2 = await fetchNickFromServer();
+      console.log("checkNickname.data : " + result2);
+      if (result2 === true) {
+        Alert.alert('중복된 닉네임 입니다.');
+        return;
+      }
+
+      // 회원가입
+      const result3 = await fetchJoinFromServer();
+      console.log("join.data : " + result3);
+      if (result3 === "join Success") {
+        Alert.alert('회원가입이 완료되었습니다.')
+        navigation.goBack();
+      } else {
+        Alert.alert('회원가입 오류입니다. 다시 시도해주세요.');
+      }
+    } catch (error) {
+      console.error('signin/Error fetching data:', error);
+      Alert.alert('내부 오류가 있습니다. 잠시 후 다시 시도해주세요.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  function onPressCheck() {
+    // ID 중복확인 버튼
+    checkId();
   }
 
   function onPressConfirm() {
     // 회원가입 버튼
-    // 이메일/닉네임/비밀번호 입력 검사하여 alert 팝업
-    if (isEmailOk && isNickOk && isPwOk) {
-      console.log(isEmailOk + ' / ' + isNickOk + ' / ' + isPwOk);
-      Alert.alert('회원가입이 완료되었습니다.');
-    } else if (!isEmailOk) {
-      Alert.alert('이메일을 확인해주세요.');
-    } else if (!isNickOk) {
-      Alert.alert('닉네임을 확인해주세요.');
-    } else if (!isPwOk) {
-      Alert.alert('비밀번호를 확인해주세요.');
+    if (!isIdOk) {
+      Alert.alert('아이디 중복확인을 해주세요.');
+      return;
     }
+    if (!isPwOk) {
+      Alert.alert('비밀번호를 확인하세요.');
+      return;
+    }
+    if (!emailTxt) {
+      Alert.alert('이메일을 입력해주세요.');
+      return;
+    }
+    if (!nickTxt) {
+      Alert.alert('닉네임을 입력해주세요.');
+      return;
+    }
+    // 순차적으로 이메일-닉네임 중복검사 후 회원가입
+    handleFetchData();
   }
 
   return (
@@ -62,10 +159,25 @@ function SignIn() {
       </View>
       <View>
         <View style={styles.rowCenter}>
+          <Text style={styles.JoinTitle}>아이디 </Text>
+          <TextInput
+            onChangeText={text => {
+              setIdTxt(text);
+            }}
+            value={idTxt}
+            placeholder="아이디"
+            style={styles.JoinTxtInput}
+          />
+          <TouchableOpacity style={styles.overlapButton} onPress={onPressCheck}>
+            <Text style={styles.onlyFontR}>중복확인</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.rowCenter}>
           <Text style={styles.JoinTitle}>이메일 </Text>
           <TextInput
             onChangeText={text => {
               setEmailTxt(text);
+              setFullEmail(text+"@"+pickerValue);
             }}
             value={emailTxt}
             placeholder="이메일 주소"
@@ -77,6 +189,7 @@ function SignIn() {
             selectedValue={pickerValue}
             onValueChange={value => {
               setPickerValue(value);
+              setFullEmail(emailTxt+"@"+value);
             }}>
             <Picker.Item label="gmail.com" value="gmail.com" style={styles.onlyFontR} />
             <Picker.Item label="naver.com" value="naver.com" style={styles.onlyFontR} />
@@ -92,11 +205,8 @@ function SignIn() {
             }}
             value={nickTxt}
             placeholder="닉네임"
-            style={styles.JoinTxtInput}
+            style={styles.JoinPwInput}
           />
-          <TouchableOpacity style={styles.overlapButton} onPress={onPressCheck}>
-            <Text style={styles.onlyFontR}>중복확인</Text>
-          </TouchableOpacity>
         </View>
         <View style={styles.rowCenter}>
           <Text style={styles.JoinTitle}>비밀번호</Text>
@@ -120,6 +230,9 @@ function SignIn() {
             secureTextEntry={true}
           />
         </View>
+        {isPwOk === true ? (
+        <Text style={styles.joinPwOkTxt}>{errText}</Text>
+        ) : <Text style={styles.joinPwErrTxt}>{errText}</Text>}
       </View>
       <View style={styles.joinButtonView}>
         <TouchableOpacity style={styles.JoinButton} onPress={onPressConfirm}>
