@@ -110,8 +110,6 @@ function AddTicket({ route }) {
   }, [showAlert]);
 
   const onPressConfirm = () => {
-    console.log(JSON.stringify({"ticketNo":editData.ticketNo,"homeTeamNo":selectedSubHomeTeamNo,"awayTeamNo":selectedSubAwayTeamNo,"gameDate":GameDate,"homeScore":HomeScore,"awayScore":AwayScore,"result":Result,"ticketContent":TicketDiary}));
-
     if (!selectedSubHomeTeamNo || !selectedSubAwayTeamNo || !GameDate ||
       !HomeScore || !AwayScore || !TicketDiary || !Result) {
       Alert.alert('누락된 항목이 있는지\n다시 확인해주세요.');
@@ -127,14 +125,14 @@ function AddTicket({ route }) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        "ticketNo": (editData ? editData.ticketNo : ''),
-          "homeTeamNo": selectedSubHomeTeamNo,
-          "awayTeamNo": selectedSubAwayTeamNo,
-          "gameDate": GameDate,
-          "homeScore": HomeScore,
-          "awayScore": AwayScore,
-          "result": Result,
-          "ticketContent": TicketDiary
+        "ticketNo": (editData ? editData.ticketNo : null),
+        "homeTeamNo": selectedSubHomeTeamNo,
+        "awayTeamNo": selectedSubAwayTeamNo,
+        "gameDate": GameDate,
+        "homeScore": Number(HomeScore),
+        "awayScore": Number(AwayScore),
+        "result": Result,
+        "ticketContent": TicketDiary
       })
     })
       .then(response => response.text())
