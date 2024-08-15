@@ -207,7 +207,7 @@ export function TicketDetail({ route }) {
   const { item } = route.params;
   const [data, setData] = useState({}); // 데이터 상태 추가
   
-  useEffect(() => {
+  const fetchDataDetail = useCallback(() => {
     fetch(host + '/ticket/postView', {
       method: 'POST',
       headers: {
@@ -227,11 +227,18 @@ export function TicketDetail({ route }) {
       alert('error!');
       console.error('Error fetching data:', error);
     });
-  }, [item.ticketNo]);
+  }, []); // 빈 배열을 두 번째 인자로 전달하여 `fetchData`는 한 번만 생성됨
+
+  // 화면이 포커스될 때마다 데이터 요청
+  useFocusEffect(
+    useCallback(() => {
+      fetchDataDetail();
+    }, [fetchDataDetail])
+  );
 
   // 수정 js로 이동하기 위한 함수
   const handleNavigateToEditTicket = () => {
-    const ticketData = { ticketNo: data.ticketNo };
+    const ticketData = { data: data };
     navigation.navigate('addTicket', { ticketData });
   };
 
