@@ -30,14 +30,11 @@ const Calendar = ({ initialDate }) => {
     const [currentDate, setCurrentDate] = useState(initialDate || new Date());
     const [selectedDate, setSelectedDate] = useState(null);
     const [showModal, setShowModal] = useState(false);
-  
     const [showYearMonthPicker, setShowYearMonthPicker] = useState(false);
     const [selectedYear, setSelectedYear] = useState(currentDate.getFullYear());
     const [selectedMonth, setSelectedMonth] = useState(currentDate.getMonth() + 1);
     const [events, setEvents] = useState([]);
 
-    // 이거 페이지로 조회하는거말고 
-    // searchCriteria 월별 하나 파서 조회하는게 낫지 않을까..? 나중에 데이터 쌓이면,, 힘들거같은데..
     const fetchData = useCallback(async () => {
         try {
             const response = await fetch(host + '/ticket/postView', {
@@ -61,9 +58,28 @@ const Calendar = ({ initialDate }) => {
         }
     }, []);
 
-    useEffect(() => {
-        fetchData();
-    }, [fetchData]);
+    // 데이터 초기화 함수
+    const resetData = useCallback(() => {
+        setCurrentDate(initialDate || new Date());
+        setSelectedDate(null);
+        setShowModal(false);
+        setShowYearMonthPicker(false);
+        setSelectedYear(new Date().getFullYear());
+        setSelectedMonth(new Date().getMonth() + 1);
+        setEvents([]);
+    }, [initialDate]);
+
+    // 페이지 진입 시 초기화 및 데이터 가져오기
+    useFocusEffect(
+        useCallback(() => {
+            resetData();  // 상태 초기화
+            fetchData();  // 데이터 가져오기
+
+            return () => {
+                resetData(); 
+            };
+        }, [resetData, fetchData])
+    );
 
     const monthStart = startOfMonth(currentDate);
     const monthEnd = endOfMonth(currentDate);
@@ -75,7 +91,7 @@ const Calendar = ({ initialDate }) => {
     const handleDateClick = (date) => {
         setSelectedDate(date);
         setShowModal(true);
-    };
+    };    
 
     const closeModal = () => {
         setShowModal(false);
@@ -87,13 +103,10 @@ const Calendar = ({ initialDate }) => {
     };
 
     const handleTicketDetail = (event) => {
-        // 티켓 상세 화면 조회
-        console.log(event.SportKind);
-        navigation.navigate('ticketDetail', { event });
+        navigation.navigate('ticketDetail', { "item": event });
     };
 
     const handleAddTicket = (date) => {
-        // 티켓 추가 화면
         navigation.navigate('addTicket');
     };
 
@@ -110,7 +123,6 @@ const Calendar = ({ initialDate }) => {
         <Text key={index} style={styles.weekday}>{day}</Text>
     ));
 
-    // `events`와 `selectedDate`가 변경될 때마다 `selectedDateEvents`를 계산
     const selectedDateEvents = selectedDate
         ? events.filter(event => isSameDay(new Date(event.gameDate), selectedDate))
         : [];

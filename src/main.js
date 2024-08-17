@@ -193,7 +193,7 @@ export function TicketDetail({ route }) {
   const navigation = useNavigation();
   const [item, setItem] = useState(route.params?.item); // 초기 item 상태 설정
   const [data, setData] = useState({}); // 데이터 상태 추가
-  
+
   const fetchDataDetail = useCallback(() => {
     fetch(host + '/ticket/postView', {
       method: 'POST',

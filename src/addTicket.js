@@ -95,8 +95,8 @@ function AddTicket({ route }) {
   useEffect(() => {
     if (route.params && route.params.ticketData) {
       const { data } = route.params.ticketData;
-      setEditData(data); // editData를 상태로 설정
-      setEditFlag(true); // editFlag를 true로 설정
+      setEditData(data);
+      setEditFlag(true);
     }
   }, [route.params]);
 
