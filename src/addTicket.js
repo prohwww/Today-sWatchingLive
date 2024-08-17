@@ -8,13 +8,53 @@ host = 'http://14.6.16.195:9004';
 const categoryMapping = { 'K리그': 'SC', 'KBO': 'BS', 'KBL': 'BK', 'V리그': 'VC' };
 const OPTIONS =  { '승': 'w', '패': 'l', '무': 't'};
 
+function formatDate(dateString) {
+  // 날짜 형식이 YYYYMMDD 또는 YYYY-MM-DD인지 확인하는 정규 표현식
+  const regex = /^(?:\d{8}|\d{4}-\d{2}-\d{2})$/;
+
+  // 정규 표현식과 일치하지 않으면 false 반환
+  if (!dateString.match(regex)) return false;
+
+  let year, month, day;
+
+  if (dateString.includes('-')) {
+    // YYYY-MM-DD 형식인 경우
+    [year, month, day] = dateString.split('-').map(Number);
+  } else {
+    // YYYYMMDD 형식인 경우
+    year = parseInt(dateString.slice(0, 4), 10);
+    month = parseInt(dateString.slice(4, 6), 10);
+    day = parseInt(dateString.slice(6, 8), 10);
+  }
+
+  // 월과 일이 유효한 범위인지 확인
+  if (month < 1 || month > 12 || day < 1 || day > 31) return false;
+
+  // Date 객체 생성
+  const date = new Date(year, month - 1, day);
+
+  // Date 객체로 생성된 날짜와 입력된 날짜 비교
+  if (date.getFullYear() !== year || date.getMonth() + 1 !== month || date.getDate() !== day) {
+    return false;
+  }
+
+  // 날짜 형식에 따라 변환하여 반환
+  if (dateString.includes('-')) {
+    // YYYY-MM-DD 형식인 경우 그대로 반환
+    return dateString;
+  } else {
+    // YYYYMMDD 형식인 경우 YYYY-MM-DD로 변환하여 반환
+    return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+  }
+}
+
 function AddTicket({ route }) {
   
   const navigation = useNavigation();
   const [editFlag, setEditFlag] = useState(false);
   const [subSportsCategory, setSubSportsCategory] = useState([]);
-  const [selectedSubHomeTeamNo, setSelectedSubHomeTeamNo] = useState('');
-  const [selectedSubAwayTeamNo, setSelectedSubAwayTeamNo] = useState('');
+  const [selectedSubHomeTeamNo, setSelectedSubHomeTeamNo] = useState(1);
+  const [selectedSubAwayTeamNo, setSelectedSubAwayTeamNo] = useState(1);
   const [HomeScore, setHomeScore] = useState('');
   const [AwayScore, setAwayScore] = useState('');
   const [GameDate, setGameDate] = useState('');
@@ -23,7 +63,6 @@ function AddTicket({ route }) {
   const [PhotoName, setPhotoName] = useState('');
   const [selectSportsKind, setSelectSportsKind] = useState("SC");
   const [editData, setEditData] = useState(null); // 상태로 editData 관리
-  const [selectedOption, setSelectedOption] = useState(''); // 선택된 옵션 상태
   
   const sportsCategories = Object.keys(categoryMapping);
 
@@ -110,46 +149,83 @@ function AddTicket({ route }) {
   }, [showAlert]);
 
   const onPressConfirm = () => {
+    // 필수 항목이 모두 채워졌는지 확인
     if (!selectedSubHomeTeamNo || !selectedSubAwayTeamNo || !GameDate ||
-      !HomeScore || !AwayScore || !TicketDiary || !Result) {
+        !HomeScore || !AwayScore || !TicketDiary || !Result) {
       Alert.alert('누락된 항목이 있는지\n다시 확인해주세요.');
+      return;
     }
-
+  
+    // 동일 팀 선택 시 경고
+    if (selectedSubHomeTeamNo === selectedSubAwayTeamNo) {
+      Alert.alert('서로 다른 팀으로 선택 가능합니다.');
+      return;
+    }
+  
+    // 점수가 숫자인지 확인
     if (!isNumeric(HomeScore) || !isNumeric(AwayScore)) {
       Alert.alert('점수는 숫자로만 입력해주세요.');
+      return;
     }
-
-    fetch(host + '/ticket/newEntry', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        "ticketNo": (editData ? editData.ticketNo : null),
-        "homeTeamNo": selectedSubHomeTeamNo,
-        "awayTeamNo": selectedSubAwayTeamNo,
-        "gameDate": GameDate,
-        "homeScore": Number(HomeScore),
-        "awayScore": Number(AwayScore),
-        "result": Result,
-        "ticketContent": TicketDiary
-      })
-    })
-      .then(response => response.text())
-      .then(data => {
-        console.log('Received data:', data);
-        if (data == "ticket create success") {
-          navigation.navigate('main');
-        } else {
-          alert('티켓삭제 error!');
+  
+    // 날짜 포맷팅 및 검증
+    const formattedDate = formatDate(GameDate);
+    if (!formattedDate) {
+      Alert.alert('입력된 날짜의 형식이 맞지 않습니다.');
+      return;
+    }
+  
+    // 사용자에게 확인 메시지 표시
+    Alert.alert(
+      '', '해당 정보로 저장하시겠습니까?',
+      [
+        {
+          text: '취소',
+          onPress: () => setShowAlert(false),
+          style: 'cancel',
+        },
+        {
+          text: '확인',
+          onPress: async () => {
+            try {
+              // 서버에 데이터 전송
+              const response = await fetch(host + '/ticket/newEntry', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                  "ticketNo": editData ? editData.ticketNo : null,
+                  "homeTeamNo": selectedSubHomeTeamNo,
+                  "awayTeamNo": selectedSubAwayTeamNo,
+                  "gameDate": formattedDate,
+                  "homeScore": Number(HomeScore),
+                  "awayScore": Number(AwayScore),
+                  "result": Result,
+                  "ticketContent": TicketDiary
+                })
+              });
+  
+              // 응답 처리
+              const data = await response.text();
+              console.log('Received data:', data);
+  
+              if (data === "ticket create success") {
+                navigation.navigate('main');
+              } else {
+                Alert.alert('티켓 생성 오류!', '티켓 생성 중 오류가 발생했습니다.');
+              }
+            } catch (error) {
+              Alert.alert('서버 오류', '서버와의 통신 중 오류가 발생했습니다.');
+              console.error('Error fetching data:', error);
+            }
+          }
         }
-      })
-      .catch(error => {
-        alert('error!');
-        console.error('Error fetching data:', error);
-        // 에러 처리를 수행할 수 있습니다.
-      });   
-  }
+      ],
+      { cancelable: false }
+    );
+  };
+  
   const onPressCancel = () => {
     Alert.alert(
       '', '정말로 현재까지 작성하신 티켓을 취소하시겠습니까?',

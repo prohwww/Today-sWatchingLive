@@ -109,7 +109,8 @@ function MainScreen() {
           headerShown: false,
           tabBarActiveBackgroundColor: 'white',
           tabBarInactiveBackgroundColor: 'white',
-          tabBarButton: () => null
+          tabBarButton: () => null,
+          unmountOnBlur: true // 화면이 포커스를 잃으면 언마운트
         }
         }
       />
@@ -118,7 +119,6 @@ function MainScreen() {
 }
 
 function TicketScreen({ navigation }) {
-  const [searchKeyword, setSearchKeyword] = useState('');
   const [data, setData] = useState([]); // 데이터 상태 추가
 
   const fetchData = useCallback(() => {
@@ -204,7 +204,7 @@ function TicketScreen({ navigation }) {
 // TicketDetail를 TicketScreen에서도 사용하기위해..
 export function TicketDetail({ route }) {
   const navigation = useNavigation();
-  const { item } = route.params;
+  const [item, setItem] = useState(route.params?.item); // 초기 item 상태 설정
   const [data, setData] = useState({}); // 데이터 상태 추가
   
   const fetchDataDetail = useCallback(() => {
@@ -229,11 +229,14 @@ export function TicketDetail({ route }) {
     });
   }, []); // 빈 배열을 두 번째 인자로 전달하여 `fetchData`는 한 번만 생성됨
 
-  // 화면이 포커스될 때마다 데이터 요청
   useFocusEffect(
     useCallback(() => {
-      fetchDataDetail();
-    }, [fetchDataDetail])
+      // 포커스될 때 route.params에서 item을 가져와 상태 업데이트
+      if (route.params?.item) {
+        setItem(route.params.item);
+        fetchDataDetail();
+      }
+    }, [route.params?.item, fetchDataDetail])
   );
 
   // 수정 js로 이동하기 위한 함수
@@ -261,7 +264,7 @@ export function TicketDetail({ route }) {
         <View style={styles.ticketDetailSubView}>
           <View style={styles.alignCenter}>
             <View style={styles.ticketDetailSportsView}>
-              <Image source={sportsImg[data.sportsKind]} style={styles.ticketDetailSportsImg} />
+              <Image source={sportsImg[data.sportsKind] ? sportsImg[data.sportsKind] : sportsImg["SC"]} style={styles.ticketDetailSportsImg} />
               <Text style={{ fontSize: 10 }}></Text>
               <View style={styles.RowStyle}>
                 <View style={[styles.ticketTitle, styles.fiex1]}>
@@ -296,7 +299,7 @@ export function TicketDetail({ route }) {
               </View>
             </View>
             <View style={{ marginLeft: 30 }}>
-              <Image source={resultImg[data.result]} style={styles.ticketDetailResultImg} />
+              <Image source={(resultImg[data.result] ? resultImg[data.result] : resultImg["w"])} style={styles.ticketDetailResultImg} />
             </View>
           </View>
           <View>
