@@ -3,6 +3,7 @@ import { View, Text, TextInput, Alert, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Picker } from '@react-native-picker/picker';
 import styles from './style';
+import { host } from './map';
 
 function SignIn() {
   const navigation = useNavigation();
@@ -37,7 +38,7 @@ function SignIn() {
       return;
     }
 
-    const url = `http://14.6.16.195:9004/user/checkId?userId=${encodeURIComponent(idTxt)}`;
+    const url = host + `/user/checkId?userId=${encodeURIComponent(idTxt)}`;
     fetch(url, {
       method: 'GET',
       headers: {
@@ -62,17 +63,17 @@ function SignIn() {
   }
 
   const fetchEmailFromServer = async () => {
-    const response = await fetch(`http://14.6.16.195:9004/user/checkEmail?email=${encodeURIComponent(fullEmail)}`);
+    const response = await fetch(host + `/user/checkEmail?email=${encodeURIComponent(fullEmail)}`);
     const data = await response.json();
     return data;
   };
   const fetchNickFromServer = async () => {
-    const response = await fetch(`http://14.6.16.195:9004/user/checkNickname?nickName=${encodeURIComponent(nickTxt)}`);
+    const response = await fetch(host + `/user/checkNickname?nickName=${encodeURIComponent(nickTxt)}`);
     const data = await response.json();
     return data;
   };
   const fetchJoinFromServer = async () => {
-    const response = await fetch('http://14.6.16.195:9004/user/join', {
+    const response = await fetch(host + '/user/join', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

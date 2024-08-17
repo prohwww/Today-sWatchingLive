@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Text, TouchableOpacity, TextInput, Image, View, Dimensions } from 'react-native';
 import styles from './style';
+import { host } from './map';
 
 function LoginScreen({ navigation, onLoginSuccess }) {
 
@@ -13,7 +14,7 @@ function LoginScreen({ navigation, onLoginSuccess }) {
     if (!userID) alert('아이디를 입력해주세요.');
     if (!password) alert('비밀번호를 입력해주세요.');
 
-    fetch('http://14.6.16.195:9004/user/login', {
+    fetch(host + '/user/login', {
       method: 'POST', // 메서드를 POST로 설정
       headers: {
         'Content-Type': 'application/json'

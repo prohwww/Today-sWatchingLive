@@ -1,27 +1,22 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { ScrollView, View, Text, TextInput, Alert, TouchableOpacity, Image, BackHandler } from 'react-native';
-import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import { Picker } from '@react-native-picker/picker';
-import styles from './style';
+import { host } from './map';
 
-host = 'http://14.6.16.195:9004';
 const categoryMapping = { 'K리그': 'SC', 'KBO': 'BS', 'KBL': 'BK', 'V리그': 'VC' };
 const OPTIONS =  { '승': 'w', '패': 'l', '무': 't'};
 
 function formatDate(dateString) {
-  // 날짜 형식이 YYYYMMDD 또는 YYYY-MM-DD인지 확인하는 정규 표현식
+  // 날짜 형식이 YYYYMMDD 또는 YYYY-MM-DD인지 확인
   const regex = /^(?:\d{8}|\d{4}-\d{2}-\d{2})$/;
-
-  // 정규 표현식과 일치하지 않으면 false 반환
   if (!dateString.match(regex)) return false;
 
   let year, month, day;
 
   if (dateString.includes('-')) {
-    // YYYY-MM-DD 형식인 경우
     [year, month, day] = dateString.split('-').map(Number);
   } else {
-    // YYYYMMDD 형식인 경우
     year = parseInt(dateString.slice(0, 4), 10);
     month = parseInt(dateString.slice(4, 6), 10);
     day = parseInt(dateString.slice(6, 8), 10);
@@ -30,17 +25,14 @@ function formatDate(dateString) {
   // 월과 일이 유효한 범위인지 확인
   if (month < 1 || month > 12 || day < 1 || day > 31) return false;
 
-  // Date 객체 생성
   const date = new Date(year, month - 1, day);
 
-  // Date 객체로 생성된 날짜와 입력된 날짜 비교
   if (date.getFullYear() !== year || date.getMonth() + 1 !== month || date.getDate() !== day) {
     return false;
   }
 
-  // 날짜 형식에 따라 변환하여 반환
   if (dateString.includes('-')) {
-    // YYYY-MM-DD 형식인 경우 그대로 반환
+    // YYYY-MM-DD 
     return dateString;
   } else {
     // YYYYMMDD 형식인 경우 YYYY-MM-DD로 변환하여 반환

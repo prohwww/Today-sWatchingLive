@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   format,
   startOfMonth,
@@ -20,9 +20,9 @@ import {
     SafeAreaView,
     Image,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { Picker } from '@react-native-picker/picker';
-import {resultMap} from './map';
+import { host, resultMap } from './map';
 import styles from './style';
   
 const Calendar = ({ initialDate }) => {
@@ -34,20 +34,37 @@ const Calendar = ({ initialDate }) => {
     const [showYearMonthPicker, setShowYearMonthPicker] = useState(false);
     const [selectedYear, setSelectedYear] = useState(currentDate.getFullYear());
     const [selectedMonth, setSelectedMonth] = useState(currentDate.getMonth() + 1);
-    
-    const [events, setEvents] = useState([
-        { TicketNo: 1, GameDate: new Date(2024, 3, 28), SportKind: 'BS', result: 'W', HomeTeamCd: 'SSG 랜더스', AwayTeamCd: 'KT 위즈', HomeScore: 11, AwayScore: 6 },
-        { TicketNo: 2, GameDate: new Date(2024, 3, 21), SportKind: 'BS', result: 'L', HomeTeamCd: 'SSG 랜더스', AwayTeamCd: 'LG 트윈스', HomeScore: 8, AwayScore: 10 },
-        { TicketNo: 3, GameDate: new Date(2024, 3, 21), SportKind: 'BS', result: 'T', HomeTeamCd: 'SSG 랜더스', AwayTeamCd: 'LG 트윈스', HomeScore: 5, AwayScore: 5 },
-        { TicketNo: 1, GameDate: new Date(2024, 5, 1), SportKind: 'BS', result: 'W', HomeTeamCd: '한화 이글스', AwayTeamCd: 'SSG 랜더스', HomeScore: 6, AwayScore: 8 },
-        { TicketNo: 2, GameDate: new Date(2024, 5, 21), SportKind: 'BS', result: 'W', HomeTeamCd: 'SSG 랜더스', AwayTeamCd: 'LG 트윈스', HomeScore: 8, AwayScore: 10 },
-        { TicketNo: 3, GameDate: new Date(2024, 5, 21), SportKind: 'BS', result: 'W', HomeTeamCd: 'SSG 랜더스', AwayTeamCd: 'LG 트윈스', HomeScore: 5, AwayScore: 5 },
-        { TicketNo: 1, GameDate: new Date(2024, 5, 21), SportKind: 'BS', result: 'W', HomeTeamCd: 'SSG 랜더스', AwayTeamCd: 'LG 트윈스', HomeScore: 5, AwayScore: 5 },
-        { TicketNo: 2, GameDate: new Date(2024, 5, 21), SportKind: 'BS', result: 'W', HomeTeamCd: 'SSG 랜더스', AwayTeamCd: 'LG 트윈스', HomeScore: 5, AwayScore: 5 },
-        { TicketNo: 3, GameDate: new Date(2024, 5, 21), SportKind: 'BS', result: 'T', HomeTeamCd: 'SSG 랜더스', AwayTeamCd: 'LG 트윈스', HomeScore: 5, AwayScore: 5 },
-        { TicketNo: 1, GameDate: new Date(2024, 5, 21), SportKind: 'BS', result: 'T', HomeTeamCd: 'SSG 랜더스', AwayTeamCd: 'LG 트윈스', HomeScore: 5, AwayScore: 5 },
-    ]);
-    
+    const [events, setEvents] = useState([]);
+
+    // 이거 페이지로 조회하는거말고 
+    // searchCriteria 월별 하나 파서 조회하는게 낫지 않을까..? 나중에 데이터 쌓이면,, 힘들거같은데..
+    const fetchData = useCallback(async () => {
+        try {
+            const response = await fetch(host + '/ticket/postView', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    "searchCriteria": "All",
+                    "Page": 10,
+                    "size": 10
+                })
+            });
+
+            const data = await response.json();
+            console.log('Received data:', data);
+            setEvents(data);
+        } catch (error) {
+            Alert.alert('Error fetching data!');
+            console.error('Error fetching data:', error);
+        }
+    }, []);
+
+    useEffect(() => {
+        fetchData();
+    }, [fetchData]);
+
     const monthStart = startOfMonth(currentDate);
     const monthEnd = endOfMonth(currentDate);
     const startDate = startOfWeek(monthStart);
@@ -93,7 +110,10 @@ const Calendar = ({ initialDate }) => {
         <Text key={index} style={styles.weekday}>{day}</Text>
     ));
 
-    const selectedDateEvents = events.filter(event => isSameDay(event.GameDate, selectedDate));
+    // `events`와 `selectedDate`가 변경될 때마다 `selectedDateEvents`를 계산
+    const selectedDateEvents = selectedDate
+        ? events.filter(event => isSameDay(new Date(event.gameDate), selectedDate))
+        : [];
 
     return (
         <SafeAreaView style={styles.safeView}>
@@ -102,7 +122,6 @@ const Calendar = ({ initialDate }) => {
                     <Text style={styles.navText}>{"<"}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => setShowYearMonthPicker(true)} style={styles.monthTextButton}>
-                {/* <TouchableOpacity onPress={() => setShowSmallCalendar(true)} style={styles.monthTextButton}> */}
                     <Text style={styles.monthText}>{format(currentDate, 'yyyy년 MM월')}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => changeMonth('next')} style={styles.monthNavButton}>
@@ -120,24 +139,24 @@ const Calendar = ({ initialDate }) => {
                 <View style={styles.daysContainer}>
                     {days.map((day) => (
                         <TouchableOpacity
-                            key={day}
+                            key={day.toString()}
                             style={[
-                                styles.calDay, 
+                                styles.calDay,
                                 !isSameMonth(day, currentDate) && styles.otherMonth,
                                 selectedDate && isSameDay(day, selectedDate) && styles.selectedDay
                             ]}
                             onPress={() => handleDateClick(day)}
                         >
                             <Text style={styles.calendarText}>{format(day, 'd')}</Text>
-                            {events.some(event => isSameDay(event.GameDate, day)) && (
+                            {events.some(event => isSameDay(new Date(event.gameDate), day)) && (
                                 events
-                                    .filter(event => isSameDay(event.GameDate, day))
+                                    .filter(event => isSameDay(new Date(event.gameDate), day))
                                     .slice(0, 3)
                                     .map((event, index) => (
-                                        <Image 
+                                        <Image
                                             key={index}
                                             source={resultMap[event.result]}
-                                            style={styles.calImg} 
+                                            style={styles.calImg}
                                         />
                                     ))
                             )}
@@ -153,17 +172,15 @@ const Calendar = ({ initialDate }) => {
             >
                 <View style={styles.modalContainer}>
                     <View style={styles.modalContent}>
-
                         <View style={styles.horizontalContainer}>
                             <Text style={styles.calendarText}>{selectedDate ? format(selectedDate, 'MM/dd') : ''}</Text>
                             <TouchableOpacity onPress={closeModal} style={styles.btnClose}>
                                 <Text style={styles.calendarCloseBtn}>X</Text>
                             </TouchableOpacity>
                         </View>
-
-                        <ScrollView 
+                        <ScrollView
                             style={styles.modalList}
-                            contentContainerStyle={{ flexGrow: 1}}
+                            contentContainerStyle={{ flexGrow: 1 }}
                         >
                             {selectedDateEvents.map((event, index) => (
                                 <View key={index} style={styles.eventItem}>
@@ -171,23 +188,26 @@ const Calendar = ({ initialDate }) => {
                                         <View style={styles.infoView}>
                                             <Image source={resultMap[event.result]} style={styles.icon} />
                                             <View style={styles.calendarScore}>
-                                                <Text style={styles.calendarText}>{event.AwayScore}</Text>
+                                                <Text style={styles.calendarText}>{event.awayScore}</Text>
                                                 <Text style={styles.calendarText}> : </Text>
-                                                <Text style={styles.calendarText}>{event.HomeScore}</Text>
+                                                <Text style={styles.calendarText}>{event.homeScore}</Text>
                                             </View>
                                         </View>
                                         <View style={styles.infoView}>
-                                            <Text style={styles.calendarText}>{event.AwayTeamCd}</Text>
+                                            <Text style={styles.calendarText}>
+                                                {(event.ticketName ? event.ticketName.split(' VS ')[1] : '')}
+                                            </Text>
                                             <Text style={styles.calendarText}> vs </Text>
-                                            <Text style={styles.calendarText}>{event.HomeTeamCd}</Text>
+                                            <Text style={styles.calendarText}>
+                                                {(event.ticketName ? event.ticketName.split(' VS ')[0] : '')}
+                                            </Text>
                                         </View>
                                     </TouchableOpacity>
                                 </View>
                             ))}
                         </ScrollView>
-
-                        <TouchableOpacity onPress={(date) => handleAddTicket(date)}>
-                            <Image source={require('../public/png/free-icon-add-button.png')} style={styles.calendarAddBtn}/>
+                        <TouchableOpacity onPress={handleAddTicket}>
+                            <Image source={require('../public/png/free-icon-add-button.png')} style={styles.calendarAddBtn} />
                         </TouchableOpacity>
                     </View>
                 </View>

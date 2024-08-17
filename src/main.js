@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Alert, ScrollView, View, Text, Image, FlatList, TextInput, TouchableOpacity } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -6,22 +6,9 @@ import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import Calendar from './calendar';
 import MyInfo from './myInfo';
 import styles from './style';
-
-host = 'http://14.6.16.195:9004';
+import { host, resultMap, sportsMap } from './map';
 
 const Tab = createBottomTabNavigator();
-const resultImg = {
-  w: require('../public/png/free-icon-sun.png'),
-  l: require('../public/png/free-icon-storm.png'),
-  t: require('../public/png/free-icon-cloud.png'),
-};
-const sportsImg = {
-  SC: require('../public/png/free-icon-soccer-ball.png'),
-  BS: require('../public/png/free-icon-baseball.png'),
-  BK: require('../public/png/free-icon-basketball-ball.png'),
-  VB: require('../public/png/free-icon-volleyball-ball.png'),
-  // 종목 추가 필요...
-};
 
 function MainScreen() {
   const insets = useSafeAreaInsets();
@@ -155,7 +142,7 @@ function TicketScreen({ navigation }) {
     <ScrollView>
       <TouchableOpacity onPress={() => navigation.navigate('ticketDetail', { item })}>
         <View style={styles.mainListContainer}>
-          <Image source={sportsImg[item.sportsKind]} style={styles.mainListImg} />
+          <Image source={sportsMap[item.sportsKind]} style={styles.mainListImg} />
           <View style={styles.mainTicketList}>
             <Text style={styles.mainMiniTxt}>{item.gameDate}</Text>
             <Text style={styles.mainTicketName}>{item.ticketName}</Text>
@@ -165,7 +152,7 @@ function TicketScreen({ navigation }) {
               <Text style={styles.mainMiniTxt}>{item.awayScore}</Text>
             </View>
           </View>
-          <Image source={resultImg[item.result]} style={styles.mainListImg} />
+          <Image source={resultMap[item.result]} style={styles.mainListImg} />
         </View>
       </TouchableOpacity>
     </ScrollView>
@@ -264,7 +251,7 @@ export function TicketDetail({ route }) {
         <View style={styles.ticketDetailSubView}>
           <View style={styles.alignCenter}>
             <View style={styles.ticketDetailSportsView}>
-              <Image source={sportsImg[data.sportsKind] ? sportsImg[data.sportsKind] : sportsImg["SC"]} style={styles.ticketDetailSportsImg} />
+              <Image source={sportsMap[data.sportsKind] ? sportsMap[data.sportsKind] : sportsMap["SC"]} style={styles.ticketDetailSportsImg} />
               <Text style={{ fontSize: 10 }}></Text>
               <View style={styles.RowStyle}>
                 <View style={[styles.ticketTitle, styles.fiex1]}>
@@ -299,7 +286,7 @@ export function TicketDetail({ route }) {
               </View>
             </View>
             <View style={{ marginLeft: 30 }}>
-              <Image source={(resultImg[data.result] ? resultImg[data.result] : resultImg["w"])} style={styles.ticketDetailResultImg} />
+              <Image source={(resultMap[data.result] ? resultMap[data.result] : resultMap["w"])} style={styles.ticketDetailResultImg} />
             </View>
           </View>
           <View>
