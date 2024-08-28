@@ -10,23 +10,63 @@ import { Picker } from '@react-native-picker/picker';
 import { sportsMap, teamMap } from './map';
 import { useNavigation } from '@react-navigation/native';
 import styles from './style';
+import { host } from './map';
 
 const TeamList = () => {
-    const [myTeams, setMyTeams] = useState([
-        { sports: 'B', team: 'SSG 랜더스'},
-        { sports: 'S', team: 'FC서울'},
-    ]);
+    const [myTeams, setMyTeams] = useState(null);
     
     const selectedTeamSports = myTeams.filter(team => sportsMap.hasOwnProperty(team.sports));
 
     const [selectedValue1, setSelectedValue1] = useState("BS");
     const [selectedValue2, setSelectedValue2] = useState({ label: "SSG 랜더스", value: "32" });
-    const sportsOptions = [
-        { label: "야구", value: "BS" },
-        { label: "축구", value: "SC" },
-        { label: "농구", value: "BK" },
-        { label: "배구", value: "VB" },
-    ];
+    // const sportsOptions = [
+    //     { label: "야구", value: "BS" },
+    //     { label: "축구", value: "SC" },
+    //     { label: "농구", value: "BK" },
+    //     { label: "배구", value: "VB" },
+    // ];
+
+    const fetchData = useCallback(async () => {
+        try {
+            const response = await fetch(host + '/myTeam/list', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            const data = await response.json();
+            console.log('myTeam/list Received data:', data);
+            setMyTeams(data);
+        } catch (error) {
+            Alert.alert('내부 오류가 있습니다. 잠시 후 다시 시도해주세요.');
+            console.error('myTeam/list Error fetching data:', error);
+        }
+    }, []);
+
+    useFocusEffect(
+        useCallback(() => {
+            fetchData();
+        }, [fetchData])
+    );
+
+    function addMyTeam(teamNo) {
+        const url = host + `myTeam/newMyTeam/teamNo=${encodeURIComponent(teamNo)}`;
+        fetch(url, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+          .then(response => response.json())
+          .then(data => {
+            console.log('myTeam/newMyTeam data:', data);
+          })
+          .catch(error => {
+            Alert.alert('내부 오류가 있습니다. 잠시 후 다시 시도해주세요.');
+            console.error('myTeam/newMyTeam Error fetching data:', error);
+          });
+      }
     
     const [modalVisible, setModalVisible] = useState(false);
     const addBtnClick = () => {
@@ -51,13 +91,9 @@ const TeamList = () => {
             alert('이미 추가된 팀입니다.');
             return;
         }
-        const newTeam = {
-            sports: selectedValue1,
-            team: selectedValue2.label,
-        };
-        setMyTeams([...myTeams, newTeam]);
-        // console.log(selectedValue1 + " " + selectedValue2.label);
+        addMyTeam(selectedValue2.value);
         setModalVisible(false);
+        navigation.push('teamlist');
     };
 
     const handlePicker1Change = (itemValue, itemIndex) => {
@@ -109,7 +145,7 @@ const TeamList = () => {
                             onValueChange={handlePicker1Change}
                             style={styles.picker}
                         >
-                            {sportsOptions.map((option, index) => (
+                            {sportsMap.map((option, index) => (
                                 <Picker.Item key={index} label={option.label} value={option.value} style={styles.modalText}/>
                             ))}
                         </Picker>

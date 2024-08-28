@@ -34,6 +34,7 @@ const Calendar = ({ initialDate }) => {
     const [selectedYear, setSelectedYear] = useState(currentDate.getFullYear());
     const [selectedMonth, setSelectedMonth] = useState(currentDate.getMonth() + 1);
     const [events, setEvents] = useState([]);
+    
 
     const fetchData = useCallback(async () => {
         try {
@@ -43,9 +44,10 @@ const Calendar = ({ initialDate }) => {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    "searchCriteria": "All",
-                    "Page": 10,
-                    "size": 10
+                    "searchCriteria": "Month",
+                    "ticketDto": {
+                        "gameDate" : currentDate
+                    }
                 })
             });
 
