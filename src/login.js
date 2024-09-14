@@ -66,6 +66,7 @@ function LoginScreen({ navigation, onLoginSuccess }) {
       <TextInput
         style={styles.LoginTextInput}
         onChangeText={text => setPassword(text)}
+        secureTextEntry={true}
         placeholder="비밀번호"
       />
       <TouchableOpacity style={styles.LoginButton} onPress={onLogin}>

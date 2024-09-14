@@ -34,9 +34,8 @@ const Calendar = ({ initialDate }) => {
     const [selectedYear, setSelectedYear] = useState(currentDate.getFullYear());
     const [selectedMonth, setSelectedMonth] = useState(currentDate.getMonth() + 1);
     const [events, setEvents] = useState([]);
-    
 
-    const fetchData = useCallback(async () => {
+    const fetchData = useCallback(async (inputDate) => {
         try {
             const response = await fetch(host + '/ticket/postView', {
                 method: 'POST',
@@ -45,9 +44,7 @@ const Calendar = ({ initialDate }) => {
                 },
                 body: JSON.stringify({
                     "searchCriteria": "Month",
-                    "ticketDto": {
-                        "gameDate" : currentDate
-                    }
+                    "gameDate" : inputDate
                 })
             });
 
@@ -55,7 +52,7 @@ const Calendar = ({ initialDate }) => {
             console.log('Received data:', data);
             setEvents(data);
         } catch (error) {
-            Alert.alert('Error fetching data!');
+            alert('Error fetching data!');
             console.error('Error fetching data:', error);
         }
     }, []);
@@ -71,17 +68,14 @@ const Calendar = ({ initialDate }) => {
         setEvents([]);
     }, [initialDate]);
 
-    // 페이지 진입 시 초기화 및 데이터 가져오기
-    useFocusEffect(
-        useCallback(() => {
-            resetData();  // 상태 초기화
-            fetchData();  // 데이터 가져오기
-
-            return () => {
-                resetData(); 
-            };
-        }, [resetData, fetchData])
-    );
+    // currentDate가 변경될 때마다 실행
+    useEffect(() => {
+        if (currentDate) {
+            const inputDate = currentDate.toISOString().split('T')[0];
+            console.log("Updated currentDate:", currentDate);
+            fetchData(inputDate);
+        }
+    }, [currentDate]);
 
     const monthStart = startOfMonth(currentDate);
     const monthEnd = endOfMonth(currentDate);
@@ -100,7 +94,7 @@ const Calendar = ({ initialDate }) => {
     };
 
     const handleYearMonthSelect = () => {
-        setCurrentDate(new Date(selectedYear, selectedMonth - 1, 1));
+        setCurrentDate(new Date(Date.UTC(selectedYear, selectedMonth - 1, 1)));
         setShowYearMonthPicker(false);
     };
 
@@ -235,6 +229,7 @@ const Calendar = ({ initialDate }) => {
                 <View style={styles.pickerContainer}>
                     <View style={styles.pickerContent}>
                         <Text style={styles.pickerTitle}>기록할 날짜를 선택하세요.</Text>
+                        {/* 연도 선택 */}
                         <Picker
                             selectedValue={selectedYear}
                             onValueChange={(itemValue) => setSelectedYear(itemValue)}
@@ -245,6 +240,7 @@ const Calendar = ({ initialDate }) => {
                                 return <Picker.Item key={year} label={year.toString()} value={year} />;
                             })}
                         </Picker>
+                        {/* 월 선택 */}
                         <Picker
                             selectedValue={selectedMonth}
                             onValueChange={(itemValue) => setSelectedMonth(itemValue)}

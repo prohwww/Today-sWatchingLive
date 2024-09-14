@@ -7,6 +7,13 @@ export const sportsMap = {
   BK: require('../public/png/free-icon-basketball-ball.png'),
 };
 
+export const sportsOptions = {
+  BS: "야구",
+  SC: "축구",
+  BK: "농구",
+  VB: "배구",
+};
+
 export const resultMap = {
   w: require('../public/png/free-icon-sun.png'),
   t: require('../public/png/free-icon-cloud.png'),

@@ -1,30 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
     View,
     Text, 
     TouchableOpacity,
     Modal,
     Image,
+    ActivityIndicator,
+    ScrollView,
 } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
-import { sportsMap, teamMap } from './map';
+import { host, sportsMap, teamMap, sportsOptions } from './map';
 import { useNavigation } from '@react-navigation/native';
 import styles from './style';
-import { host } from './map';
 
 const TeamList = () => {
-    const [myTeams, setMyTeams] = useState(null);
-    
-    const selectedTeamSports = myTeams.filter(team => sportsMap.hasOwnProperty(team.sports));
+    const [myTeams, setMyTeams] = useState([]);
+    const [loading, setLoading] = useState(true); // 로딩 상태 추가
 
     const [selectedValue1, setSelectedValue1] = useState("BS");
     const [selectedValue2, setSelectedValue2] = useState({ label: "SSG 랜더스", value: "32" });
-    // const sportsOptions = [
-    //     { label: "야구", value: "BS" },
-    //     { label: "축구", value: "SC" },
-    //     { label: "농구", value: "BK" },
-    //     { label: "배구", value: "VB" },
-    // ];
 
     const fetchData = useCallback(async () => {
         try {
@@ -41,32 +35,41 @@ const TeamList = () => {
         } catch (error) {
             Alert.alert('내부 오류가 있습니다. 잠시 후 다시 시도해주세요.');
             console.error('myTeam/list Error fetching data:', error);
+        } finally {
+            setLoading(false);
         }
     }, []);
 
-    useFocusEffect(
-        useCallback(() => {
-            fetchData();
-        }, [fetchData])
-    );
+    useEffect(() => {
+        fetchData();
+    }, [fetchData]);
 
     function addMyTeam(teamNo) {
-        const url = host + `myTeam/newMyTeam/teamNo=${encodeURIComponent(teamNo)}`;
+        console.log("teamno: " + teamNo);
+        const url = host + '/myTeam/newMyTeam';
         fetch(url, {
-          method: 'GET',
+          method: 'POST',
           headers: {
             'Content-Type': 'application/json'
-          }
+          },
+          body: JSON.stringify({
+                "teamNo" : teamNo
+          })
         })
-          .then(response => response.json())
-          .then(data => {
-            console.log('myTeam/newMyTeam data:', data);
+          .then(response => {
+            console.log('Response Status:', response.status);
+            if (response.status === 201) {
+                console.log('Create Success! teamNo: ' + teamNo);
+                fetchData();
+            } else {
+                throw new Error('failed add Team Response: ' + response.status);
+            }
           })
           .catch(error => {
-            Alert.alert('내부 오류가 있습니다. 잠시 후 다시 시도해주세요.');
+            alert('내부 오류가 있습니다. 잠시 후 다시 시도해주세요.');
             console.error('myTeam/newMyTeam Error fetching data:', error);
           });
-      }
+      };
     
     const [modalVisible, setModalVisible] = useState(false);
     const addBtnClick = () => {
@@ -81,19 +84,19 @@ const TeamList = () => {
     const navigation = useNavigation();
     const viewTeamResult = (team) => {
         // 팀 승률 그래프
-        navigation.navigate('teamAnalysis', { selectTeam: team.team });
+        navigation.navigate('teamAnalysis', { selectTeamNo: team.teamNo });
     };
 
     const handleSaveTeam = () => {
         // 팀 추가 저장 버튼
-        const teamExists = myTeams.some(team => team.team === selectedValue2.label);
+        const teamExists = myTeams.some(team => team.teamName === selectedValue2.label);
         if (teamExists) {
             alert('이미 추가된 팀입니다.');
             return;
         }
+        
         addMyTeam(selectedValue2.value);
         setModalVisible(false);
-        navigation.push('teamlist');
     };
 
     const handlePicker1Change = (itemValue, itemIndex) => {
@@ -107,75 +110,84 @@ const TeamList = () => {
     }, [selectedValue1]);
 
     return (
-        <View style={styles.infoContainer}>
-            <TouchableOpacity onPress={addBtnClick}>
-                <View style={styles.infoItem}>
-                    <Image source={require('../public/png/free-icon-add-button.png')} style={styles.infoImg} />
-                    <Text style={styles.infoText}>응원하는 팀을 추가해주세요</Text>
+        <View style={{ flex: 1}} >
+            {loading ? (
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                    <ActivityIndicator size="large" color="#0000ff" />
+                    <Text>데이터 로딩 중...</Text>
                 </View>
-            </TouchableOpacity>
-           
-            <View>
-                {selectedTeamSports.map((team, index) => (
-                    <TouchableOpacity key={index} onPress={viewTeamResult}>
-                        <View style={styles.infoItem}>
-                            <View style={styles.innerView}>
-                                <Image source={sportsMap[team.sports]} style={styles.infoImg} />
-                                <Text style={styles.infoText}>{team.team}</Text>
+            ) : ( <View style={styles.infoContainer}>
+                    <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+                        <TouchableOpacity onPress={addBtnClick}>
+                            <View style={styles.infoItem}>
+                                <Image source={require('../public/png/free-icon-add-button.png')} style={styles.infoImg} />
+                                <Text style={styles.infoText}>응원하는 팀을 추가해주세요</Text>
+                            </View>
+                        </TouchableOpacity>
+                    
+                        <View>
+                            {myTeams.map((team, index) => (
+                                <TouchableOpacity key={index} onPress={() => viewTeamResult(team)}>
+                                    <View style={styles.infoItem}>
+                                        <View style={styles.innerView}>
+                                            <Image source={sportsMap[team.sportsKind]} style={styles.infoImg} />
+                                            <Text style={styles.infoText}>{team.teamName}</Text>
+                                        </View>
+                                    </View>
+                                </TouchableOpacity>
+                            ))}
+                        </View>
+                    </ScrollView>
+                    <Modal
+                        animationType="slide"
+                        transparent={false}
+                        visible={modalVisible}
+                        onRequestClose={closeModal}
+                    >
+                        <View style={styles.teamModalContainer}>
+                            <View style={styles.modalView}>
+                                <Text style={styles.modalText}>스포츠를 선택하세요.</Text>
+                            </View>
+                                
+                            <View style={styles.modalView}>
+                                {/* SportsKind */}
+                                <Picker
+                                    selectedValue={selectedValue1}
+                                    onValueChange={handlePicker1Change}
+                                    style={styles.picker}
+                                >
+                                    {Object.keys(sportsMap).map((key, index) => (
+                                            <Picker.Item key={index} label={sportsOptions[key]} value={key} style={styles.modalText}/>
+                                    ))}
+                                </Picker>
+                            </View>
+                            <View style={styles.modalView}>
+                                {/* Team */}
+                                <Picker
+                                    selectedValue={selectedValue2.value}
+                                    onValueChange={(itemValue, itemIndex) => {
+                                        const selectedOption = teamMap[selectedValue1].find(option => option.value === itemValue);
+                                        setSelectedValue2(selectedOption);
+                                    }}
+                                    style={styles.picker}
+                                >
+                                    {teamMap[selectedValue1].map((option, index) => (
+                                        <Picker.Item key={index} label={option.label} value={option.value} style={styles.modalText} />
+                                    ))}
+                                </Picker>
+                            </View>
+                            <View style={styles.modalBtn}>
+                                <TouchableOpacity onPress={handleSaveTeam}>
+                                    <Text style={styles.modalText}>저장  </Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity onPress={closeModal}>
+                                    <Text style={styles.modalText}>  닫기</Text>
+                                </TouchableOpacity>
                             </View>
                         </View>
-                    </TouchableOpacity>
-                ))}
+                    </Modal>
+                </View> )}
             </View>
-            <Modal
-                animationType="slide"
-                transparent={false}
-                visible={modalVisible}
-                onRequestClose={closeModal}
-            >
-                <View style={styles.teamModalContainer}>
-                    <View style={styles.modalView}>
-                        <Text style={styles.modalText}>스포츠를 선택하세요.</Text>
-                    </View>
-                        
-                    <View style={styles.modalView}>
-                        {/* SportsKind */}
-                        <Picker
-                            selectedValue={selectedValue1}
-                            onValueChange={handlePicker1Change}
-                            style={styles.picker}
-                        >
-                            {sportsMap.map((option, index) => (
-                                <Picker.Item key={index} label={option.label} value={option.value} style={styles.modalText}/>
-                            ))}
-                        </Picker>
-                    </View>
-                    <View style={styles.modalView}>
-                        {/* Team */}
-                        <Picker
-                            selectedValue={selectedValue2.value}
-                            onValueChange={(itemValue, itemIndex) => {
-                                const selectedOption = teamMap[selectedValue1].find(option => option.value === itemValue);
-                                setSelectedValue2(selectedOption);
-                            }}
-                            style={styles.picker}
-                        >
-                            {teamMap[selectedValue1].map((option, index) => (
-                                <Picker.Item key={index} label={option.label} value={option.value} style={styles.modalText} />
-                            ))}
-                        </Picker>
-                    </View>
-                    <View style={styles.modalBtn}>
-                        <TouchableOpacity onPress={handleSaveTeam}>
-                            <Text style={styles.modalText}>저장  </Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={closeModal}>
-                            <Text style={styles.modalText}>  닫기</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-            </Modal>
-        </View>
     );
 };
 
