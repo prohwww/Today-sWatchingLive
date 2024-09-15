@@ -39,7 +39,7 @@
 
 ### 1. 로그인
 
-https://github.com/user-attachments/assets/196b9972-1e23-4f23-a615-94c2780fd071
+![로그인_1](https://github.com/user-attachments/assets/196b9972-1e23-4f23-a615-94c2780fd071)
 
 https://github.com/user-attachments/assets/3c797343-20dd-4d79-a870-180791482d51
 
