@@ -19,8 +19,8 @@
 ## 👥 멤버 구성
 
 - **공통 작업**: 서비스 화면 설계, 기능 설계, 통합 및 형상 관리
-- **이재희**: 게시글(Ticket) CRUD, 스프링 서버 초기 구축, 로그인, 내 정보 관리
-- **전혜원**: 응원하는 팀(MyTeam) 기능, DB 구축, 회원가입, 비밀번호 변경, 캘린더 기능
+- **<a href="https://github.com/jaehee222)">이재희</a>**: 게시글(Ticket) CRUD, 스프링 서버 초기 구축, 로그인, 내 정보 관리
+- **<a href="https://github.com/prohwww">전혜원</a>**: 응원하는 팀(MyTeam) 기능, DB 구축, 회원가입, 비밀번호 변경, 캘린더 기능
 
 ---
 
@@ -115,10 +115,7 @@
 │ └── package.json # 프론트엔드 종속성 및 스크립트 정의
 ```
 
-### 1. Backend (Spring Boot)  
-<a href="https://github.com/jaehee222/twsServer">
-    <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="20" height="20" alt="GitHub Repo" />twsServer
-</a>
+### 1. Backend (Spring Boot) - [<img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="20" height="20" alt="GitHub Repo"/> twsServer](https://github.com/jaehee222/twsServer)
 
 - **Ticket (Controller, Service, Dto, Entity, Repository)**: 사용자가 직관한 경기 기록을 CRUD 방식으로 관리.
     - 경기 기록 생성, 수정, 삭제 기능 제공.
@@ -159,7 +156,7 @@
         - `MyTeamEntity`: 데이터베이스 엔티티, 사용자와 팀의 매핑 정보 관리.
         - `MyTeamRepository`: JPA를 통한 DB 연동, 사용자가 응원하는 팀 정보를 저장 및 조회.
 
-### 2. Frontend (React Native) - https://github.com/prohwww/Today-sWatchingLive
+### 2. Frontend (React Native) -  [<img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="20" height="20" alt="GitHub Repo"/> twsServer](https://github.com/prohwww/Today-sWatchingLive)
 
 - **`login.js`**: 사용자 로그인을 위한 화면으로, API를 통해 안전하게 인증을 처리하고 사용자 세션을 관리합니다.
 - **`main.js`**: 사용자가 직관한 경기 기록(티켓)을 한눈에 확인하고, 필요 시 기록을 삭제할 수 있는 메인 화면입니다. 나만의 직관 기록을 관리하세요!
