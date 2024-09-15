@@ -5,8 +5,8 @@
 ## 📖 프로젝트 소개
 
 내가 사랑하는 팀의 경기, 그 열정과 감동을 일기로 남기다.
-
-경기장에서 느꼈던 환희와 아쉬움을 기록하고, 팀을 향한 응원의 순간들을 한곳에 담는 특별한 일기 어플리케이션입니다.
+경기장에서 느꼈던 환희와 아쉬움을 기록하고, 
+팀을 향한 응원의 순간들을 한곳에 담는 특별한 일기 어플리케이션입니다.
 
 ---
 
@@ -156,7 +156,7 @@
         - `MyTeamEntity`: 데이터베이스 엔티티, 사용자와 팀의 매핑 정보 관리.
         - `MyTeamRepository`: JPA를 통한 DB 연동, 사용자가 응원하는 팀 정보를 저장 및 조회.
 
-### 2. Frontend (React Native) -  [<img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="20" height="20" alt="GitHub Repo"/> twsServer](https://github.com/prohwww/Today-sWatchingLive)
+### 2. Frontend (React Native) -  [<img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="20" height="20" alt="GitHub Repo"/> Today-sWatchingLive](https://github.com/prohwww/Today-sWatchingLive)
 
 - **`login.js`**: 사용자 로그인을 위한 화면으로, API를 통해 안전하게 인증을 처리하고 사용자 세션을 관리합니다.
 - **`main.js`**: 사용자가 직관한 경기 기록(티켓)을 한눈에 확인하고, 필요 시 기록을 삭제할 수 있는 메인 화면입니다. 나만의 직관 기록을 관리하세요!
