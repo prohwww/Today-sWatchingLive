@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { View, Text, TouchableOpacity, Image } from 'react-native';
+import { View, Text, TouchableOpacity, Image, ActivityIndicator } from 'react-native';
 import { useNavigation, useFocusEffect} from '@react-navigation/native';
 import styles from './style';
 import { host } from './map';
@@ -63,7 +63,11 @@ const MyInfo = () => {
                         <Text style={styles.infoText}>시스템 설정</Text>
                     </TouchableOpacity>
                 </>
-            ) : (<Text style={styles.infoText}>Loading...</Text>
+            ) : (
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                    <ActivityIndicator size="large" color="#0000ff" />
+                    <Text style={styles.infoText}>Loading...</Text>
+                </View>
             )}
 
         </View>

@@ -3,6 +3,7 @@ import { ScrollView, View, Text, TextInput, Alert, TouchableOpacity, Image, Back
 import { useNavigation } from '@react-navigation/native';
 import { Picker } from '@react-native-picker/picker';
 import { host } from './map';
+import styles from './style';
 
 const categoryMapping = { 'K리그': 'SC', 'KBO': 'BS', 'KBL': 'BK', 'V리그': 'VC' };
 const OPTIONS =  { '승': 'w', '패': 'l', '무': 't'};
