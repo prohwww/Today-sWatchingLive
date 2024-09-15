@@ -126,11 +126,9 @@
         - `TicketDTO`: 클라이언트와 서버 간 데이터 전송 객체.
         - `TicketEntity`: 데이터베이스와 매핑되는 엔티티 클래스.
         - `TicketRepository`: JPA를 통한 DB 연동.
+          
 - **User (Controller, Service, Dto, Entity, Repository)**: 사용자 인증 및 정보 관리.
     - 로그인, 회원가입, 닉네임/비밀번호 수정, 아이디/닉네임 중복 체크, 이메일 확인 등
-    
-            다양한 사용자 정보 관리 기능 제공.
-    
     - 세션을 통해 로그인 상태를 관리하며, 회원가입 시 필수 정보 검증을 수행.
     - 관련 클래스:
         - `UserController`: 사용자 요청 처리, 아이디/닉네임 중복 체크, 로그인/로그아웃, 회원가입 등 API 제공.
@@ -138,7 +136,8 @@
         - `UserDTO`: 클라이언트와 서버 간 데이터 전송 객체.
         - `User`: 데이터베이스 엔티티, 사용자 정보 (아이디, 비밀번호, 닉네임 등) 매핑.
         - `UserRepository`: JPA를 통한 DB 연동, 사용자 정보 저장 및 조회.
-- **Team (Controller, Service, Dto, Entity, Repository)**: 스포츠 팀 정보 관리.
+          
+- **Team (Controller, Service, Dto, Entity, Repository)**: 스포츠 팀 정보 관리.  
     - 팀의 기본 정보 및 통계 데이터를 관리.
     - 특정 팀의 정보 조회 및 모든 팀 목록 조회 기능 제공.
     - 관련 클래스:
@@ -147,6 +146,7 @@
         - `TeamDTO`: 클라이언트와 서버 간 데이터 전송 객체.
         - `Team`: 데이터베이스 엔티티, 팀 정보 (팀 번호, 팀 이름, 통계 데이터 등) 매핑.
         - `TeamRepository`: JPA를 통한 DB 연동, 팀 정보 저장 및 조회.
+          
 - **MyTeam (Controller, Service, Dto, Entity, Repository)**: 사용자가 응원하는 팀 관리.
     - 사용자가 선택한 팀 추가, 삭제 및 응원 팀의 승률 정보 조회 기능 제공.
     - 관련 클래스:
@@ -154,21 +154,22 @@
         - `MyTeamService`: MyTeam 관련 비즈니스 로직 구현, 사용자가 선택한 팀을 추가/삭제하고 승률 정보 관리.
         - `MyTeamDTO`: 클라이언트와 서버 간 데이터 전송 객체.
         - `MyTeamEntity`: 데이터베이스 엔티티, 사용자와 팀의 매핑 정보 관리.
-        - `MyTeamRepository`: JPA를 통한 DB 연동, 사용자가 응원하는 팀 정보를 저장 및 조회.
+        - `MyTeamRepository`: JPA를 통한 DB 연동, 사용자가 응원하는 팀 정보를 저장 및 조회.  
 
-### 2. Frontend (React Native) -  [<img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="20" height="20" alt="GitHub Repo"/> Today-sWatchingLive](https://github.com/prohwww/Today-sWatchingLive)
+## 2. Frontend (React Native) - [<img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="20" height="20" alt="GitHub Repo"/> Today-sWatchingLive](https://github.com/prohwww/Today-sWatchingLive)
 
-- **`login.js`**: 사용자 로그인을 위한 화면으로, API를 통해 안전하게 인증을 처리하고 사용자 세션을 관리합니다.
-- **`main.js`**: 사용자가 직관한 경기 기록(티켓)을 한눈에 확인하고, 필요 시 기록을 삭제할 수 있는 메인 화면입니다. 나만의 직관 기록을 관리하세요!
-- **`addTicket.js`**: 새로운 직관 기록을 작성하는 화면으로, 경기 결과와 팀 매칭을 통해 상세한 티켓을 생성할 수 있습니다. 경기장에서의 감동을 기록으로 남기세요!
-- **`calendar.js`**: 월별로 직관 기록을 확인할 수 있는 캘린더 화면입니다. 캘린더를 통해 특정 날짜에 있었던 직관 경기를 쉽게 찾아보세요.
-- **`signin.js`**: 신규 사용자를 위한 회원가입 화면입니다. 이메일, 비밀번호, 닉네임을 입력하여 간편하게 가입하고, 나만의 직관 기록을 시작하세요.
+- **`login.js`**: 사용자가 로그인하는 화면으로, API를 통해 안전하게 인증을 처리합니다.
+- **`main.js`**: 사용자가 직관한 경기 기록(티켓)을 한눈에 확인하고, 필요 시 기록을 삭제할 수 있는 메인 화면입니다.
+- **`addTicket.js`**: 새로운 직관 기록을 작성하는 화면으로, 경기 결과와 팀 매칭을 통해 상세한 티켓을 생성합니다.
+- **`calendar.js`**: 월별로 직관 기록을 확인할 수 있는 캘린더 화면입니다. 특정 날짜의 경기를 쉽게 찾아보세요.
+- **`signin.js`**: 신규 사용자를 위한 회원가입 화면입니다. 이메일, 비밀번호, 닉네임을 입력하고 직관 기록을 시작하세요.
 - **`findPw.js`**: 비밀번호를 잊어버렸을 때 사용되는 비밀번호 찾기 화면입니다. 이메일을 통해 안전하게 비밀번호를 재설정할 수 있습니다.
-- **`start.js`**: 앱을 처음 로딩할 때 표시되는 초기 화면입니다. 사용자가 앱에 진입하기 전, 빠르고 깔끔한 시작을 도와줍니다.
-- **`myInfo.js`**: 로그인된 사용자의 기본 정보를 확인할 수 있는 화면입니다. 내 계정 정보를 한눈에 파악하고, 직관 기록과 관련된 사용자 정보를 관리하세요.
-- **`infoSetting.js`**: 사용자의 정보를 수정할 수 있는 화면입니다. 닉네임 변경, 비밀번호 수정 등 개인정보를 자유롭게 변경할 수 있습니다.
-- **`teamList.js`**: 사용자가 응원하는 팀을 조회하고, 새로운 팀을 추가할 수 있는 화면입니다. 축구, 야구, 농구 등 다양한 종목에서 나만의 팀을 추가하고 응원하세요.
-- **`teamAnalysis.js`**: 응원하는 팀의 경기 승률을 확인할 수 있는 분석 화면입니다. 내가 응원한 팀의 경기 성적을 통계로 분석하여 응원의 방향을 설정해보세요.
+- **`start.js`**: 앱을 처음 실행할 때 표시되는 초기 로딩 화면입니다.
+- **`myInfo.js`**: 로그인된 사용자의 기본 정보를 확인할 수 있는 화면입니다.
+- **`infoSetting.js`**: 사용자 정보 수정 화면으로, 닉네임 및 비밀번호 변경을 지원합니다.
+- **`teamList.js`**: 사용자가 응원하는 팀을 조회하고, 새로운 팀을 추가할 수 있는 화면입니다. 축구, 야구, 농구 등 다양한 종목을 지원합니다.
+- **`teamAnalysis.js`**: 응원하는 팀의 경기 승률을 분석하여 통계로 보여주는 화면입니다.
+
 
 ### 3. Database (MySQL)
 
