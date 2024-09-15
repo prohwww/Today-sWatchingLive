@@ -39,61 +39,46 @@
 
 ### 1. 로그인
 
-![로그인_1](https://github.com/user-attachments/assets/196b9972-1e23-4f23-a615-94c2780fd071)
-
-https://github.com/user-attachments/assets/3c797343-20dd-4d79-a870-180791482d51
+<img src="https://github.com/user-attachments/assets/196b9972-1e23-4f23-a615-94c2780fd071" width="200" height="300" />
 
 - 사용자가 입력한 **아이디와 비밀번호**를 DB에서 확인하여 일치하는 경우 로그인 성공.
 - 로그인 성공 시 **세션에 사용자 아이디 저장**.
 
 ### 2. 회원가입
 
-https://github.com/user-attachments/assets/3c3c2664-ac45-4b4e-997b-143ffa19a625
-
-https://github.com/user-attachments/assets/2b7b6636-47da-4e00-bc31-afba29467e44
+<img src="https://github.com/user-attachments/assets/3c3c2664-ac45-4b4e-997b-143ffa19a625" width="200" height="300" />
+<img src="https://github.com/user-attachments/assets/2b7b6636-47da-4e00-bc31-afba29467e44" width="200" height="300" />
 
 - 입력된 정보를 DB에서 검증하여 **중복된 아이디**가 없을 경우, 새로운 사용자 정보 등록.
 
 ### 3. 티켓 관리 (CRUD)
-
-https://github.com/user-attachments/assets/d85dcc6d-dbfe-412c-96f5-5900de742281
-
-https://github.com/user-attachments/assets/f79739a1-ba7b-48c8-94ab-984b4416c5a5
-
-https://github.com/user-attachments/assets/81821e6f-2969-400b-ac64-1ed3726fbc7e
-
-https://github.com/user-attachments/assets/36ddd52d-be3a-477a-9048-a7c2d055389d
+<img src="https://github.com/user-attachments/assets/d85dcc6d-dbfe-412c-96f5-5900de742281" width="200" height="300" />
+<img src="https://github.com/user-attachments/assets/f79739a1-ba7b-48c8-94ab-984b4416c5a5" width="200" height="300" />
+<img src="https://github.com/user-attachments/assets/81821e6f-2969-400b-ac64-1ed3726fbc7e" width="200" height="300" />
+<img src="https://github.com/user-attachments/assets/36ddd52d-be3a-477a-9048-a7c2d055389d" width="200" height="300" />
 
 - 사용자는 직관한 경기의 내용을 **기록, 수정, 삭제**할 수 있습니다.
 - 응원하는 팀(MyTeam)과 연동하여 **경기 결과(승, 무, 패)**를 스티커로 표시합니다.
 
 ### 4. 캘린더 기능
-
-https://github.com/user-attachments/assets/0f375e06-5f36-4f94-bba9-816532949628
-
-https://github.com/user-attachments/assets/e24350a1-ff60-402f-821e-782379ee8c67
+<img src="https://github.com/user-attachments/assets/0f375e06-5f36-4f94-bba9-816532949628" width="200" height="300" />
+<img src="https://github.com/user-attachments/assets/e24350a1-ff60-402f-821e-782379ee8c67" width="200" height="300" />
 
 - 월별로 기록된 직관 일정을 **캘린더 화면**에서 조회 가능.
 - 특정 날짜를 클릭하여 그날의 직관 기록에 쉽게 접근할 수 있습니다.
 
 ### 5. 내 정보 관리
-
-https://github.com/user-attachments/assets/109c0e06-330b-4199-a8ce-c7eb77843e57
-
-https://github.com/user-attachments/assets/38165eb2-ca7b-4240-9d0c-9b0f47bd51f0
-
-https://github.com/user-attachments/assets/dfa7c872-4836-4212-aea4-d54eb9037faf
+<img src="https://github.com/user-attachments/assets/109c0e06-330b-4199-a8ce-c7eb77843e57" width="200" height="300" />
+<img src="https://github.com/user-attachments/assets/38165eb2-ca7b-4240-9d0c-9b0f47bd51f0" width="200" height="300" />
+<img src="https://github.com/user-attachments/assets/dfa7c872-4836-4212-aea4-d54eb9037faf" width="200" height="300" />
 
 - 사용자는 **닉네임**과 **비밀번호**를 변경할 수 있습니다.
 - 닉네임 변경 시 **중복 여부**를 확인하여 중복되지 않은 경우에만 변경 가능합니다.
 
 ### 6. 응원하는 팀 관리
-
-https://github.com/user-attachments/assets/6c96de0e-f9e1-4701-a259-4725a670f31b
-
-https://github.com/user-attachments/assets/1974fd8d-3e78-4184-b619-21f585a6e143
-
-https://github.com/user-attachments/assets/169bb730-b43f-478e-af6b-4d86dd407c90
+<img src="https://github.com/user-attachments/assets/6c96de0e-f9e1-4701-a259-4725a670f31b" width="200" height="300" />
+<img src="https://github.com/user-attachments/assets/1974fd8d-3e78-4184-b619-21f585a6e143" width="200" height="300" />
+<img src="https://github.com/user-attachments/assets/169bb730-b43f-478e-af6b-4d86dd407c90" width="200" height="300" />
 
 - 사용자는 응원하는 팀을 **추가, 삭제**할 수 있으며, 축구, 야구, 농구, 배구 팀을 지원합니다.
 - 응원하는 팀의 **승률 및 통계 정보**를 제공합니다.
@@ -102,31 +87,33 @@ https://github.com/user-attachments/assets/169bb730-b43f-478e-af6b-4d86dd407c90
 
 ## 📂 프로젝트 구조 및 주요 기능
 
+```plaintext
 ├── backend/
-│   ├── src/
-│   │   ├── main/
-│   │   │   ├── java/
-│   │   │   │   ├── com/example/project/
-│   │   │   │   │   ├── controller/          # API 요청 처리 (TicketController, UserController, MyTeamController…)
-│   │   │   │   │   ├── dto/                 # 데이터 전송 객체 (UserDto, TicketDto…)
-│   │   │   │   │   ├── entity/              # 데이터베이스 엔티티 클래스 (UserEntity, TicketEntity, MyTeamEntity…)
-│   │   │   │   │   ├── exception/           # 예외 처리 (ValidationException, GlobalExceptionHandler)
-│   │   │   │   │   ├── repository/          # DB 연동 (TicketRepository, UserRepository…)
-│   │   │   │   │   ├── service/             # 비즈니스 로직 (TicketService, UserService…)
-│   │   │   └── resources/
-│   │   │       └── application.yml          # 데이터베이스 및 환경 설정
-│   └── build.gradle                          # Gradle 빌드 스크립트 (종속성 및 빌드 설정)
+│ ├── src/
+│ │ ├── main/
+│ │ │ ├── java/
+│ │ │ │ ├── com/example/project/
+│ │ │ │ │ ├── controller/ # API 요청 처리 (TicketController, UserController, MyTeamController…)
+│ │ │ │ │ ├── dto/ # 데이터 전송 객체 (UserDto, TicketDto…)
+│ │ │ │ │ ├── entity/ # 데이터베이스 엔티티 클래스 (UserEntity, TicketEntity, MyTeamEntity…)
+│ │ │ │ │ ├── exception/ # 예외 처리 (ValidationException, GlobalExceptionHandler)
+│ │ │ │ │ ├── repository/ # DB 연동 (TicketRepository, UserRepository…)
+│ │ │ │ │ ├── service/ # 비즈니스 로직 (TicketService, UserService…)
+│ │ │ └── resources/
+│ │ │ └── application.yml # 데이터베이스 및 환경 설정
+│ └── build.gradle # Gradle 빌드 스크립트 (종속성 및 빌드 설정)
 │
 ├── frontend/
-│  ├── src/
-│   │  ├── LoginScreen.js              # 사용자 로그인 화면
-│   │  ├── TicketScreen.js             # 직관 기록 관리 화면
-│   │  ├── CalendarScreen.js           # 직관 기록 캘린더 화면
-│   │  ├── …                           # 이외 기능 화면
-│   │  ├── map.js                      # 공통 UI 이미지 및 매핑 변수 정의
-│   │  ├── style.js                    # UI 컴포넌트 스타일 정의
-│   │  ├── NewApp.js                   # 메인 애플리케이션 파일
-│   └── package.json                   # 프론트엔드 종속성 및 스크립트 정의
+│ ├── src/
+│ │ ├── LoginScreen.js # 사용자 로그인 화면
+│ │ ├── TicketScreen.js # 직관 기록 관리 화면
+│ │ ├── CalendarScreen.js # 직관 기록 캘린더 화면
+│ │ ├── … # 이외 기능 화면
+│ │ ├── map.js # 공통 UI 이미지 및 매핑 변수 정의
+│ │ ├── style.js # UI 컴포넌트 스타일 정의
+│ │ ├── NewApp.js # 메인 애플리케이션 파일
+│ └── package.json # 프론트엔드 종속성 및 스크립트 정의
+```
 
 ### 1. Backend (Spring Boot) - https://github.com/jaehee222/twsServer
 
