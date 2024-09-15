@@ -115,7 +115,10 @@
 │ └── package.json # 프론트엔드 종속성 및 스크립트 정의
 ```
 
-### 1. Backend (Spring Boot) - https://github.com/jaehee222/twsServer
+### 1. Backend (Spring Boot)  
+<a href="https://github.com/jaehee222/twsServer">
+    <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="20" height="20" alt="GitHub Repo" />twsServer
+</a>
 
 - **Ticket (Controller, Service, Dto, Entity, Repository)**: 사용자가 직관한 경기 기록을 CRUD 방식으로 관리.
     - 경기 기록 생성, 수정, 삭제 기능 제공.
