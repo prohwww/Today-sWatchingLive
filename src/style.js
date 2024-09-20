@@ -716,15 +716,28 @@ const styles = StyleSheet.create({
         fontSize: 20,
         margin: 5,
         padding: 10,
+        flexShrink: 1,
     },
     teamImg: {
         width: 30,
         height: 30,
-        marginRight: 5,
+        marginLeft: 10,
     },
     teamInnerView: {
         flexDirection: 'row',
         alignItems: 'center',
+        justifyContent: 'space-between',
+        width: '100%',
+    },
+    backBtn: {
+        // position: 'absolute',
+        // right: 0,
+    },
+    backText: {
+        color: 'black',
+        fontFamily: fontStyle + 'B',
+        fontSize: 20,
+        marginRight: 10,
     },
     chartTitle: {
         textAlign: 'center',
@@ -763,13 +776,6 @@ const styles = StyleSheet.create({
         margin: 5,
         marginBottom: 10,
     },
-    backText: {
-        color: 'black',
-        fontFamily: fontStyle + 'B',
-        fontSize: 20,
-        margin: 5,
-        marginLeft: 100,
-    },
     legendContainer: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -779,6 +785,10 @@ const styles = StyleSheet.create({
         fontSize: 15,
         marginLeft: 5,
         fontFamily: fontStyle + 'R',
+    },
+    teamDeleteBtn: {
+        position: 'absolute',
+        bottom: 30,
     },
 
     // infoSetting.js

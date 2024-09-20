@@ -44,6 +44,14 @@ const TeamList = () => {
         fetchData();
     }, [fetchData]);
 
+    useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => {
+          fetchData();
+        });
+        return unsubscribe;
+    }, [navigation]);
+    
+
     function addMyTeam(teamNo) {
         console.log("teamno: " + teamNo);
         const url = host + '/myTeam/newMyTeam';
@@ -69,7 +77,7 @@ const TeamList = () => {
             alert('내부 오류가 있습니다. 잠시 후 다시 시도해주세요.');
             console.error('myTeam/newMyTeam Error fetching data:', error);
           });
-      };
+    };
     
     const [modalVisible, setModalVisible] = useState(false);
     const addBtnClick = () => {
