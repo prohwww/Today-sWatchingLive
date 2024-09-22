@@ -69,13 +69,20 @@ const Calendar = ({ initialDate }) => {
     }, [initialDate]);
 
     // currentDate가 변경될 때마다 실행
-    useEffect(() => {
-        if (currentDate) {
+    useFocusEffect(
+        useCallback(() => {
+            // 화면에 진입할 때 상태를 초기화합니다.
+            setSelectedDate(null);  // 선택된 날짜를 초기화합니다.
+            setShowModal(false);    // 모달을 닫습니다.
+    
             const inputDate = currentDate.toISOString().split('T')[0];
-            console.log("Updated currentDate:", currentDate);
-            fetchData(inputDate);
-        }
-    }, [currentDate]);
+            fetchData(inputDate);   // 데이터를 다시 불러옵니다.
+    
+            return () => {
+                // 필요할 경우 정리 작업을 여기에 추가할 수 있습니다.
+            };
+        }, [currentDate])
+    );    
 
     const monthStart = startOfMonth(currentDate);
     const monthEnd = endOfMonth(currentDate);
