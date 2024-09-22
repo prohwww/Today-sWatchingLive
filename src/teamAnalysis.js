@@ -197,13 +197,24 @@ const TeamAnalysis = ({ route }) => {
                     </Text>
                 </View>
 
-                <Svg width={windowWidth} height={220}>
-                    <G x={windowWidth / 2} y={110}>
-                        {arcs.map((arc, index) => (
-                            <Path key={index} d={arcGenerator(arc)} fill={arc.data.svg.fill} />
-                        ))}
-                    </G>
-                </Svg>
+                {/* 직관 승률이 없을 때 이미지 표시 */}
+                {teamInfo.totalRate === 0 ? (
+                    <View style={{ alignItems: 'center' }}>
+                        <Image 
+                            source={require('../public/png/free-icon-noticket.png')} 
+                            style={{ width: 200, height: 200, marginTop: 20, marginBottom: 20 }} 
+                        />
+                        <Text style={{ marginBottom: 10 }}>아직 기록된 승률이 없습니다.</Text>
+                    </View>
+                ) : (
+                    <Svg width={windowWidth} height={220}>
+                        <G x={windowWidth / 2} y={110}>
+                            {arcs.map((arc, index) => (
+                                <Path key={index} d={arcGenerator(arc)} fill={arc.data.svg.fill} />
+                            ))}
+                        </G>
+                    </Svg>
+                )}
 
                 <CustomLegend data={pieData} />
 
