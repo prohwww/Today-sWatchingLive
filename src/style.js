@@ -936,6 +936,10 @@ const styles = StyleSheet.create({
         fontFamily: fontStyle + 'R',
         fontSize: 13
     },
+    // 팀리스트
+    Txtcenter: {
+        textAlign: 'center',
+    },
 
     // myInfo.js, teamList.js
     infoContainer: {

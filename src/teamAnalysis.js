@@ -9,7 +9,7 @@ import {
     ActivityIndicator,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { host, sportsMap, teamMap } from './map';
+import { host, sportsMap, teamMap, sportsImg } from './map';
 import Svg, { G, Path, Rect } from 'react-native-svg';
 import * as d3 from 'd3-shape';
 import styles from './style';
@@ -157,6 +157,20 @@ const TeamAnalysis = ({ route }) => {
 
     const arcs = pieGenerator(pieData);
 
+    const getProperPostfix = (teamName) => {
+        const lastChar = teamName.charAt(teamName.length - 1);
+        const lastCharCode = lastChar.charCodeAt(0);
+
+        // 한글의 경우 자음으로 끝나면 "이랑", 나머지는 "랑"
+        if (lastCharCode >= 0xAC00 && lastCharCode <= 0xD7A3) { // 한글 유니코드 범위
+            if ((lastCharCode - 0xAC00) % 28 !== 0) {
+                return "이랑"; // 자음으로 끝나는 경우
+            }
+        }
+
+        return "랑"; // 모음이나 영어로 끝나는 경우
+    };
+
     return (
         <View style={{ flex: 1}} >
         {loading ? (
@@ -176,7 +190,11 @@ const TeamAnalysis = ({ route }) => {
                     </View>
                 </View>
                 <View style={styles.item}>
-                    <Text style={styles.infoText}>{teamInfo.regDate}부터 {teamInfo.teamName}와 함께하였습니다.({teamInfo.days}일째)</Text>
+                    <Text style={styles.Txtcenter}>
+                        {teamInfo.teamName}{getProperPostfix(teamInfo.teamName)}{"\n"}
+                        {new Date(teamInfo.regDate).getFullYear()}년 {new Date(teamInfo.regDate).getMonth() + 1}월 {new Date(teamInfo.regDate).getDate()}일부터 {teamInfo.days}일째 함께하는 중이에요.{"\n"}
+                        {sportsImg[teamInfo.sportsKind]}영원히 함께할 거야{sportsImg[teamInfo.sportsKind]}
+                    </Text>
                 </View>
 
                 <Svg width={windowWidth} height={220}>

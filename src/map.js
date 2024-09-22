@@ -19,6 +19,8 @@ export const resultMap = {
   t: require('../public/png/free-icon-cloud.png'),
   l: require('../public/png/free-icon-storm.png'),
 };
+
+// 이거 임시로 추가해둔건데 .. DB통신 사용할거라 나중엔 없애는게 나을거같아~..
   export const teamMap = {
     BS: [
       { label: "두산 베어스", value: "26" },
@@ -87,4 +89,11 @@ export const resultMap = {
       { label: "서울 SK 나이츠", value: "44" },
       { label: "안양 정관장 레드부스터스", value: "45" },
     ],
+  };
+
+  export const sportsImg = {
+    BS: "⚾",
+    SC: "⚽",
+    BK: "🏀",
+    VB: "🏐"
   };
