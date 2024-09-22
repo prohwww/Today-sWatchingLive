@@ -97,3 +97,16 @@ export const resultMap = {
     BK: "🏀",
     VB: "🏐"
   };
+
+export const categoryMapping = {
+  'K리그': 'SC',
+  'KBO': 'BS',
+  'KBL': 'BK',
+  'V리그': 'VC'
+};
+
+export const OPTIONS = {
+  '승': 'w',
+  '패': 'l',
+  '무': 't'
+};

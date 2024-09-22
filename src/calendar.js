@@ -103,7 +103,7 @@ const Calendar = ({ initialDate }) => {
     };
 
     const handleAddTicket = (date) => {
-        navigation.navigate('addTicket');
+        navigation.navigate('addTicket', { "GameDate": date });
     };
 
     const changeMonth = (direction) => {
@@ -214,7 +214,7 @@ const Calendar = ({ initialDate }) => {
                                 </View>
                             ))}
                         </ScrollView>
-                        <TouchableOpacity onPress={handleAddTicket}>
+                        <TouchableOpacity onPress={() => handleAddTicket(format(selectedDate, 'yyyy-MM-dd'))}>
                             <Image source={require('../public/png/free-icon-add-button.png')} style={styles.calendarAddBtn} />
                         </TouchableOpacity>
                     </View>

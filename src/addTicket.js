@@ -2,11 +2,8 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { ScrollView, View, Text, TextInput, Alert, TouchableOpacity, Image, BackHandler } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Picker } from '@react-native-picker/picker';
-import { host } from './map';
+import { host, categoryMapping, OPTIONS } from './map';
 import styles from './style';
-
-const categoryMapping = { 'K리그': 'SC', 'KBO': 'BS', 'KBL': 'BK', 'V리그': 'VC' };
-const OPTIONS =  { '승': 'w', '패': 'l', '무': 't'};
 
 function formatDate(dateString) {
   // 날짜 형식이 YYYYMMDD 또는 YYYY-MM-DD인지 확인
@@ -94,10 +91,18 @@ function AddTicket({ route }) {
   }, [subSportsCategory]);
 
   useEffect(() => {
-    if (route.params && route.params.ticketData) {
-      const { data } = route.params.ticketData;
-      setEditData(data);
-      setEditFlag(true);
+    if (route.params) {
+      // route.params에 GameDate가 있으면 그 값을 설정
+      if (route.params.GameDate) {
+        setGameDate(route.params.GameDate);
+      }
+  
+      // route.params에 ticketData가 있으면 수정 모드로 설정
+      if (route.params.ticketData) {
+        const { data } = route.params.ticketData;
+        setEditData(data);
+        setEditFlag(true);
+      }
     }
   }, [route.params]);
 
