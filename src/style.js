@@ -703,6 +703,15 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginTop: 20,
     },
+    containerDate: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 30,
+    },
+    pickerDate: {
+        height: 50,
+        width: 150,
+    },
 
     // teamAnalysis.js
     teamContainer: {

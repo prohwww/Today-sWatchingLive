@@ -12,6 +12,7 @@ import { Picker } from '@react-native-picker/picker';
 import { host, sportsMap, teamMap, sportsOptions } from './map';
 import { useNavigation } from '@react-navigation/native';
 import styles from './style';
+import { format } from 'date-fns';
 
 const TeamList = () => {
     const [myTeams, setMyTeams] = useState([]);
@@ -20,6 +21,13 @@ const TeamList = () => {
     const [selectedValue1, setSelectedValue1] = useState("BS");
     const [selectedValue2, setSelectedValue2] = useState({ label: "SSG 랜더스", value: "32" });
 
+    const padNumber = (num) => num < 10 ? `0${num}` : num.toString();
+    const currentYear =  new Date().getFullYear();
+
+    const [selectedYear, setSelectedYear] = useState('');
+    const [selectedMonth, setSelectedMonth] = useState('');
+    const [selectedDay, setSelectedDay] = useState('');
+    
     const fetchData = useCallback(async () => {
         try {
             const response = await fetch(host + '/myTeam/list', {
@@ -42,7 +50,11 @@ const TeamList = () => {
 
     useEffect(() => {
         fetchData();
-    }, [fetchData]);
+        const today = new Date();
+        setSelectedYear(today.getFullYear());
+        setSelectedMonth(padNumber(today.getMonth() + 1));
+        setSelectedDay(padNumber(today.getDate()));
+    }, []);
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
@@ -51,9 +63,7 @@ const TeamList = () => {
         return unsubscribe;
     }, [navigation]);
     
-
     function addMyTeam(teamNo) {
-        console.log("teamno: " + teamNo);
         const url = host + '/myTeam/newMyTeam';
         fetch(url, {
           method: 'POST',
@@ -61,7 +71,8 @@ const TeamList = () => {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-                "teamNo" : teamNo
+                "teamNo" : teamNo,
+                "regDate" : `${selectedYear}-${selectedMonth}-${selectedDay}`
           })
         })
           .then(response => {
@@ -87,6 +98,31 @@ const TeamList = () => {
 
     const closeModal = () => {
         setModalVisible(false);
+    };
+
+    const generateYears = () => {
+        const years = [];
+        for (let i = currentYear - 50; i <= currentYear; i++) {
+            years.push(i);
+        }
+        return years;
+    };
+
+    const generateMonths = () => {
+        const months = [];
+        for (let i = 1; i <= 12; i++) {
+            months.push(i.toString().padStart(2, '0'));
+        }
+        return months;
+    };
+
+    const generateDays = () => {
+        const daysInMonth = new Date(selectedYear, selectedMonth, 0).getDate();
+        const days = [];
+        for (let i = 1; i <= daysInMonth; i++) {
+            days.push(i.toString().padStart(2, '0'));
+        }
+        return days;
     };
 
     const navigation = useNavigation();
@@ -181,6 +217,38 @@ const TeamList = () => {
                                 >
                                     {teamMap[selectedValue1].map((option, index) => (
                                         <Picker.Item key={index} label={option.label} value={option.value} style={styles.modalText} />
+                                    ))}
+                                </Picker>
+                            </View>
+                            <View style={styles.containerDate}>
+                                <Text style={styles.modalText}>응원 시작한 날짜를 선택하세요.</Text>
+                                <Picker
+                                    selectedValue={selectedYear}
+                                    style={styles.pickerDate}
+                                    onValueChange={(itemValue) => setSelectedYear(itemValue)}
+                                >
+                                    {generateYears().map((year) => (
+                                    <Picker.Item key={year} label={year.toString()} value={year} style={styles.modalText} />
+                                    ))}
+                                </Picker>
+
+                                <Picker
+                                    selectedValue={selectedMonth}
+                                    style={styles.pickerDate}
+                                    onValueChange={(itemValue) => setSelectedMonth(itemValue)}
+                                >
+                                    {generateMonths().map((month) => (
+                                    <Picker.Item key={month} label={month.toString()} value={month} style={styles.modalText} />
+                                    ))}
+                                </Picker>
+
+                                <Picker
+                                    selectedValue={selectedDay}
+                                    style={styles.pickerDate}
+                                    onValueChange={(itemValue) => setSelectedDay(itemValue)}
+                                >
+                                    {generateDays().map((day) => (
+                                    <Picker.Item key={day} label={day.toString()} value={day} style={styles.modalText} />
                                     ))}
                                 </Picker>
                             </View>
