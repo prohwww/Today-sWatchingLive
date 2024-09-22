@@ -936,11 +936,7 @@ const styles = StyleSheet.create({
         fontFamily: fontStyle + 'R',
         fontSize: 13
     },
-    // 팀리스트
-    Txtcenter: {
-        textAlign: 'center',
-    },
-
+    
     // myInfo.js, teamList.js
     infoContainer: {
         backgroundColor: 'white',
@@ -965,6 +961,12 @@ const styles = StyleSheet.create({
         width: 50,
         height: 50,
         marginRight: 5,
+    },
+    Txtcenter: {
+        lineHeight: 22,
+        textAlign: 'center',
+        fontFamily: fontStyle + 'R',
+        marginBottom: 10,
     },
 
     //findPw.js, infoSetting.js

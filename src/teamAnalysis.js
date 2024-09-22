@@ -204,7 +204,7 @@ const TeamAnalysis = ({ route }) => {
                             source={require('../public/png/free-icon-noticket.png')} 
                             style={{ width: 200, height: 200, marginTop: 20, marginBottom: 20 }} 
                         />
-                        <Text style={{ marginBottom: 10 }}>아직 기록된 승률이 없습니다.</Text>
+                        <Text style={styles.Txtcenter}>아직 기록된 승률이 없습니다.</Text>
                     </View>
                 ) : (
                     <Svg width={windowWidth} height={220}>

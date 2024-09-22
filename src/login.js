@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Text, TouchableOpacity, TextInput, Image, View, Dimensions } from 'react-native';
+import { Text, TouchableOpacity, TextInput, Image, View } from 'react-native';
 import styles from './style';
 import { host } from './map';
+import { JSEncrypt } from 'jsencrypt'; // RSA 암호화를 위한 라이브러리
 
 function LoginScreen({ navigation, onLoginSuccess }) {
 
@@ -14,18 +15,37 @@ function LoginScreen({ navigation, onLoginSuccess }) {
     if (!userID) alert('아이디를 입력해주세요.');
     if (!password) alert('비밀번호를 입력해주세요.');
 
-    fetch(host + '/user/login', {
-      method: 'POST', // 메서드를 POST로 설정
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        userId: userID,
-        // 추후 암호화하는게 좋을,,
-        password: password
-      })
+    fetch(host + '/user/public-key', {
+      method: 'GET',
     })
-      .then(response => response.json()) // response.text() 대신 response.json() 사용
+      .then(response => response.text()) 
+      .then(publicKey => {
+        const encryptor = new JSEncrypt();
+        encryptor.setPublicKey(publicKey);
+
+        const encryptedPassword = encryptor.encrypt(password);
+        if (!encryptedPassword) {
+          alert('비밀번호 암호화에 실패했습니다.');
+          throw new Error('비밀번호 암호화에 실패했습니다.');
+        }
+
+        return fetch(host + '/user/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            userId: userID,
+            password: encryptedPassword,
+          }),
+        });
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('로그인 요청에 실패했습니다.');
+        }
+        return response.json();
+      })
       .then(data => {
         console.log('Received data:', data);
         if (data === true) {
@@ -35,11 +55,10 @@ function LoginScreen({ navigation, onLoginSuccess }) {
         }
       })
       .catch(error => {
-        alert('error!');
-        console.error('Error fetching data:', error);
-        // 에러 처리를 수행할 수 있습니다.
+        alert('로그인 중 오류가 발생했습니다.');
+        console.error('Error:', error.message); // 오류 메시지 출력
       });
-  }
+  };
 
   const onSignin = () => {
     navigation.navigate('signin');
@@ -48,7 +67,6 @@ function LoginScreen({ navigation, onLoginSuccess }) {
   const onFindPw = () => {
     navigation.navigate('findPw');
   };
-
 
   return (
     <View style={styles.LoginContainer}>
