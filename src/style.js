@@ -388,6 +388,20 @@ const styles = StyleSheet.create({
         borderWidth: 0.8,
         fontFamily: fontStyle + 'R',
     },
+    ticketPhotoBtn: {
+        width: screenWidth * 0.40,
+        height: 35,
+        borderColor: 'black',
+        borderWidth: 0.8,
+        borderRadius: 4,
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'row',
+        marginRight: screenWidth * 0.02,
+    },
+    buttonText: {
+        fontFamily: fontStyle + 'R',
+    },
     ticketDiaryTxtInput: {
         flex: 1,
         width: screenWidth * 0.84,

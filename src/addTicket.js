@@ -3,7 +3,10 @@ import { ScrollView, View, Text, TextInput, Alert, TouchableOpacity, Image, Back
 import { useNavigation } from '@react-navigation/native';
 import { Picker } from '@react-native-picker/picker';
 import { host, categoryMapping, OPTIONS } from './map';
+import { launchImageLibrary } from 'react-native-image-picker';
+import RNFS from 'react-native-fs';
 import styles from './style';
+import { endOfMinute } from 'date-fns';
 
 function formatDate(dateString) {
   // 날짜 형식이 YYYYMMDD 또는 YYYY-MM-DD인지 확인
@@ -53,6 +56,8 @@ function AddTicket({ route }) {
   const [PhotoName, setPhotoName] = useState('');
   const [selectSportsKind, setSelectSportsKind] = useState("SC");
   const [editData, setEditData] = useState(null); // 상태로 editData 관리
+
+  const [photoUri, setPhotoUri] = useState(null);
   
   const sportsCategories = Object.keys(categoryMapping);
 
@@ -117,7 +122,8 @@ function AddTicket({ route }) {
       setSelectedSubHomeTeamNo(editData.homeTeamNo);
       setSelectedSubAwayTeamNo(editData.awayTeamNo);
       setSelectSportsKind(editData.sportsKind);
-      setPhotoName(editData.photoName);
+      setPhotoName(editData.photo);
+      setPhotoUri(editData.photo);
     }
   }, [editFlag, editData]);
 
@@ -145,6 +151,47 @@ function AddTicket({ route }) {
       BackHandler.removeEventListener('hardwareBackPress', backAction);
     };
   }, [showAlert]);
+
+  const selectPhoto = () => {
+    launchImageLibrary({}, response => {
+      if (response.assets && response.assets.length > 0) {
+        const { uri } = response.assets[0];
+        savePhotoToAppFolder(uri);
+      }
+    });
+  };
+
+  const savePhotoToAppFolder = async (uri) => {
+    try {
+      // 사진을 저장할 폴더 경로
+      const folderPath = `${RNFS.DocumentDirectoryPath}/TodaysWatchingLive`;
+      
+      // 폴더가 없으면 생성
+      const folderExists = await RNFS.exists(folderPath);
+      if (!folderExists) {
+        await RNFS.mkdir(folderPath);
+      }
+
+      // 저장할 파일의 경로 설정
+      const fileName = uri.split('/').pop();  // 파일명 가져오기
+      const destPath = `${folderPath}/${fileName}`;
+
+      // 파일을 복사하여 저장
+      await RNFS.copyFile(uri, destPath);
+
+      // 저장된 파일의 경로를 상태에 저장하여 화면에 표시
+      setPhotoUri(`file://${destPath}`);
+    } catch (error) {
+      console.error('Error saving photo:', error);
+    }
+  };
+
+  const shortenUri = (uri) => {
+    const maxLength = 30;
+    if (!uri) return '';  // uri가 null일 경우 빈 문자열 반환
+    if (uri.length <= maxLength) return uri;
+    return `${uri.substring(0, 10)}...${uri.substring(uri.length - 10)}`;
+  };
 
   const onPressConfirm = () => {
     // 필수 항목이 모두 채워졌는지 확인
@@ -200,7 +247,8 @@ function AddTicket({ route }) {
                   "homeScore": Number(HomeScore),
                   "awayScore": Number(AwayScore),
                   "result": Result,
-                  "ticketContent": TicketDiary
+                  "ticketContent": TicketDiary,
+                  "photo": photoUri,
                 })
               });
   
@@ -357,14 +405,17 @@ function AddTicket({ route }) {
         <View style={styles.TicketAddcontainer}>
           <Text style={styles.TicketQuestion}>직관을 추억할 수 있는 사진을 첨부해주세요.</Text>
           <View style={styles.rowCenter}>
-            <TextInput
-              onChangeText={text => {
-                setPhotoName(text);
-              }}
-              value={PhotoName}
-              placeholder="(사진선택)"
-              style={styles.TicketAddDateInput}
-            />
+            <TouchableOpacity
+              onPress={selectPhoto}
+              style={styles.ticketPhotoBtn}
+            >
+              <Text style={styles.buttonText}>갤러리에서 사진 찾기</Text>
+          </TouchableOpacity>
+           {photoUri ? (
+              <Text style={styles.buttonText}>{shortenUri(photoUri)}</Text>
+            ) : (
+              <></>
+            )}
           </View>
         </View>
         <View style={styles.TicketAddcontainer}>

@@ -54,22 +54,28 @@ const TeamAnalysis = ({ route }) => {
             }
         
             const data = await response.json();
-            if (data && data.sportsKind && data.totalRate != null) {
+            if (data && data.sportsKind != null) {
                 console.log('myTeam/rate Received data:', data);
                 setTeamInfo(data);
                 setPiData([
                     {
                         key: 1,
-                        value: data.totalRate,
+                        value: (data.winRate).toFixed(2),
                         svg: { fill: `rgba(255, 0, 0, 0.6)` },
                         name: '승',
                     },
                     {
                         key: 2,
-                        value: data.totalRate == 0 ? 0.0 : 1 - data.totalRate,
+                        value: (data.tieRate).toFixed(2),
+                        svg: { fill: 'rgba(154, 245, 7, 0.6)' },
+                        name: '무',
+                    },
+                    {
+                        key: 3,
+                        value: (data.loseRate).toFixed(2),
                         svg: { fill: 'rgba(0, 0, 255, 0.6)' },
                         name: '패',
-                    },
+                    }
                 ]);
             } else {
                 console.error('Data is null or invalid:', data);
@@ -162,13 +168,13 @@ const TeamAnalysis = ({ route }) => {
         const lastCharCode = lastChar.charCodeAt(0);
 
         // 한글의 경우 자음으로 끝나면 "이랑", 나머지는 "랑"
-        if (lastCharCode >= 0xAC00 && lastCharCode <= 0xD7A3) { // 한글 유니코드 범위
+        if (lastCharCode >= 0xAC00 && lastCharCode <= 0xD7A3) {
             if ((lastCharCode - 0xAC00) % 28 !== 0) {
-                return "이랑"; // 자음으로 끝나는 경우
+                return "이랑";
             }
         }
 
-        return "랑"; // 모음이나 영어로 끝나는 경우
+        return "랑";
     };
 
     return (
@@ -198,11 +204,11 @@ const TeamAnalysis = ({ route }) => {
                 </View>
 
                 {/* 직관 승률이 없을 때 이미지 표시 */}
-                {teamInfo.totalRate === 0 ? (
+                {teamInfo.homeCnt === 0 && teamInfo.awayCnt ? (
                     <View style={{ alignItems: 'center' }}>
                         <Image 
                             source={require('../public/png/free-icon-noticket.png')} 
-                            style={{ width: 200, height: 200, marginTop: 20, marginBottom: 20 }} 
+                            style={{ width: 150, height: 150, marginTop: 20, marginBottom: 20 }} 
                         />
                         <Text style={styles.Txtcenter}>아직 기록된 승률이 없습니다.</Text>
                     </View>
@@ -221,7 +227,7 @@ const TeamAnalysis = ({ route }) => {
                 <View style={styles.grid}>
                     <View style={styles.innerHeader}>
                         <Text style={styles.headerText}>전체 승률</Text>
-                        <Text style={styles.contextText}>{teamInfo.totalRate * 100}%</Text>
+                        <Text style={styles.contextText}>{(teamInfo.winRate * 100).toFixed(2)}%</Text>
                     </View>
                     <View style={styles.teamInnerView}>
                         <View style={styles.tab}>

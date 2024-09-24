@@ -290,7 +290,10 @@ export function TicketDetail({ route }) {
             </View>
           </View>
           <View>
-            <Image source={require('../public/img/KakaoTalk_20240428_193213436.jpg')} style={styles.ticketUserImg} />
+            {data.photo ? 
+              <Image source={{ uri: data.photo }} style={styles.ticketUserImg} /> 
+              : <Image source={require('../public/png/free-icon-stadium.png')} style={styles.ticketUserImg} />
+            }
           </View>
           <View>
             <Text style={styles.ticketUserDiaryTxt}>{data.ticketContent}</Text>
