@@ -46,6 +46,11 @@ const MyInfo = () => {
         // 시스템 설정 화면 전환        
     };
 
+    const handleAttributionListClick = () => {
+        // 출처 표기 화면
+        navigation.navigate('attributionList', userInfo);
+    };
+
     return (
         <View style={styles.infoContainer}>
             {userInfo ? (
@@ -61,6 +66,10 @@ const MyInfo = () => {
                     <TouchableOpacity style={styles.infoItem} onPress={handleSettingClick}>
                         <Image source={require('../public/png/free-icon-web-settings.png')} style={styles.infoImg} />
                         <Text style={styles.infoText}>시스템 설정</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.infoItem} onPress={handleAttributionListClick}>
+                        <Image source={require('../public/png/free-icon-web-settings.png')} style={styles.infoImg} />
+                        <Text style={styles.infoText}>Design Acknowledgement</Text>
                     </TouchableOpacity>
                 </>
             ) : (

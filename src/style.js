@@ -999,6 +999,55 @@ const styles = StyleSheet.create({
         borderBottomWidth: 0.5,
     },
 
+    // attributionList.js
+    attrContainer: {
+        flex: 1,
+        padding: 20,
+        backgroundColor: '#ffffff',
+    },
+    innerContainer: {
+        flex: 1,
+        marginTop: 20,
+    },
+    attrHeadContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    pageTitle: {
+        fontSize: 26,
+        fontWeight: 'bold',
+        marginBottom: 20,
+        textAlign: 'center',
+        color: '#555',
+    },
+    scrollContent: {
+        paddingBottom: 20,
+    },
+    attributionTitle: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        marginTop: 15,
+        color: '#444',
+    },
+    attributionDetail: {
+        fontSize: 16,
+        color: '#666',
+        lineHeight: 24,
+        marginLeft: 10,
+    },
+    thankYouContainer: {
+        marginTop: 30,
+        padding: 15,
+        backgroundColor: '#e7ffe6',
+        borderRadius: 10,
+        alignItems: 'center',
+    },
+    thankYouText: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: '#2d6a4f',
+        textAlign: 'center',
+    },
 });
 
 export default styles;

@@ -204,7 +204,7 @@ const TeamAnalysis = ({ route }) => {
                 </View>
 
                 {/* 직관 승률이 없을 때 이미지 표시 */}
-                {teamInfo.homeCnt === 0 && teamInfo.awayCnt ? (
+                {teamInfo.homeCnt === 0 && teamInfo.awayCnt === 0 ? (
                     <View style={{ alignItems: 'center' }}>
                         <Image 
                             source={require('../public/png/free-icon-noticket.png')} 

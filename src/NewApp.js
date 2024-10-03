@@ -10,6 +10,7 @@ import TeamListScreen from './teamList';
 import AddTicketScreen from './addTicket';
 import TeamAnalysis from './teamAnalysis';
 import InfoSetting from './infoSetting';
+import AttributionList from './attributionList';
 
 const Stack = createNativeStackNavigator();
 
@@ -53,6 +54,7 @@ const App = () => {
             <Stack.Screen name="ticketDetail" component={TicketDetail} options={{ headerShown: false }} />
             <Stack.Screen name="teamAnalysis" component={TeamAnalysis} options={{ headerShown: false }} />
             <Stack.Screen name="infoSetting" component={InfoSetting} options={{ headerShown: false }} />
+            <Stack.Screen name="attributionList" component={AttributionList} options={{ headerShown: false }} />
           </Stack.Navigator>
         ) : (
           <Stack.Navigator>
