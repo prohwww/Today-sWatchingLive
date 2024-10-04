@@ -225,10 +225,10 @@ const styles = StyleSheet.create({
         height: '10%',
     },
     buttonSubContainer: {
-        width: '100%',
-        height: '75%',
+        width: 30,
+        height: 30,
         backgroundColor: 'white',
-        borderRadius: 50,
+        borderRadius: 100,
     },
 
     // 티켓내용
@@ -250,8 +250,8 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     ticketDetailSportsImg: {
-        width: 30,
-        height: 30,
+        width: 40,
+        height: 40,
         marginBottom: 5
     },
     ticketDetailText: {
@@ -1014,8 +1014,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     pageTitle: {
-        fontSize: 26,
-        fontWeight: 'bold',
+        fontSize: 20,
+        fontFamily: fontStyle + 'B',
         marginBottom: 20,
         textAlign: 'center',
         color: '#555',
@@ -1024,13 +1024,14 @@ const styles = StyleSheet.create({
         paddingBottom: 20,
     },
     attributionTitle: {
-        fontSize: 18,
-        fontWeight: 'bold',
+        fontSize: 15,
+        fontFamily: fontStyle + 'B',
         marginTop: 15,
         color: '#444',
     },
     attributionDetail: {
-        fontSize: 16,
+        fontSize: 13,
+        fontFamily: fontStyle + 'B',
         color: '#666',
         lineHeight: 24,
         marginLeft: 10,
@@ -1043,8 +1044,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     thankYouText: {
-        fontSize: 16,
-        fontWeight: 'bold',
+        fontSize: 12,
+        fontFamily: fontStyle + 'B',
         color: '#2d6a4f',
         textAlign: 'center',
     },

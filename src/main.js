@@ -243,7 +243,7 @@ export function TicketDetail({ route }) {
             <Image source={require('../public/png/free-icon-pencil.png')} style={styles.ticketDetailBtn} />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => { TicketDelete(navigation, route) }}>
-            <Image source={require('../public/png/free-icon-recycle-bin.png')} style={styles.ticketDetailBtn} />
+            <Image source={require('../public/png/free-icon-delete.png')} style={styles.ticketDetailBtn} />
           </TouchableOpacity>
         </View>
       </View>
