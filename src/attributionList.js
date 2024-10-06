@@ -36,7 +36,7 @@ const DesignAttribution = () => {
                         2) 캘린더 아이콘{'\n'}
                         👉 Designed by Freepik{'\n'}
                         3) 내정보 etc 사람 아이콘{'\n'}
-                        👉 (추가 예정)
+                        👉 Designed by Freepik
                     </Text>
 
                     {/* 스포츠 공 아이콘 */}
@@ -60,17 +60,17 @@ const DesignAttribution = () => {
                         2) 글추가 아이콘{'\n'}
                         👉 Designed by Icon Desai / Freepik{'\n'}
                         3) 돋보기 아이콘{'\n'}
-                        👉 (추가 예정){'\n'}
+                        👉 Designed by Ayub Irawan / Freepik{'\n'}
                         4) 뒤로가기 아이콘{'\n'}
-                        👉 (추가 예정){'\n'}
+                        👉 Designed by bqlqn / Freepik{'\n'}
                         5) 글수정 연필 아이콘{'\n'}
-                        👉 (추가 예정){'\n'}
+                        👉 Designed by Those Icons / Freepik{'\n'}
                         6) 휴지통 아이콘{'\n'}
                         👉 Designed by Pixel perfect / Freepik{'\n'}
                         7) 날짜(캘린더) 아이콘{'\n'}
                         👉 Designed by deha21 / Freepik{'\n'}
                         8) 위치 아이콘{'\n'}
-                        👉 (추가 예정){'\n'}
+                        👉 Designed by Freepik{'\n'}
                         9) 티켓 페이지 기본 이미지 (이미지 미첨부시){'\n'}
                         - 축구, 농구, 야구, 배구{'\n'}
                         👉 Designed by macrovector / Freepik{'\n'}
