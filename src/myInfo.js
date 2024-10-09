@@ -63,12 +63,12 @@ const MyInfo = () => {
                         <Image source={require('../public/png/free-icon-flag.png')} style={styles.infoImg} />
                         <Text style={styles.infoText}>응원하는 팀</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.infoItem} onPress={handleSettingClick}>
+                    {/* <TouchableOpacity style={styles.infoItem} onPress={handleSettingClick}>
                         <Image source={require('../public/png/free-icon-web-settings.png')} style={styles.infoImg} />
                         <Text style={styles.infoText}>시스템 설정</Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                     <TouchableOpacity style={styles.infoItem} onPress={handleAttributionListClick}>
-                        <Image source={require('../public/png/free-icon-web-settings.png')} style={styles.infoImg} />
+                        <Image source={require('../public/png/chat-bubble.png')} style={styles.infoImg} />
                         <Text style={styles.infoText}>Design Acknowledgement</Text>
                     </TouchableOpacity>
                 </>

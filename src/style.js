@@ -972,8 +972,8 @@ const styles = StyleSheet.create({
         width: screenWidth - 10,
     },
     infoImg: {
-        width: 50,
-        height: 50,
+        width: 40,
+        height: 40,
         marginRight: 5,
     },
     Txtcenter: {

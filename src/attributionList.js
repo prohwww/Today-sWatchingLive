@@ -88,7 +88,9 @@ const DesignAttribution = () => {
                         2) 설정 톱니바퀴 아이콘{'\n'}
                         👉 Designed by Iconsessions / Freepik{'\n'}
                         3) 휴지통 아이콘 (위와 동일){'\n'}
-                        👉 Designed by Pixel perfect / Freepik
+                        👉 Designed by Pixel perfect / Freepik{'\n'}
+                        4) 출처 thank you 아이콘{'\n'}
+                        👉 Designed by Shahid-Mehmood / Freepik{'\n'}
                     </Text>
 
                     <View style={styles.thankYouContainer}>

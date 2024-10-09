@@ -4,9 +4,8 @@ import { useNavigation } from '@react-navigation/native';
 import { Picker } from '@react-native-picker/picker';
 import { host, categoryMapping, OPTIONS } from './map';
 import { launchImageLibrary } from 'react-native-image-picker';
-import RNFS from 'react-native-fs';
 import styles from './style';
-import { endOfMinute } from 'date-fns';
+import RNFS from 'react-native-fs';
 
 function formatDate(dateString) {
   // 날짜 형식이 YYYYMMDD 또는 YYYY-MM-DD인지 확인
@@ -53,10 +52,8 @@ function AddTicket({ route }) {
   const [GameDate, setGameDate] = useState('');
   const [Result, setResult] = useState('');
   const [TicketDiary, setTicketDiary] = useState('');
-  const [PhotoName, setPhotoName] = useState('');
   const [selectSportsKind, setSelectSportsKind] = useState("SC");
   const [editData, setEditData] = useState(null); // 상태로 editData 관리
-
   const [photoUri, setPhotoUri] = useState(null);
   
   const sportsCategories = Object.keys(categoryMapping);
@@ -114,6 +111,7 @@ function AddTicket({ route }) {
   // edit 페이지일 떄 이미 있는 DATA 화면에 가져오기
   useEffect(() => {
     if (editFlag && editData) {
+      console.log(JSON.stringify(editData));
       setHomeScore(editData.homeScore.toString());
       setAwayScore(editData.awayScore.toString());
       setGameDate(editData.gameDate);
@@ -122,7 +120,6 @@ function AddTicket({ route }) {
       setSelectedSubHomeTeamNo(editData.homeTeamNo);
       setSelectedSubAwayTeamNo(editData.awayTeamNo);
       setSelectSportsKind(editData.sportsKind);
-      setPhotoName(editData.photo);
       setPhotoUri(editData.photo);
     }
   }, [editFlag, editData]);
@@ -156,44 +153,19 @@ function AddTicket({ route }) {
     launchImageLibrary({}, response => {
       if (response.assets && response.assets.length > 0) {
         const { uri } = response.assets[0];
-        savePhotoToAppFolder(uri);
+        // URI를 Base64로 변환
+        RNFS.readFile(uri, 'base64')
+          .then(base64String => {
+            setPhotoUri(base64String); // Base64 문자열 저장
+          })
+          .catch(error => {
+            console.error('Error reading file:', error);
+          });
       }
     });
   };
 
-  const savePhotoToAppFolder = async (uri) => {
-    try {
-      // 사진을 저장할 폴더 경로
-      const folderPath = `${RNFS.DocumentDirectoryPath}/TodaysWatchingLive`;
-      
-      // 폴더가 없으면 생성
-      const folderExists = await RNFS.exists(folderPath);
-      if (!folderExists) {
-        await RNFS.mkdir(folderPath);
-      }
-
-      // 저장할 파일의 경로 설정
-      const fileName = uri.split('/').pop();  // 파일명 가져오기
-      const destPath = `${folderPath}/${fileName}`;
-
-      // 파일을 복사하여 저장
-      await RNFS.copyFile(uri, destPath);
-
-      // 저장된 파일의 경로를 상태에 저장하여 화면에 표시
-      setPhotoUri(`file://${destPath}`);
-    } catch (error) {
-      console.error('Error saving photo:', error);
-    }
-  };
-
-  const shortenUri = (uri) => {
-    const maxLength = 30;
-    if (!uri) return '';  // uri가 null일 경우 빈 문자열 반환
-    if (uri.length <= maxLength) return uri;
-    return `${uri.substring(0, 10)}...${uri.substring(uri.length - 10)}`;
-  };
-
-  const onPressConfirm = () => {
+  const onPressConfirm = async () => {
     // 필수 항목이 모두 채워졌는지 확인
     if (!selectedSubHomeTeamNo || !selectedSubAwayTeamNo || !GameDate ||
         !HomeScore || !AwayScore || !TicketDiary || !Result) {
@@ -237,19 +209,19 @@ function AddTicket({ route }) {
               const response = await fetch(host + '/ticket/newEntry', {
                 method: 'POST',
                 headers: {
-                  'Content-Type': 'application/json'
+                  'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                  "ticketNo": editData ? editData.ticketNo : null,
-                  "homeTeamNo": selectedSubHomeTeamNo,
-                  "awayTeamNo": selectedSubAwayTeamNo,
-                  "gameDate": formattedDate,
-                  "homeScore": Number(HomeScore),
-                  "awayScore": Number(AwayScore),
-                  "result": Result,
-                  "ticketContent": TicketDiary,
-                  "photo": photoUri,
-                })
+                  ticketNo: editData ? editData.ticketNo : null,
+                  homeTeamNo: selectedSubHomeTeamNo,
+                  awayTeamNo: selectedSubAwayTeamNo,
+                  gameDate: formattedDate,
+                  homeScore: Number(HomeScore),
+                  awayScore: Number(AwayScore),
+                  result: Result,
+                  ticketContent: TicketDiary,
+                  photo: photoUri, // Base64 문자열
+                }),
               });
   
               // 응답 처리
@@ -288,6 +260,13 @@ function AddTicket({ route }) {
       ],
       { cancelable: false }
     );
+  };
+
+  const truncateString = (text, maxLength) => {
+    if (text.length <= maxLength) {
+      return text; // 원본 문자열이 최대 길이 이하일 경우 그대로 반환
+    }
+    return text.substring(0, maxLength) + "..."; // 지정된 길이로 줄여서 "..." 추가
   };
 
   return (
@@ -409,12 +388,15 @@ function AddTicket({ route }) {
               onPress={selectPhoto}
               style={styles.ticketPhotoBtn}
             >
-              <Text style={styles.buttonText}>갤러리에서 사진 찾기</Text>
-          </TouchableOpacity>
-           {photoUri ? (
-              <Text style={styles.buttonText}>{shortenUri(photoUri)}</Text>
-            ) : (
-              <></>
+              <Text style={styles.buttonText}>📸 갤러리에서 사진 찾기</Text>
+            </TouchableOpacity>
+
+            {photoUri && (
+              <View style={styles.TicketAddcontainer}>
+                <Text style={styles.imagePreviewText}>
+                  {truncateString(photoUri, 20)}
+                </Text>
+              </View>
             )}
           </View>
         </View>

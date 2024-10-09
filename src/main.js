@@ -193,6 +193,7 @@ export function TicketDetail({ route }) {
   const navigation = useNavigation();
   const [item, setItem] = useState(route.params?.item); // 초기 item 상태 설정
   const [data, setData] = useState({}); // 데이터 상태 추가
+  const [imageUrl, setImageUrl] = useState('');
 
   const fetchDataDetail = useCallback(() => {
     fetch(host + '/ticket/postView', {
@@ -209,6 +210,9 @@ export function TicketDetail({ route }) {
     .then(data => {
       console.log('Received data:', data[0]);
       setData(data[0]); // 데이터를 상태에 저장
+      if (data[0].photo) {
+        fetchImageUrl(data[0].photo); // 이미지 URL을 가져오기 위해 fetchImageUrl 호출
+      }
     })
     .catch(error => {
       alert('error!');
@@ -225,6 +229,23 @@ export function TicketDetail({ route }) {
       }
     }, [route.params?.item, fetchDataDetail])
   );
+
+  // publicId를 사용하여 이미지 URL 가져오는 함수
+  const fetchImageUrl = (publicId) => {
+    fetch(host + '/ticket/image/' + publicId, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      setImageUrl(data.imageUrl); // 가져온 이미지 URL을 상태에 저장
+    })
+    .catch(error => {
+      console.error('Error fetching image URL:', error);
+    });
+  };
 
   // 수정 js로 이동하기 위한 함수
   const handleNavigateToEditTicket = () => {
@@ -290,8 +311,8 @@ export function TicketDetail({ route }) {
             </View>
           </View>
           <View>
-            {data.photo ?
-              <Image source={{ uri: data.photo }} style={styles.ticketUserImg} />
+            {imageUrl ?
+              <Image source={{ uri: imageUrl }} style={styles.ticketUserImg} />
               : (data.sportsKind == 'SC' ? <Image source={require('../public/png/SC.jpg')} style={styles.ticketUserImg} />
                 : (data.sportsKind == 'BS' ? <Image source={require('../public/png/BS.jpg')} style={styles.ticketUserImg} />
                   : (data.sportsKind == 'BK' ? <Image source={require('../public/png/BK.jpg')} style={styles.ticketUserImg} />
