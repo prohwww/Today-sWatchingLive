@@ -4,47 +4,87 @@
         "source": "com.todayswlapp-main-38:/mipmap-xhdpi/ic_launcher.png"
     },
     {
-        "merged": "com.todayswlapp-merged_res-36:/mipmap-xhdpi_ic_launcher_round.png.flat",
-        "source": "com.todayswlapp-main-38:/mipmap-xhdpi/ic_launcher_round.png"
+        "merged": "com.todayswlapp-merged_res-36:/mipmap-xxxhdpi_ic_launcher_192.png.flat",
+        "source": "com.todayswlapp-main-38:/mipmap-xxxhdpi/ic_launcher_192.png"
+    },
+    {
+        "merged": "/Users/hyewonjeon/.gradle/daemon/8.3/com.todayswlapp-merged_res-36:/mipmap-xxhdpi_ic_launcher_round.png.flat",
+        "source": "/Users/hyewonjeon/.gradle/daemon/8.3/com.todayswlapp-main-38:/mipmap-xxhdpi/ic_launcher_round.png"
+    },
+    {
+        "merged": "/Users/hyewonjeon/.gradle/daemon/8.3/com.todayswlapp-merged_res-36:/mipmap-mdpi_ic_launcher_round.png.flat",
+        "source": "/Users/hyewonjeon/.gradle/daemon/8.3/com.todayswlapp-main-38:/mipmap-mdpi/ic_launcher_round.png"
     },
     {
         "merged": "com.todayswlapp-merged_res-36:/mipmap-xxhdpi_ic_launcher.png.flat",
         "source": "com.todayswlapp-main-38:/mipmap-xxhdpi/ic_launcher.png"
     },
     {
-        "merged": "com.todayswlapp-merged_res-36:/drawable_rn_edit_text_material.xml.flat",
-        "source": "com.todayswlapp-main-38:/drawable/rn_edit_text_material.xml"
+        "merged": "/Users/hyewonjeon/.gradle/daemon/8.3/com.todayswlapp-merged_res-36:/mipmap-xhdpi_ic_launcher_round.png.flat",
+        "source": "/Users/hyewonjeon/.gradle/daemon/8.3/com.todayswlapp-main-38:/mipmap-xhdpi/ic_launcher_round.png"
+    },
+    {
+        "merged": "/Users/hyewonjeon/.gradle/daemon/8.3/com.todayswlapp-merged_res-36:/mipmap-mdpi_ic_launcher.png.flat",
+        "source": "/Users/hyewonjeon/.gradle/daemon/8.3/com.todayswlapp-main-38:/mipmap-mdpi/ic_launcher.png"
+    },
+    {
+        "merged": "com.todayswlapp-merged_res-36:/mipmap-hdpi_ic_launcher_72.png.flat",
+        "source": "com.todayswlapp-main-38:/mipmap-hdpi/ic_launcher_72.png"
+    },
+    {
+        "merged": "/Users/hyewonjeon/.gradle/daemon/8.3/com.todayswlapp-merged_res-36:/mipmap-hdpi_ic_launcher_round.png.flat",
+        "source": "/Users/hyewonjeon/.gradle/daemon/8.3/com.todayswlapp-main-38:/mipmap-hdpi/ic_launcher_round.png"
     },
     {
         "merged": "com.todayswlapp-merged_res-36:/mipmap-hdpi_ic_launcher.png.flat",
         "source": "com.todayswlapp-main-38:/mipmap-hdpi/ic_launcher.png"
     },
     {
-        "merged": "com.todayswlapp-merged_res-36:/mipmap-xxxhdpi_ic_launcher_round.png.flat",
-        "source": "com.todayswlapp-main-38:/mipmap-xxxhdpi/ic_launcher_round.png"
+        "merged": "com.todayswlapp-merged_res-36:/mipmap-mdpi_ic_launcher_48.png.flat",
+        "source": "com.todayswlapp-main-38:/mipmap-mdpi/ic_launcher_48.png"
     },
     {
-        "merged": "com.todayswlapp-merged_res-36:/mipmap-hdpi_ic_launcher_round.png.flat",
-        "source": "com.todayswlapp-main-38:/mipmap-hdpi/ic_launcher_round.png"
+        "merged": "/Users/hyewonjeon/.gradle/daemon/8.3/com.todayswlapp-merged_res-36:/mipmap-xxhdpi_ic_launcher.png.flat",
+        "source": "/Users/hyewonjeon/.gradle/daemon/8.3/com.todayswlapp-main-38:/mipmap-xxhdpi/ic_launcher.png"
     },
     {
-        "merged": "com.todayswlapp-merged_res-36:/drawable-mdpi_node_modules_reactnative_libraries_newappscreen_components_logo.png.flat",
-        "source": "com.todayswlapp-main-38:/drawable-mdpi/node_modules_reactnative_libraries_newappscreen_components_logo.png"
+        "merged": "/Users/hyewonjeon/.gradle/daemon/8.3/com.todayswlapp-merged_res-36:/mipmap-xxxhdpi_ic_launcher.png.flat",
+        "source": "/Users/hyewonjeon/.gradle/daemon/8.3/com.todayswlapp-main-38:/mipmap-xxxhdpi/ic_launcher.png"
     },
     {
-        "merged": "com.todayswlapp-merged_res-36:/mipmap-mdpi_ic_launcher_round.png.flat",
-        "source": "com.todayswlapp-main-38:/mipmap-mdpi/ic_launcher_round.png"
+        "merged": "/Users/hyewonjeon/.gradle/daemon/8.3/com.todayswlapp-merged_res-36:/mipmap-xxxhdpi_ic_launcher_round.png.flat",
+        "source": "/Users/hyewonjeon/.gradle/daemon/8.3/com.todayswlapp-main-38:/mipmap-xxxhdpi/ic_launcher_round.png"
     },
     {
-        "merged": "com.todayswlapp-merged_res-36:/mipmap-xxhdpi_ic_launcher_round.png.flat",
-        "source": "com.todayswlapp-main-38:/mipmap-xxhdpi/ic_launcher_round.png"
+        "merged": "/Users/hyewonjeon/.gradle/daemon/8.3/com.todayswlapp-merged_res-36:/drawable_rn_edit_text_material.xml.flat",
+        "source": "/Users/hyewonjeon/.gradle/daemon/8.3/com.todayswlapp-main-38:/drawable/rn_edit_text_material.xml"
     },
     {
         "merged": "com.todayswlapp-merged_res-36:/mipmap-mdpi_ic_launcher.png.flat",
         "source": "com.todayswlapp-main-38:/mipmap-mdpi/ic_launcher.png"
     },
     {
+        "merged": "/Users/hyewonjeon/.gradle/daemon/8.3/com.todayswlapp-merged_res-36:/mipmap-xhdpi_ic_launcher.png.flat",
+        "source": "/Users/hyewonjeon/.gradle/daemon/8.3/com.todayswlapp-main-38:/mipmap-xhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/Users/hyewonjeon/.gradle/daemon/8.3/com.todayswlapp-merged_res-36:/drawable-mdpi_node_modules_reactnative_libraries_newappscreen_components_logo.png.flat",
+        "source": "/Users/hyewonjeon/.gradle/daemon/8.3/com.todayswlapp-main-38:/drawable-mdpi/node_modules_reactnative_libraries_newappscreen_components_logo.png"
+    },
+    {
+        "merged": "/Users/hyewonjeon/.gradle/daemon/8.3/com.todayswlapp-merged_res-36:/mipmap-hdpi_ic_launcher.png.flat",
+        "source": "/Users/hyewonjeon/.gradle/daemon/8.3/com.todayswlapp-main-38:/mipmap-hdpi/ic_launcher.png"
+    },
+    {
         "merged": "com.todayswlapp-merged_res-36:/mipmap-xxxhdpi_ic_launcher.png.flat",
         "source": "com.todayswlapp-main-38:/mipmap-xxxhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "com.todayswlapp-merged_res-36:/mipmap-xhdpi_ic_launcher_96.png.flat",
+        "source": "com.todayswlapp-main-38:/mipmap-xhdpi/ic_launcher_96.png"
+    },
+    {
+        "merged": "com.todayswlapp-merged_res-36:/mipmap-xxhdpi_ic_launcher_144.png.flat",
+        "source": "com.todayswlapp-main-38:/mipmap-xxhdpi/ic_launcher_144.png"
     }
 ]

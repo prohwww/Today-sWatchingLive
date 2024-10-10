@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, TextInput, Modal, } from 'react-native';
 import styles from './style';
 import { useNavigation } from '@react-navigation/native';
+import { host } from './map';
 
 const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -25,6 +26,103 @@ const InfoSetting = ({ route }) => {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [userInfo, setUserInfo] = useState(null);
+    const [nickName, setNickName] = useState('');
+    const [isCheckPw, setIsCheckPw] = useState(false);
+    const [isCheckNick, setIsCheckNick] = useState(false);
+    const [isChange, setIsChange] = useState(false);
+
+    useEffect(() => {
+        if (route.params) {
+            const data  = route.params;
+            setUserInfo(data); // editData를 상태로 설정
+            setNickName(data.nickName); // userInfo의 닉네임을 초기 nickname 상태로 설정
+        }
+    }, [route.params]);
+
+    function fetchCheckNick() {
+        const url = host + `/user/checkNickname?nickName=${encodeURIComponent(nickName)}`;
+        fetch(url, {
+          method: 'GET',
+          headers: {
+                'Content-Type': 'application/json'
+          }})
+          .then(response => {
+                return response.json();
+          })
+          .then(data => {
+                console.log('Response JSON Data:', data);
+        
+            if (data === false) {
+                console.log('user/checkNickname Success');
+                setIsCheckNick(true);
+            } else {
+                setIsCheckNick(false);
+                throw new Error('Failed check nickname');
+            }
+          })
+          .catch(error => {
+                alert('중복된 닉네임 입니다. 다른 닉네임을 입력하세요.');
+                console.error('user/checkNickname Error fetching data:', error);
+                setIsCheckNick(false);
+          });
+    }
+
+    function changePassword() {
+        const url = host + '/user/changePw';
+        fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+                "password" : currentPassword,
+                "changePassword" : newPassword
+          })
+        })
+          .then(response => {
+            console.log('Response Status:', response.status);
+            if (response.status === 200) {
+                console.log('user/changePw Success');
+                setIsCheckPw(true);
+            } else {
+                setIsCheckPw(false);
+                throw new Error('failed change password Response: ' + response.status);
+            }
+          })
+          .catch(error => {
+            alert('현재 비밀번호를 다시 확인해주세요.');
+            setIsCheckPw(false);
+            console.error('user/changePw Error fetching data:', error);
+          });
+    };
+
+    function changeUserInfo() {
+        const url = host + '/user/changeInfo';
+        fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+                "nickName" : nickName
+          })
+        })
+          .then(response => {
+            console.log('Response Status:', response.status);
+            if (response.status === 200) {
+                setIsChange(true);
+                console.log('Change user info Success!');
+            } else {
+                setIsChange(false);
+                throw new Error('failed change user info Response: ' + response.status);
+            }
+          })
+          .catch(error => {
+                setIsChange(false);
+                alert('내부 오류가 있습니다. 잠시 후 다시 시도해주세요.');
+                console.error('user/changeInfo Error fetching data:', error);
+          });
+    };
 
     // 모달 열기 함수
     const openModal = () => {
@@ -46,31 +144,37 @@ const InfoSetting = ({ route }) => {
     };
 
     const handleChangeSetting = () => {
-        // TODO 내 정보 변경
-
-    };
-
-    useEffect(() => {
-        if (route.params) {
-            const data  = route.params;
-            setUserInfo(data); // editData를 상태로 설정
+        if (nickName == userInfo.nickName) {
+            alert("변경된 정보가 없습니다.");
+        } else if (!isCheckNick) {
+            alert("닉네임 중복확인을 해주세요.");
+        } else {
+            changeUserInfo();
+            if (isChange) {
+                alert("변경되었습니다.");
+                navigation.goBack();
+            }
         }
-    }, [route.params]);
+    };
 
     const handleChangePassword = () => {
         if (newPassword !== confirmPassword) {
-          setErrorMessage('비밀번호를 다시 확인해주세요.');
+          setErrorMessage('새 비밀번호를 다시 확인해주세요.');
         } else {
           setErrorMessage('');
-          // TODO 비밀번호 변경 로직 추가(서버)
-          console.log('Password changed');
-          closeModal();
+          changePassword();
+
+          if (isCheckPw) {
+            closeModal();
+          }
         }
     };
 
     const onPressConfirm = inputText => {
-        // TODO 닉네임 중복확인 로직 추가(서버)
-        // alert
+        fetchCheckNick();
+        if(isCheckNick) {
+            alert('사용가능한 닉네임 입니다.');
+        }
     };
 
     return (
@@ -87,7 +191,7 @@ const InfoSetting = ({ route }) => {
                         </View>
                         <View style={styles.setContent}>
                             <Text style={styles.subject}>닉네임</Text>
-                            <TextInput style={styles.setEmailInput}>{userInfo.nickName}</TextInput>
+                            <TextInput style={styles.setEmailInput} onChangeText={setNickName}>{nickName}</TextInput>
                             <TouchableOpacity onPress={onPressConfirm} style={styles.searchBtn}>
                                 <Text style={styles.setText}>중복확인</Text>
                             </TouchableOpacity>
