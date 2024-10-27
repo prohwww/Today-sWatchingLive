@@ -12,13 +12,19 @@ function LoginScreen({ navigation, onLoginSuccess }) {
   // 로그인
   const onLogin = () => {
 
-    if (!userID) alert('아이디를 입력해주세요.');
-    if (!password) alert('비밀번호를 입력해주세요.');
+    if (!userID) {
+      alert('아이디를 입력해주세요.');
+      return;
+    }
+    if (!password) {
+      alert('비밀번호를 입력해주세요.');
+      return;
+    }
 
     fetch(host + '/user/public-key', {
       method: 'GET',
     })
-      .then(response => response.text()) 
+      .then(response => response.text())
       .then(publicKey => {
         const encryptor = new JSEncrypt();
         encryptor.setPublicKey(publicKey);
