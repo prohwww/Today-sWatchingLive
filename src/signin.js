@@ -3,7 +3,9 @@ import { View, Text, TextInput, Alert, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Picker } from '@react-native-picker/picker';
 import styles from './style';
-import { host } from './map';
+import { host, publicKey } from './map';
+// import { JSEncrypt } from 'jsencrypt';
+import CryptoJS from 'crypto-js';
 
 function SignIn() {
   const navigation = useNavigation();
@@ -18,7 +20,7 @@ function SignIn() {
   const [isIdOk, setIsIdOk] = useState(false);
   const [isPwOk, setIsPwOk] = useState(false);
   const [fullEmail, setFullEmail] = useState('');
-
+  
   const onChangePwConfirm = inputText => {
 
     // 비밀번호 확인 검사
@@ -67,12 +69,33 @@ function SignIn() {
     const data = await response.json();
     return data;
   };
+
   const fetchNickFromServer = async () => {
     const response = await fetch(host + `/user/checkNickname?nickName=${encodeURIComponent(nickTxt)}`);
     const data = await response.json();
     return data;
   };
+
+  function encryptionPwd(password) {
+    const sha256Hash = CryptoJS.SHA256(password).toString();
+    console.log(`encryptionPwd SHA256 pwd: ${sha256Hash}`);
+    return sha256Hash;
+  };
+
   const fetchJoinFromServer = async () => {
+    // const encryptor = new JSEncrypt();
+    // encryptor.setPublicKey(publicKey);
+    
+    // console.log('공개키:', publicKey);
+    // console.log('설정된 공개키:', encryptor.getPublicKey());
+    // console.log('암호화 대상 데이터:', pwTxt);
+  
+    // const encryptedPassword = encryptor.encrypt(pwTxt);
+    // if (!encryptedPassword) {
+    //     console.error('암호화 실패: 공개키 또는 데이터 문제');
+    // }
+    const hashedPassword = encryptionPwd(pwTxt);
+
     const response = await fetch(host + '/user/join', {
       method: 'POST',
       headers: {
@@ -80,7 +103,7 @@ function SignIn() {
       },
       body: JSON.stringify({
         userId: idTxt,
-        password: pwTxt,
+        password: hashedPassword,
         nickName: nickTxt,
         email: fullEmail
       })

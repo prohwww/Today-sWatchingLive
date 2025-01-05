@@ -1,4 +1,5 @@
-export const host = 'http://14.6.16.195:9004';
+export const host = 'https://twsserver.duckdns.org';
+// export const host = 'http://14.6.16.195:9004';
 
 export const sportsMap = {
   SC: require('../public/png/free-icon-soccer-ball.png'),
